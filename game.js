@@ -637,7 +637,7 @@ function loop(ts) {
 
 function render() {
   const g = ctx.createLinearGradient(0, 0, 0, H);
-  g.addColorStop(0, "#0f1626"); g.addColorStop(1, "#1b2740");
+  g.addColorStop(0, "#08060f"); g.addColorStop(1, "#0e0a1f");   // dark cyberpunk void — neon lattice floats on it
   ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
 
   const ps = isoToScreen(player.x, player.y);
@@ -662,16 +662,32 @@ function render() {
 }
 
 function drawFloor() {
-  for (let i = 0; i < GRID; i++) {
-    for (let j = 0; j < GRID; j++) {
-      const c = toScreen(i, j);
-      if (c.x < -TILE_W || c.x > W + TILE_W || c.y < -TILE_H || c.y > H + TILE_H) continue;
-      const onPath = pathTiles.has(i + "," + j);
-      const base = onPath ? "#38507a" : ((i + j) % 2 === 0 ? "#24344d" : "#283a56");
-      diamond(c.x, c.y, base, "rgba(255,255,255,0.05)");
-      if (onPath) diamond(c.x, c.y, "rgba(95,124,255,0.10)", null);
-    }
+  // Cyberpunk lattice: a dark base plane lit by glowing isometric grid lines.
+  const lo = -0.5, hi = GRID - 0.5;
+  const c00 = toScreen(lo, lo), c10 = toScreen(hi, lo), c11 = toScreen(hi, hi), c01 = toScreen(lo, hi);
+
+  // base plane — slightly deeper than the void so the floor reads as a surface
+  poly([[c00.x, c00.y], [c10.x, c10.y], [c11.x, c11.y], [c01.x, c01.y]], "rgba(8,5,20,0.6)");
+
+  // walkway tiles — magenta neon underglow connecting the kiosks
+  for (const key of pathTiles) {
+    const p = key.split(","); const c = toScreen(+p[0], +p[1]);
+    diamond(c.x, c.y, "rgba(255,42,170,0.18)", null);
   }
+
+  // the lattice — every iso grid line batched into one path, stroked twice:
+  // a wide cyan bloom then a crisp bright core (save/restore so the glow can't leak)
+  ctx.save();
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  for (let a = lo; a <= hi + 1e-6; a += 1) { const s = toScreen(a, lo), e = toScreen(a, hi); ctx.moveTo(s.x, s.y); ctx.lineTo(e.x, e.y); }
+  for (let b = lo; b <= hi + 1e-6; b += 1) { const s = toScreen(lo, b), e = toScreen(hi, b); ctx.moveTo(s.x, s.y); ctx.lineTo(e.x, e.y); }
+  ctx.shadowColor = "rgba(0,238,255,0.85)"; ctx.shadowBlur = 9;
+  ctx.strokeStyle = "rgba(80,247,255,0.50)"; ctx.lineWidth = 1.25; ctx.stroke();   // glow pass
+  ctx.shadowBlur = 0;
+  ctx.strokeStyle = "rgba(186,253,255,0.92)"; ctx.lineWidth = 0.75; ctx.stroke();  // crisp core
+  ctx.restore();
+
   for (const ex of EXHIBITS) {
     const c = toScreen(ex.tx, ex.ty);
     ctx.save();
