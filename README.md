@@ -39,7 +39,10 @@ python3 -m http.server 8000   # then open http://localhost:8000
 > **Leaving a slide never has to touch `Esc`.** Because browser fullscreen treats
 > `Esc` as "exit fullscreen", the poster gives you two fullscreen-safe ways out:
 > press **`E`** (the same key that opened it), or just **walk away** with
-> `W A S D` / arrows — the slide closes and your ghost starts moving.
+> `W A S D` / arrows — the slide closes and your ghost starts moving. These keep
+> working even after you click *into* an HTML slide. (Browser **PDF** and
+> **video/embed** slides run in a sandboxed frame the keys can't reach — leave
+> those with the **✕** button or by clicking the dark backdrop.)
 
 ## Slides — where they come from
 

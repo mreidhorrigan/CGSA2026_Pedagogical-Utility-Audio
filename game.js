@@ -422,6 +422,7 @@ function init() {
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("keyup", onKeyUp);
   window.addEventListener("blur", () => { keys.up = keys.down = keys.left = keys.right = false; });
+  canvas.tabIndex = -1;                 // focusable (out of tab order) so closeSlide() can pull the keyboard back from a slide iframe
   startBtn.addEventListener("click", startGame);
   must("slideClose").addEventListener("click", closeSlide);
   slideEl.addEventListener("click", e => { if (e.target === slideEl) closeSlide(); }); // click backdrop
@@ -873,6 +874,7 @@ function closeSlide() {
   slideStageEl.innerHTML = "";          // unload any iframe/PDF
   state = "walking";
   last = performance.now();
+  try { canvas.focus(); } catch (_) { /* ignore */ }  // reclaim the keyboard from the slide iframe so movement + keyup reach the game
 }
 
 /** @param {number} i */
@@ -908,6 +910,41 @@ function renderSlideDOM() {
   } else {                            // html inline (also used by placeholders)
     slideStageEl.innerHTML = `<iframe class="slide-doc" srcdoc="${escapeAttr(s.html || "")}" title="${escapeAttr(s.title)}"></iframe>`;
   }
+  wireSlideIframeKeys();              // let E / Esc / WASD leave the slide even once the iframe owns the keyboard
+}
+
+/** A slide iframe (HTML deck, PDF) grabs the keyboard once it's focused — and the
+ *  game's keydown listener is on the *parent* window, which iframe key events never
+ *  reach. For SAME-ORIGIN iframes we forward just the keys the deck itself doesn't
+ *  use — E/Esc (leave) and WASD (walk away) — back to the game; arrows / Space /
+ *  PageUp-Down / Home / End / F stay with the deck's own navigator. Cross-origin
+ *  iframes (PDF viewer, video embeds) can't be reached, so there the ✕ button leaves. */
+function wireSlideIframeKeys() {
+  const ifr = /** @type {HTMLIFrameElement|null} */ (slideStageEl.querySelector("iframe"));
+  if (!ifr) return;
+  ifr.addEventListener("load", () => {
+    let doc = null;
+    try { doc = ifr.contentDocument; } catch (_) { doc = null; }   // cross-origin → blocked
+    if (doc) doc.addEventListener("keydown", onSlideIframeKey);
+  });
+}
+
+/** Forward a leave/walk-away keypress made *inside* a same-origin slide iframe.
+ *  @param {KeyboardEvent} e */
+function onSlideIframeKey(e) {
+  if (state !== "slide") return;
+  const k = (e.key || "").toLowerCase();
+  if (k === "e" || k === "escape") { e.preventDefault(); closeSlide(); return; }
+  if (k === "w" || k === "a" || k === "s" || k === "d") {        // walk away to leave
+    e.preventDefault();
+    auto.active = false;
+    if (k === "w") keys.up = true;
+    else if (k === "s") keys.down = true;
+    else if (k === "a") keys.left = true;
+    else if (k === "d") keys.right = true;
+    closeSlide();                                                // focuses the canvas → the matching keyup reaches the game
+  }
+  // arrows / Space / PageUp-Down / Home / End / F intentionally left to the deck.
 }
 
 function toast(/** @type {string} */ msg) { toastText = msg; toastUntil = tnow + 1.6; }

@@ -130,9 +130,15 @@ legitimately start with a number, set it by hand in `slides.js`.
   browser fullscreen swallows `Esc` as "exit fullscreen"). Slide **browsing** is on
   `<`/`>` (was `←/→`, freed up so arrows can walk you away). If you re-add an
   arrow/WASD binding here, don't reintroduce that conflict.
-- PDF/HTML slides are `<iframe>`s: once you click *into* one, keys go to the
-  iframe — close with the **✕** button or by clicking the backdrop. The keyboard
-  controls above work until you click in.
+- **Slide iframes & the keyboard.** HTML/PDF/embed slides are `<iframe>`s that grab
+  the keyboard once focused, and the game's keydown listener is on the *parent*
+  window (which iframe key events never reach). `wireSlideIframeKeys()` (§10)
+  forwards the leave keys (**E/Esc**) and **WASD** from *same-origin* iframes (the
+  HTML decks) back to `closeSlide()`, so those keep working even after you click
+  into a deck; arrows/Space/F stay with the deck's own navigator. **Cross-origin**
+  iframes — the browser's PDF viewer and YouTube/Vimeo embeds — can't be reached, so
+  there you leave with the **✕** button or by clicking the backdrop. `closeSlide()`
+  refocuses the canvas so movement + `keyup` return to the game (no stuck keys).
 - The runtime image-probe only finds **plain numeric** names (`slides/1.png`…);
   the importer's prefixed names rely on the manifest (which it rebuilds).
 - Keep `MASTER_VOLUME` and any future music gain low so interaction SFX stay clear.
