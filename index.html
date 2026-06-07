@@ -105,10 +105,10 @@
       <h1 id="introTitle">Your Presentation</h1>
       <p class="sub">Walk up to each kiosk and open the slide it’s showing.</p>
       <div class="controls">
-        <div class="ctrl"><div class="keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></div><span>or arrows — move</span></div>
-        <div class="ctrl"><div class="keys"><kbd>E</kbd></div><span>view slide</span></div>
+        <div class="ctrl"><div class="keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></div><span>or arrows — move (walk away to leave a slide)</span></div>
+        <div class="ctrl"><div class="keys"><kbd>E</kbd></div><span>view / leave slide</span></div>
         <div class="ctrl"><div class="keys"><kbd>Space</kbd></div><span>auto-walk to next</span></div>
-        <div class="ctrl"><div class="keys"><kbd>Esc</kbd></div><span>close slide</span></div>
+        <div class="ctrl"><div class="keys"><kbd>&lt;</kbd><kbd>&gt;</kbd></div><span>browse slides</span></div>
         <div class="ctrl"><div class="keys"><kbd>C</kbd></div><span>change sheet</span></div>
         <div class="ctrl"><div class="keys"><kbd>M</kbd></div><span>mute</span></div>
       </div>
@@ -129,16 +129,18 @@
         <h2 id="slideTitle">Slide</h2>
         <div class="head-right">
           <span class="counter" id="slideCounter">Slide 1 of 1</span>
-          <button id="slideClose" class="x" title="Close (Esc)">✕</button>
+          <button id="slideClose" class="x" title="Close (E)">✕</button>
         </div>
       </div>
       <div class="slide-stage" id="slideStage"></div>
       <div class="slide-foot">
-        <kbd>←</kbd><kbd>→</kbd><span>browse</span>
+        <kbd>E</kbd><span>leave slide</span>
+        <span class="sep">·</span>
+        <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>walk away</span>
         <span class="sep">·</span>
         <kbd>Space</kbd><span>next</span>
         <span class="sep">·</span>
-        <kbd>Esc</kbd><span>close &amp; keep walking</span>
+        <kbd>&lt;</kbd><kbd>&gt;</kbd><span>browse</span>
       </div>
     </div>
   </div>

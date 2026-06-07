@@ -29,12 +29,17 @@ python3 -m http.server 8000   # then open http://localhost:8000
 
 | Key | Action |
 |-----|--------|
-| `W A S D` / arrows | move |
-| `E` | view the nearby slide |
+| `W A S D` / arrows | move — **and while a slide is open, any movement key closes it and walks you away** |
+| `E` | view the nearby slide; **press `E` again to leave it** (the same key toggles it shut) |
 | `Space` | auto-walk to (and open) the **next** slide — the first one if none yet |
-| `← →` | browse slides while one is open |
-| `Esc` | close slide |
+| `< >` | browse slides while one is open (without walking) |
+| `Esc` | also closes a slide — optional; `E` or walking away leaves it **without** dropping the browser out of fullscreen |
 | `C` | change ghost sheet · `M` mute |
+
+> **Leaving a slide never has to touch `Esc`.** Because browser fullscreen treats
+> `Esc` as "exit fullscreen", the poster gives you two fullscreen-safe ways out:
+> press **`E`** (the same key that opened it), or just **walk away** with
+> `W A S D` / arrows — the slide closes and your ghost starts moving.
 
 ## Slides — where they come from
 
@@ -133,6 +138,24 @@ relay and switches multiplayer on — pick a name on the start screen and a
 “👻 N in the room” badge appears. Opened any other way (`file://`, plain
 `http.server`) it stays exactly the single-player game; the relay is optional and
 degrades silently.
+
+### Two tabs on one computer (what to expect)
+
+The quickest way to *see* multiplayer — and a good way to test it — is to open the
+same URL in **two browser tabs/windows** on one machine:
+
+- **Each tab is its own ghost.** Every page load gets a fresh random player id and
+  its own name, so two tabs = two independent ghosts in the **same** room (they
+  share the default room, or whatever `?room=` you used). The HUD shows
+  **“👻 2 in the room.”**
+- **Only the *focused* tab runs at full speed.** Browsers throttle a background
+  tab's animation, so a hidden tab stops sending updates — its ghost will freeze
+  and, after ~6 s, **disappear** from the other tab. Click back into it and it
+  resumes and reappears within a second.
+- **So put the two windows side-by-side**, both visible, if you want to watch both
+  ghosts move at once (e.g. for a demo or screenshot). Stacked/hidden tabs will
+  look like the other ghost "left." This is just browser tab-throttling — real
+  attendees on their own devices are never affected.
 
 **Getting attendees connected:**
 

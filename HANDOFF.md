@@ -74,7 +74,7 @@ kill $SRV 2>/dev/null; rm -f /tmp/h.log
 ## Manual test checklist (browser / phone — can't be automated here)
 
 ### A. Single-player is unaffected
-- [ ] Open `index.html` directly (`file://`). Game loads; WASD/arrows move; **E** opens a kiosk slide; **Esc** closes. Console clean. **No** name field and **no** 👻 badge appear.
+- [ ] Open `index.html` directly (`file://`). Game loads; WASD/arrows move; **E** opens a kiosk slide; **E again** (or **walking away** with WASD/arrows) leaves it; **Esc** still closes too. Console clean. **No** name field and **no** 👻 badge appear.
 
 ### B. Embedded video (`embed` slide)
 - [ ] `echo 'https://youtu.be/aqz-KE-bpKQ' > slides/1.yt` → `python3 build_slides.py` (prints `[embed] … — Slide 1`).

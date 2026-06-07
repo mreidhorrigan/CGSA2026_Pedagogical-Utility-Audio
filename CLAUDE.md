@@ -123,9 +123,16 @@ legitimately start with a number, set it by hand in `slides.js`.
   `drawPeer()` (reuses `paintGhost`); the room count shows in `updateHUD()`.
 
 ## Gotchas
+- **Leaving a slide is fullscreen-safe by design.** In `onKeyDown()` (§7), the
+  `state === "slide"` branch closes the modal on **`E`** (the same key that opened
+  it — a toggle), on **any movement key** (which also starts walking — "walk away
+  to leave"), and on **`Esc`** (kept for non-fullscreen, but avoidable on purpose:
+  browser fullscreen swallows `Esc` as "exit fullscreen"). Slide **browsing** is on
+  `<`/`>` (was `←/→`, freed up so arrows can walk you away). If you re-add an
+  arrow/WASD binding here, don't reintroduce that conflict.
 - PDF/HTML slides are `<iframe>`s: once you click *into* one, keys go to the
-  iframe — close with the **✕** button or by clicking the backdrop. Esc/Space/←→
-  work until you click in.
+  iframe — close with the **✕** button or by clicking the backdrop. The keyboard
+  controls above work until you click in.
 - The runtime image-probe only finds **plain numeric** names (`slides/1.png`…);
   the importer's prefixed names rely on the manifest (which it rebuilds).
 - Keep `MASTER_VOLUME` and any future music gain low so interaction SFX stay clear.

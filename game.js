@@ -500,11 +500,23 @@ function onKeyDown(e) {
   }
 
   if (state === "slide") {
-    if (k === "escape") { e.preventDefault(); closeSlide(); }
-    else if (k === "e") { e.preventDefault(); closeSlide(); }
-    else if (k === " ") { e.preventDefault(); closeSlide(); autoPathNext(); }      // Space → next
-    else if (k === "arrowleft" || k === "a") { e.preventDefault(); setSlide(currentSlide - 1); }
-    else if (k === "arrowright" || k === "d") { e.preventDefault(); setSlide(currentSlide + 1); }
+    // Leave by walking away: any movement key closes the slide and resumes
+    // walking — so you never need Esc (which would drop the browser out of
+    // fullscreen). E still toggles the slide shut, the same key that opened it.
+    if (["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(k)) {
+      e.preventDefault();
+      closeSlide();
+      auto.active = false;                                   // manual movement takes over
+      if (k === "w" || k === "arrowup") keys.up = true;      // start walking now; keyup clears it
+      else if (k === "s" || k === "arrowdown") keys.down = true;
+      else if (k === "a" || k === "arrowleft") keys.left = true;
+      else if (k === "d" || k === "arrowright") keys.right = true;
+      return;
+    }
+    if (k === "e" || k === "escape") { e.preventDefault(); closeSlide(); }                // E toggles shut (Esc still works, for non-fullscreen)
+    else if (k === " ") { e.preventDefault(); closeSlide(); autoPathNext(); }             // Space → close + auto-walk to next
+    else if (k === "," || k === "<") { e.preventDefault(); setSlide(currentSlide - 1); }  // browse: previous slide
+    else if (k === "." || k === ">") { e.preventDefault(); setSlide(currentSlide + 1); }  // browse: next slide
     return;
   }
 
