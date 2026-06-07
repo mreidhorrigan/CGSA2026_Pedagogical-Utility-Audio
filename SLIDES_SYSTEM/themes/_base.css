@@ -1,0 +1,172 @@
+/* ===========================================================================
+   _base.css — shared deck layout for md2deck.py output.
+   ---------------------------------------------------------------------------
+   This file is theme-agnostic: every colour / font / radius comes from a CSS
+   custom property (a `--var`). A *theme* (isometric.css, light.css, …) is just
+   a small `:root { … }` block that sets those variables — md2deck inlines the
+   chosen theme's vars FOLLOWED BY this file into each generated deck, so the
+   whole slideshow is one self-contained .html with no external requests.
+
+   To add a theme: copy a theme file, tweak the `:root` vars, save it in this
+   folder — `md2deck.py --theme <name>` (or `theme: <name>` front-matter) finds
+   it by filename. You almost never need to touch _base.css itself.
+
+   Sizing trick: the .stage is a 16:9 box that fits the kiosk iframe (or the
+   browser, if you open the deck directly). It is a CSS *container*, so slide
+   type is sized in container-query units (cqw/cqh) and stays perfectly
+   proportional whether the deck is in a tiny kiosk or full-screen.
+   =========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body.deck {
+  position: fixed; inset: 0;
+  display: grid; place-items: center;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* The 16:9 frame. min(width, 16/9*height) keeps it inside the viewport both
+   ways and centres it, letterboxing with --bg on the spare axis. */
+.stage {
+  position: relative;
+  width: min(100vw, 177.78vh);
+  height: min(56.25vw, 100vh);
+  container-type: size;
+  border-radius: var(--slide-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* One slide. All are stacked; only .active is shown (runtime.js cross-fades). */
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: flex-start;
+  gap: 0.15em;
+  padding: 7.5cqh 8cqw;
+  background: var(--slide-bg);
+  color: var(--fg);
+  font-size: var(--base-size);
+  line-height: 1.5;
+  overflow: auto;
+  opacity: 0; visibility: hidden;
+  transition: opacity .28s ease;
+}
+.slide.active { opacity: 1; visibility: visible; }
+
+/* Title / section slides: big and centred. */
+.slide.lead, .slide.center { justify-content: center; text-align: center; }
+.slide.lead { gap: 0.35em; }
+.slide.lead h1 { font-size: 3.1em; }
+.slide.lead h2 { color: var(--muted); font-weight: 500; }
+
+/* Headings ---------------------------------------------------------------- */
+.slide h1, .slide h2, .slide h3, .slide h4 {
+  margin: 0 0 .2em; line-height: 1.15; font-weight: 800; color: var(--head);
+}
+.slide h1 { font-size: 2.3em; }
+.slide h2 { font-size: 1.6em; }
+.slide h3 { font-size: 1.25em; color: var(--accent); }
+.slide h4 { font-size: 1.05em; color: var(--accent); }
+.slide > h1:first-child::after, .slide > h2:first-child::after {
+  content: ""; display: block; width: 1.6em; height: .12em; margin-top: .28em;
+  background: var(--accent); border-radius: 1em;
+}
+.slide.lead h1::after { margin-left: auto; margin-right: auto; }
+
+/* Text blocks ------------------------------------------------------------- */
+.slide p { margin: .55em 0; }
+.slide strong { color: var(--strong); font-weight: 800; }
+.slide em { font-style: italic; }
+.slide del { opacity: .6; }
+.slide a { color: var(--link); text-decoration: underline; text-underline-offset: .15em; }
+
+.slide ul, .slide ol { margin: .5em 0; padding-left: 1.4em; }
+.slide li { margin: .35em 0; }
+.slide li::marker { color: var(--accent); }
+
+.slide blockquote {
+  margin: .7em 0; padding: .2em 0 .2em 1em;
+  border-left: .22em solid var(--accent);
+  color: var(--muted); font-style: italic;
+}
+
+/* Code -------------------------------------------------------------------- */
+.slide code {
+  font-family: var(--mono); font-size: .88em;
+  background: var(--code-bg); color: var(--code-fg);
+  border: 1px solid var(--code-border);
+  padding: .08em .36em; border-radius: .35em;
+}
+.slide pre {
+  margin: .7em 0; padding: .85em 1em; overflow: auto;
+  background: var(--code-bg); border: 1px solid var(--code-border);
+  border-radius: .55em; line-height: 1.45;
+}
+.slide pre code { font-size: .8em; background: none; border: 0; padding: 0; color: var(--code-fg); }
+
+/* Tables ------------------------------------------------------------------ */
+.slide table { border-collapse: collapse; margin: .7em 0; font-size: .92em; }
+.slide th, .slide td { padding: .35em .8em; border-bottom: 1px solid var(--rule); }
+.slide th { color: var(--accent); font-weight: 700; text-align: left; }
+.slide tbody tr:nth-child(even) { background: var(--row-alt); }
+
+/* Media ------------------------------------------------------------------- */
+.slide img { max-width: 100%; border-radius: .4em; vertical-align: middle; }
+.slide hr { border: 0; height: 2px; background: var(--rule); margin: .9em 0; border-radius: 2px; }
+
+/* Full-bleed background-image slides (from `![bg](url)`). */
+.slide.has-bg { background-size: cover; background-position: center; justify-content: center; }
+.slide.has-bg::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; background: var(--bg-overlay);
+}
+.slide.has-bg > * { position: relative; z-index: 1; }
+.slide.has-bg, .slide.has-bg .slide-h, .slide.invert { color: var(--on-image, #fff); }
+
+/* Inverted (spotlight) slide. */
+.slide.invert { background: var(--invert-bg); color: var(--invert-fg); }
+.slide.invert h1, .slide.invert h2, .slide.invert h3 { color: var(--invert-fg); }
+
+/* --- Chrome: nav arrows, counter, progress, focus hint ------------------- */
+.nav {
+  position: fixed; top: 0; bottom: 0; width: 12%;
+  display: flex; align-items: center; justify-content: center;
+  border: 0; background: transparent; color: var(--accent);
+  font-size: 7vmin; line-height: 1; cursor: pointer;
+  opacity: .32; transition: opacity .2s; z-index: 6; user-select: none;
+}
+.nav:hover { opacity: 1; }
+.nav.prev { left: 0; justify-content: flex-start; padding-left: 2vmin; }
+.nav.next { right: 0; justify-content: flex-end; padding-right: 2vmin; }
+.nav.disabled { opacity: 0; pointer-events: none; }
+
+.hud {
+  position: fixed; right: 2.6vmin; bottom: 2.2vmin; z-index: 6;
+  color: var(--muted); font-family: var(--font); font-size: 2.3vmin;
+  font-variant-numeric: tabular-nums; letter-spacing: .04em;
+}
+.hud b { color: var(--accent); font-weight: 700; }
+
+.progress { position: fixed; left: 0; bottom: 0; height: 3px; width: 100%; z-index: 6; }
+.progress i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .28s ease; }
+
+.hint {
+  position: fixed; left: 50%; bottom: 2.2vmin; transform: translateX(-50%); z-index: 6;
+  color: var(--fg); background: var(--chip-bg); border: 1px solid var(--code-border);
+  font-family: var(--font); font-size: 1.9vmin; padding: .45em .9em; border-radius: 2em;
+  opacity: .9; transition: opacity .4s; pointer-events: none; white-space: nowrap;
+}
+.hint.gone { opacity: 0; }
+
+/* Subtle scrollbars for the rare long slide. */
+.slide::-webkit-scrollbar { width: 8px; height: 8px; }
+.slide::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .slide, .progress i { transition: none; }
+}

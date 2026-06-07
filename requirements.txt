@@ -1,0 +1,3 @@
+# No third-party dependencies — serve.py uses only the Python standard library.
+# This file exists so Render detects a Python service and runs a (no-op) install.
+# Keep it empty of packages on purpose: the game is deliberately build-free.

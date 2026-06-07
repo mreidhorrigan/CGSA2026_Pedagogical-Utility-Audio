@@ -1,0 +1,133 @@
+# CLAUDE.md — orientation for this project
+
+Read this first. It's written so the next contributor — a human or a later Claude
+session — can get productive fast and extend the project **safely**. (`README.md`
+is the user-facing guide; this is the contributor/AI guide.)
+
+## What this is
+An in-browser conference poster built as an isometric game: a visitor walks a
+room as a sheet-ghost and views slides (image / PDF / scrollable HTML / **embed**)
+at kiosks. Pure client-side, no framework — plus an **optional** stdlib server
+(`serve.py`) that adds **multiplayer** (visitors see each other's ghosts move).
+
+## Environment — read before changing anything
+- This machine has **no Node / npm / TypeScript** — only **Python 3.11**. Do NOT
+  introduce npm / Vite / webpack / bundlers / runtime dependencies. The game is
+  deliberately **build-free vanilla JS**.
+- **One vendored static file** exists and is allowed: `tools/qrcode-generator.js`
+  (qrcode-generator, MIT) used *only* by the presenter-facing `tools/qr.html`,
+  never by the game runtime — a plain `<script>` include, the same "ship a static
+  file" spirit (no npm/build). `serve.py` is **stdlib-only** (no pip). Keep both true.
+- `game.js` is **plain JS with `// @ts-check` + JSDoc** (not `.ts`), so editors
+  type-check it with zero tooling (`jsconfig.json`). Keep it that way.
+- It must keep running from **`file://`** (double-click `index.html`) as well as
+  over a static server. Nothing is fetched at runtime; browsers can't list a
+  directory over `file://`, which is exactly why slides go through a manifest.
+
+## Run / rebuild
+- Play: open `index.html`, or `python3 -m http.server 8000`.
+- **Play together (multiplayer):** `python3 serve.py` — serves the game + a ghost-
+  position relay; single-player still works with no server (see README + §3b NET).
+- Slides from a folder of images: drop into `images/`, run `python3 import_images.py`.
+- Slides managed directly (incl. PDF / HTML / **embed**): put files in `slides/`, run `python3 build_slides.py`.
+
+## Verify changes (no browser automation is available here)
+- **JS syntax:** `osascript -l JavaScript game.js` — a `ReferenceError: … document`
+  means it PARSED FINE (it only hit a browser-only global); a `SyntaxError` is a
+  real problem to fix.
+- **Python:** `python3 -m py_compile build_slides.py import_images.py`.
+- **Serving:** `curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/...`.
+- **Multiplayer relay:** `python3 serve.py --port 8099 &`, then `curl
+  http://localhost:8099/net/info` and POST `/net/sync` as two ids — the second
+  should see the first. Kill it after. (True multi-device sync is a human check.)
+- **QR tool:** `osascript -l JavaScript tools/qrcode-generator.js` (vendored lib
+  parses), and parse the inline `<script>` of `tools/qr.html` the same way.
+- **Pipeline:** make dummy files in `images/`/`slides/`, run the scripts, inspect
+  `slides.js`, then clean up:
+  `find images slides -maxdepth 1 -type f ! -name README.md -delete`.
+- **Visual / gameplay can only be confirmed by a human in a browser** — say so
+  explicitly rather than claiming it works.
+
+## File map
+```
+index.html        page, overlays (intro / slide / HUD), CSS; loads slides.js then game.js
+game.js           the game — sections 1–11 (+ 3b NET), CONFIG block at the top
+slides.js         GENERATED manifest (window.SLIDES_MANIFEST) — don't hand-edit casually
+build_slides.py   slides/  -> slides.js (deterministic; OWNS the naming convention)
+import_images.py  images/ -> slides/ (alphabetical, prefixed) -> slides.js
+serve.py          OPTIONAL multiplayer: stdlib server = static files + ghost-position relay
+tools/qr.html     standalone QR generator (vendored qrcode-generator.js, MIT) for the serving URL
+images/  slides/   raw inputs / game-ready slides (each has its own README)
+jsconfig.json     editor type-checking, no build
+HANDOFF.md        handoff + manual test checklist for the QR / embed / multiplayer changes
+```
+
+## game.js architecture (numbered sections)
+| # | Section | What lives there |
+|---|---------|------------------|
+| 1 | CONFIG | tunables, `KIOSK_PALETTE`, `PLACEHOLDER_SLIDES`, `SHEET_THEMES`, audio `SCALE` |
+| 2 | STATE | canvas + run-time vars; `GRID`/`SLIDES`/`EXHIBITS` are `let` (built at load) |
+| 3 | AUDIO | `audio.tone()` primitive + `noteFreq()` + `sfx{}`; generative-music hook |
+| 3b| NET | optional multiplayer: `netInit/netTick/netSync/lerpPeers/drawPeer` + `net` state; inert unless `serve.py` answers |
+| 4 | SLIDE LOADING | `loadSlides()`: manifest → image-probe → placeholders; `normalizeSlide`/`guessType` |
+| 5 | ROOM LAYOUT | `buildRoom(count)`: ring of kiosks, grid sized to fit, walkway, player |
+| 6 | INIT | DOM refs, random ghost, picker, listeners, async load → `buildRoom` |
+| 7 | INPUT | `onKeyDown/Up`; `autoPathNext()` (Space); `startGame()` |
+| 8 | UPDATE | movement (auto-walk OR keys), collision, active-kiosk detection |
+| 9 | RENDER | floor, kiosks, ghost (`paintGhost`), guidance arrow, toast, HUD |
+| 10 | SLIDE MODAL | open/close/`setSlide`; `renderSlideDOM()` switches on slide `type` |
+| 11 | HELPERS | iso math, draw primitives, colour, escaping |
+
+**Conventions:** one classic-script global scope (no modules/imports); top-level
+`function` declarations are hoisted, so call-order is flexible and the file ends
+with `init()`. Use `escapeHtml` for element text, `escapeAttr` for attributes
+(including the iframe `srcdoc`).
+
+## Extension recipes ("how do I…")
+- **Add a slide type:** add a branch in `renderSlideDOM()` (§10), teach
+  `guessType()` (§4) the extension, and add the extension to the right set in
+  `build_slides.py`. Document it in the READMEs. The **`embed`** type (a 16:9
+  YouTube/Vimeo/any-URL iframe) is the worked example: `toEmbedUrl()` in §4
+  normalises watch URLs; `EMBED_EXTS` + `read_url_file()` in `build_slides.py`
+  turn a `.url`/`.embed`/`.yt` file's URL into an `{type:"embed", src:<url>}` entry.
+- **Add / change a ghost look:** edit `SHEET_THEMES` (§1). For a new cloth
+  pattern, handle a new `theme.pattern` value in `paintGhost()` (§9). The start
+  picker and the `C` cycle update automatically.
+- **Add a sound:** add a method to `sfx{}` (§3) built on `audio.tone()`; call it.
+- **Generative music (planned):** implement the documented lookahead scheduler in
+  §3, start it from `startGame()`, keep its gain low so SFX sit on top.
+- **Audio-instruction navigation (planned):** recognise commands, then call
+  `autoPathNext()` or set `auto.goal` (§7) — the walk + auto-open already exists.
+- **Change the room shape:** edit `buildRoom()` (§5) — currently a ring.
+- **Add a control key:** handle it in `onKeyDown()` (§7) and list it in the intro
+  controls (`index.html`) + README.
+
+## Slide naming convention (single source of truth)
+`build_slides.py` defines it. Files are ordered by a natural sort; `title_from()`
+strips a leading numeric index (`strip_leading_index()`) and title-cases the rest:
+`01_method_chart.png` → "Method Chart", `03.png` → "Slide 3". `import_images.py`
+reuses `strip_leading_index()` so the two tools never disagree. If a title must
+legitimately start with a number, set it by hand in `slides.js`.
+
+## Multiplayer — `serve.py` + §3b NET
+- **Off by default, additive.** game.js networks only when `location.protocol` is
+  http(s) **and** `GET /net/info` answers; otherwise `net.on` stays false and
+  nothing changes. Never make core gameplay depend on `net`.
+- **serve.py is stdlib-only** (no pip): `ThreadingHTTPServer` + `SimpleHTTPRequestHandler`
+  serving `ROOT`, plus `GET /net/info` (probe) and `POST /net/sync` (send mine →
+  get others, per `room`, pruned after `PLAYER_TTL`). It validates / clamps / caps
+  everything clients send — keep it that way; remote **names are drawn as canvas
+  text** via `label()`, never injected as HTML.
+- **Wire points in game.js:** `netInit()` from `init()`; `netTick()+lerpPeers()`
+  in `loop()`; remote ghosts join the depth-sorted actor list in `render()` via
+  `drawPeer()` (reuses `paintGhost`); the room count shows in `updateHUD()`.
+
+## Gotchas
+- PDF/HTML slides are `<iframe>`s: once you click *into* one, keys go to the
+  iframe — close with the **✕** button or by clicking the backdrop. Esc/Space/←→
+  work until you click in.
+- The runtime image-probe only finds **plain numeric** names (`slides/1.png`…);
+  the importer's prefixed names rely on the manifest (which it rebuilds).
+- Keep `MASTER_VOLUME` and any future music gain low so interaction SFX stay clear.
+- The local `python3 -m http.server` may already be running on :8000 from a prior
+  session; reuse it rather than starting duplicates.

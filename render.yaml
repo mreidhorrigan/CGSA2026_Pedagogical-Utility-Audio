@@ -1,0 +1,17 @@
+# Render Blueprint — deploys the Walkable Presentation + multiplayer relay.
+# One Python web service (serve.py) serves the static game AND the ghost-position
+# relay on a single HTTPS origin, which is exactly what the in-game client expects
+# (it POSTs to /net/sync on location.origin). No Node, no build — stdlib only.
+#
+# Deploy: Render Dashboard -> New + -> Blueprint -> pick this repo -> Apply.
+# See DEPLOY.md for the click-through and the free-tier spin-down caveat.
+services:
+  - type: web
+    name: cgsa2026-audio-presentation
+    runtime: python
+    plan: free                  # single instance — required (relay state is in-memory; see DEPLOY.md)
+    region: oregon              # change to frankfurt/singapore/etc. for lower latency to your audience
+    buildCommand: pip install -r requirements.txt   # no deps; just lets Render detect a Python service
+    startCommand: python serve.py                    # binds 0.0.0.0:$PORT automatically
+    healthCheckPath: /net/info  # 200 JSON from the relay = the service is live
+    autoDeploy: true            # redeploy on every push to the connected branch

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR for your Walkable Presentation</title>
+<style>
+  :root{ --bg0:#0f1626; --bg1:#1b2740; --ink:#e8eef5; --muted:#9fb0c6; --accent:#4ecdc4; --card:#141d30; --line:rgba(255,255,255,.10); }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; min-height:100%; }
+  body{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:radial-gradient(120% 120% at 50% 0%, var(--bg1), var(--bg0)) fixed;
+    display:flex; flex-direction:column; align-items:center; padding:28px 16px 56px; gap:20px; }
+  h1{ font-size:22px; margin:6px 0 0; text-align:center; }
+  .sub{ color:var(--muted); font-size:14px; text-align:center; max-width:620px; margin:0; line-height:1.5; }
+  .wrap{ width:min(720px,100%); display:flex; flex-direction:column; gap:18px; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px; box-shadow:0 18px 50px rgba(0,0,0,.4); }
+  label{ display:block; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+  textarea,select{ width:100%; font:inherit; font-size:16px; color:var(--ink); background:#0d1424; border:1px solid var(--line); border-radius:10px; padding:12px 14px; }
+  textarea{ min-height:62px; resize:vertical; }
+  .row{ display:flex; gap:16px; flex-wrap:wrap; margin-top:14px; }
+  .row > div{ flex:1 1 180px; }
+  input[type=range]{ width:100%; }
+  .preview{ display:flex; flex-direction:column; align-items:center; gap:14px; }
+  .qrbox{ background:#fff; padding:16px; border-radius:14px; width:min(340px,78vw); }
+  .qrbox svg{ display:block; width:100%; height:auto; }
+  .urlline{ font-size:15px; color:var(--ink); word-break:break-all; text-align:center; max-width:480px;
+    background:#0d1424; border:1px solid var(--line); border-radius:10px; padding:10px 12px; }
+  .hint{ color:var(--muted); font-size:14.5px; text-align:center; padding:34px 18px; line-height:1.5; }
+  .btns{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  button{ appearance:none; cursor:pointer; font:inherit; font-weight:700; font-size:14px; color:#06121f;
+    background:linear-gradient(180deg,var(--accent),#37b3aa); border:0; padding:11px 16px; border-radius:10px; }
+  button.ghost{ color:var(--ink); background:transparent; border:1px solid var(--line); }
+  button:hover{ filter:brightness(1.06); }
+  .note{ color:var(--muted); font-size:12.5px; line-height:1.6; margin:14px 0 0; }
+  code{ background:#0d1424; border:1px solid var(--line); padding:1px 6px; border-radius:6px; }
+  .printable{ display:none; }
+  @media print{
+    body{ background:#fff; color:#000; padding:0; }
+    .card,.sub,h1,.note{ display:none !important; }
+    .printable{ display:flex !important; flex-direction:column; align-items:center; gap:24px; min-height:100vh; justify-content:center; }
+    .printable .qrbox{ width:min(70vw,70vh); box-shadow:none; }
+    .printable .urlline{ color:#000; background:#fff; border:0; font-size:22px; }
+  }
+</style>
+</head>
+<body>
+  <h1>QR code for your presentation</h1>
+  <p class="sub">Turn the address where you’re serving the game into a scannable code to put on a slide.
+     Everything here runs offline — nothing is uploaded.</p>
+
+  <div class="wrap">
+    <div class="card">
+      <label for="data">URL or text to encode</label>
+      <textarea id="data" placeholder="http://172.20.10.6:8000" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+      <div class="row">
+        <div>
+          <label for="ecc">Error correction</label>
+          <select id="ecc">
+            <option value="L">L — smallest code</option>
+            <option value="M" selected>M — balanced (default)</option>
+            <option value="Q">Q — sturdier</option>
+            <option value="H">H — most robust</option>
+          </select>
+        </div>
+        <div>
+          <label for="scale">PNG / print size — <span id="scaleVal">8</span> px per module</label>
+          <input id="scale" type="range" min="4" max="24" value="8">
+        </div>
+      </div>
+    </div>
+
+    <div class="card preview" id="preview"><!-- filled by JS --></div>
+
+    <div class="card">
+      <div class="btns">
+        <button id="dlSvg">Download SVG</button>
+        <button id="dlPng">Download PNG</button>
+        <button id="dlSlide" class="ghost">Download as slide (.html)</button>
+        <button id="copySlide" class="ghost">Copy slide HTML</button>
+        <button id="print" class="ghost">Print</button>
+      </div>
+      <p class="note">
+        <b>Put it on a slide two ways:</b> drop the downloaded <code>join.html</code> into <code>slides/</code> and run
+        <code>python3 build_slides.py</code> — or click <i>Copy slide HTML</i> and paste it into <code>slides.js</code>
+        as a <code>{ type:"html", html:"…" }</code> entry.<br>
+        <b>Tip:</b> open this page as <code>tools/qr.html?url=YOUR_SERVING_URL</code> to pre-fill the box automatically
+        (the multiplayer server <code>serve.py</code> prints a ready-made link).
+      </p>
+    </div>
+  </div>
+
+  <div class="printable"><!-- print-only large QR; filled by JS --></div>
+
+<script src="qrcode-generator.js"></script>
+<script>
+(function(){
+  "use strict";
+  var QUIET = 4;                       // quiet-zone modules (QR spec minimum)
+  var $ = function(id){ return document.getElementById(id); };
+  var dataEl=$("data"), eccEl=$("ecc"), scaleEl=$("scale"), scaleVal=$("scaleVal"),
+      preview=$("preview"), printable=document.querySelector(".printable");
+  var current = null;                  // { qr, text, px } of the last good render
+
+  // Pre-fill from ?url= / ?text=
+  try{ var p = new URLSearchParams(location.search).get("url") || new URLSearchParams(location.search).get("text");
+       if (p) dataEl.value = p; }catch(e){}
+
+  if (typeof qrcode !== "function"){   // vendored lib missing/blocked
+    preview.className = "card hint";
+    preview.textContent = "Could not load qrcode-generator.js — keep it next to this page.";
+    return;
+  }
+
+  // Auto-fit: try the smallest type, climb versions until the data fits.
+  function makeQR(text, ecl){
+    try{ var a=qrcode(0,ecl); a.addData(text); a.make(); return a; }catch(e){}
+    for (var t=1;t<=40;t++){ try{ var m=qrcode(t,ecl); m.addData(text); m.make(); return m; }catch(e2){} }
+    return null;
+  }
+
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(ch){return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[ch];}); }
+
+  // Scalable SVG (viewBox only) unless px given; one <path> over all dark modules.
+  function svgFor(qr, px){
+    var n=qr.getModuleCount(), total=n+QUIET*2, path="";
+    for (var r=0;r<n;r++) for (var c=0;c<n;c++) if (qr.isDark(r,c)) path += "M"+(c+QUIET)+" "+(r+QUIET)+"h1v1h-1z";
+    var dim = px ? ' width="'+(total*px)+'" height="'+(total*px)+'"' : '';
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+total+' '+total+'"'+dim+
+           ' shape-rendering="crispEdges" role="img" aria-label="QR code">'+
+           '<rect width="'+total+'" height="'+total+'" fill="#ffffff"/>'+
+           '<path d="'+path+'" fill="#000000"/></svg>';
+  }
+
+  function pngBlob(qr, px, cb){
+    var n=qr.getModuleCount(), total=n+QUIET*2, size=total*px;
+    var cv=document.createElement("canvas"); cv.width=size; cv.height=size;
+    var g=cv.getContext("2d"); g.fillStyle="#fff"; g.fillRect(0,0,size,size); g.fillStyle="#000";
+    for (var r=0;r<n;r++) for (var c=0;c<n;c++) if (qr.isDark(r,c)) g.fillRect((c+QUIET)*px,(r+QUIET)*px,px,px);
+    cv.toBlob(cb, "image/png");
+  }
+
+  // A self-contained HTML slide (full doc) — works as a slides/ file or inline in slides.js.
+  function slideHTML(qr, text){
+    return '<!doctype html><meta charset="utf-8"><style>'+
+      'html,body{margin:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;'+
+      'background:radial-gradient(120% 120% at 50% 0%,#1a2742,#101a2e);color:#e8eef5;'+
+      'font-family:-apple-system,Segoe UI,Roboto,sans-serif;text-align:center;padding:24px}'+
+      'h1{font-size:30px;margin:0}.qr{background:#fff;padding:18px;border-radius:16px;width:min(46vh,72vw)}'+
+      '.qr svg{display:block;width:100%;height:auto}.u{font-size:18px;word-break:break-all;color:#9fb0c6;max-width:82vw}'+
+      '</style><h1>Scan to join</h1><div class="qr">'+svgFor(qr)+'</div><div class="u">'+esc(text)+'</div>';
+  }
+
+  function download(name, blob){
+    var u=URL.createObjectURL(blob), a=document.createElement("a");
+    a.href=u; a.download=name; document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(u); a.remove(); }, 1000);
+  }
+
+  function copyText(text, btn){
+    var done=function(){ var t=btn.textContent; btn.textContent="Copied!"; setTimeout(function(){btn.textContent=t;},1200); };
+    if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done, fallback); }
+    else fallback();
+    function fallback(){
+      var ta=document.createElement("textarea"); ta.value=text; ta.style.position="fixed"; ta.style.opacity="0";
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); done(); }catch(e){ alert("Copy failed — select the text manually."); }
+      ta.remove();
+    }
+  }
+
+  function render(){
+    var text=dataEl.value.trim(), ecl=eccEl.value, px=+scaleEl.value;
+    scaleVal.textContent = px;
+    if (!text){ preview.className="card hint"; preview.textContent="Type a URL above to generate a QR code.";
+                printable.innerHTML=""; current=null; return; }
+    var qr=makeQR(text, ecl);
+    if (!qr){ preview.className="card hint";
+              preview.textContent="That’s too long to encode at error-correction “"+ecl+"”. Lower it (try L) or shorten the URL.";
+              printable.innerHTML=""; current=null; return; }
+    current={ qr:qr, text:text, px:px };
+    preview.className="card preview";
+    preview.innerHTML='<div class="qrbox">'+svgFor(qr)+'</div><div class="urlline">'+esc(text)+'</div>';
+    printable.innerHTML='<div class="qrbox">'+svgFor(qr)+'</div><div class="urlline">'+esc(text)+'</div>';
+  }
+
+  $("dlSvg").onclick   =function(){ if(current) download("qr.svg", new Blob([svgFor(current.qr, current.px)], {type:"image/svg+xml"})); };
+  $("dlPng").onclick   =function(){ if(current) pngBlob(current.qr, current.px, function(b){ download("qr.png", b); }); };
+  $("dlSlide").onclick =function(){ if(current) download("join.html", new Blob([slideHTML(current.qr, current.text)], {type:"text/html"})); };
+  $("copySlide").onclick=function(){ if(current) copyText(slideHTML(current.qr, current.text), this); };
+  $("print").onclick   =function(){ window.print(); };
+  dataEl.addEventListener("input", render);
+  eccEl.addEventListener("change", render);
+  scaleEl.addEventListener("input", render);
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="md2deck (SLIDES_SYSTEM)">
+<meta name="md2deck-role" content="placeholder">
+<title>Placeholder Deck</title>
+<style>
+/* ===========================================================================
+   isometric.css — the DEFAULT theme. Tuned to feel native inside the game's
+   isometric room: deep navy backdrop, teal (#4ecdc4) + coral (#ff6b6b) accents,
+   echoing KIOSK_PALETTE / the placeholder cards in game.js.
+   Just a palette: all layout lives in _base.css. Copy this file + tweak to make
+   your own theme, then `md2deck.py --theme <yourname>`.
+   =========================================================================== */
+:root {
+  --font: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --base-size: 2.7cqw;
+
+  --bg: radial-gradient(125% 125% at 50% 0%, #17243d 0%, #0b1322 70%);
+  --slide-bg: linear-gradient(165deg, #1c2a45 0%, #121e35 100%);
+  --slide-radius: 12px;
+  --shadow: 0 1.6vmin 7vmin rgba(0, 0, 0, .5), inset 0 0 0 1px rgba(255, 255, 255, .06);
+
+  --fg: #e8eef5;
+  --muted: #9fb0c6;
+  --head: #f3f7fc;
+  --strong: #ffffff;
+  --accent: #4ecdc4;     /* teal — primary */
+  --link: #7fe3da;
+
+  --code-bg: #0d1424;
+  --code-fg: #d8e4f2;
+  --code-border: rgba(255, 255, 255, .12);
+  --rule: rgba(255, 255, 255, .16);
+  --row-alt: rgba(255, 255, 255, .04);
+  --chip-bg: rgba(13, 20, 36, .85);
+
+  --bg-overlay: linear-gradient(rgba(8, 14, 26, .5), rgba(8, 14, 26, .72));
+  --on-image: #ffffff;
+  --invert-bg: #4ecdc4;
+  --invert-fg: #07242c;
+}
+
+/* ===========================================================================
+   _base.css — shared deck layout for md2deck.py output.
+   ---------------------------------------------------------------------------
+   This file is theme-agnostic: every colour / font / radius comes from a CSS
+   custom property (a `--var`). A *theme* (isometric.css, light.css, …) is just
+   a small `:root { … }` block that sets those variables — md2deck inlines the
+   chosen theme's vars FOLLOWED BY this file into each generated deck, so the
+   whole slideshow is one self-contained .html with no external requests.
+
+   To add a theme: copy a theme file, tweak the `:root` vars, save it in this
+   folder — `md2deck.py --theme <name>` (or `theme: <name>` front-matter) finds
+   it by filename. You almost never need to touch _base.css itself.
+
+   Sizing trick: the .stage is a 16:9 box that fits the kiosk iframe (or the
+   browser, if you open the deck directly). It is a CSS *container*, so slide
+   type is sized in container-query units (cqw/cqh) and stays perfectly
+   proportional whether the deck is in a tiny kiosk or full-screen.
+   =========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body.deck {
+  position: fixed; inset: 0;
+  display: grid; place-items: center;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* The 16:9 frame. min(width, 16/9*height) keeps it inside the viewport both
+   ways and centres it, letterboxing with --bg on the spare axis. */
+.stage {
+  position: relative;
+  width: min(100vw, 177.78vh);
+  height: min(56.25vw, 100vh);
+  container-type: size;
+  border-radius: var(--slide-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* One slide. All are stacked; only .active is shown (runtime.js cross-fades). */
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: flex-start;
+  gap: 0.15em;
+  padding: 7.5cqh 8cqw;
+  background: var(--slide-bg);
+  color: var(--fg);
+  font-size: var(--base-size);
+  line-height: 1.5;
+  overflow: auto;
+  opacity: 0; visibility: hidden;
+  transition: opacity .28s ease;
+}
+.slide.active { opacity: 1; visibility: visible; }
+
+/* Title / section slides: big and centred. */
+.slide.lead, .slide.center { justify-content: center; text-align: center; }
+.slide.lead { gap: 0.35em; }
+.slide.lead h1 { font-size: 3.1em; }
+.slide.lead h2 { color: var(--muted); font-weight: 500; }
+
+/* Headings ---------------------------------------------------------------- */
+.slide h1, .slide h2, .slide h3, .slide h4 {
+  margin: 0 0 .2em; line-height: 1.15; font-weight: 800; color: var(--head);
+}
+.slide h1 { font-size: 2.3em; }
+.slide h2 { font-size: 1.6em; }
+.slide h3 { font-size: 1.25em; color: var(--accent); }
+.slide h4 { font-size: 1.05em; color: var(--accent); }
+.slide > h1:first-child::after, .slide > h2:first-child::after {
+  content: ""; display: block; width: 1.6em; height: .12em; margin-top: .28em;
+  background: var(--accent); border-radius: 1em;
+}
+.slide.lead h1::after { margin-left: auto; margin-right: auto; }
+
+/* Text blocks ------------------------------------------------------------- */
+.slide p { margin: .55em 0; }
+.slide strong { color: var(--strong); font-weight: 800; }
+.slide em { font-style: italic; }
+.slide del { opacity: .6; }
+.slide a { color: var(--link); text-decoration: underline; text-underline-offset: .15em; }
+
+.slide ul, .slide ol { margin: .5em 0; padding-left: 1.4em; }
+.slide li { margin: .35em 0; }
+.slide li::marker { color: var(--accent); }
+
+.slide blockquote {
+  margin: .7em 0; padding: .2em 0 .2em 1em;
+  border-left: .22em solid var(--accent);
+  color: var(--muted); font-style: italic;
+}
+
+/* Code -------------------------------------------------------------------- */
+.slide code {
+  font-family: var(--mono); font-size: .88em;
+  background: var(--code-bg); color: var(--code-fg);
+  border: 1px solid var(--code-border);
+  padding: .08em .36em; border-radius: .35em;
+}
+.slide pre {
+  margin: .7em 0; padding: .85em 1em; overflow: auto;
+  background: var(--code-bg); border: 1px solid var(--code-border);
+  border-radius: .55em; line-height: 1.45;
+}
+.slide pre code { font-size: .8em; background: none; border: 0; padding: 0; color: var(--code-fg); }
+
+/* Tables ------------------------------------------------------------------ */
+.slide table { border-collapse: collapse; margin: .7em 0; font-size: .92em; }
+.slide th, .slide td { padding: .35em .8em; border-bottom: 1px solid var(--rule); }
+.slide th { color: var(--accent); font-weight: 700; text-align: left; }
+.slide tbody tr:nth-child(even) { background: var(--row-alt); }
+
+/* Media ------------------------------------------------------------------- */
+.slide img { max-width: 100%; border-radius: .4em; vertical-align: middle; }
+.slide hr { border: 0; height: 2px; background: var(--rule); margin: .9em 0; border-radius: 2px; }
+
+/* Full-bleed background-image slides (from `![bg](url)`). */
+.slide.has-bg { background-size: cover; background-position: center; justify-content: center; }
+.slide.has-bg::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; background: var(--bg-overlay);
+}
+.slide.has-bg > * { position: relative; z-index: 1; }
+.slide.has-bg, .slide.has-bg .slide-h, .slide.invert { color: var(--on-image, #fff); }
+
+/* Inverted (spotlight) slide. */
+.slide.invert { background: var(--invert-bg); color: var(--invert-fg); }
+.slide.invert h1, .slide.invert h2, .slide.invert h3 { color: var(--invert-fg); }
+
+/* --- Chrome: nav arrows, counter, progress, focus hint ------------------- */
+.nav {
+  position: fixed; top: 0; bottom: 0; width: 12%;
+  display: flex; align-items: center; justify-content: center;
+  border: 0; background: transparent; color: var(--accent);
+  font-size: 7vmin; line-height: 1; cursor: pointer;
+  opacity: .32; transition: opacity .2s; z-index: 6; user-select: none;
+}
+.nav:hover { opacity: 1; }
+.nav.prev { left: 0; justify-content: flex-start; padding-left: 2vmin; }
+.nav.next { right: 0; justify-content: flex-end; padding-right: 2vmin; }
+.nav.disabled { opacity: 0; pointer-events: none; }
+
+.hud {
+  position: fixed; right: 2.6vmin; bottom: 2.2vmin; z-index: 6;
+  color: var(--muted); font-family: var(--font); font-size: 2.3vmin;
+  font-variant-numeric: tabular-nums; letter-spacing: .04em;
+}
+.hud b { color: var(--accent); font-weight: 700; }
+
+.progress { position: fixed; left: 0; bottom: 0; height: 3px; width: 100%; z-index: 6; }
+.progress i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .28s ease; }
+
+.hint {
+  position: fixed; left: 50%; bottom: 2.2vmin; transform: translateX(-50%); z-index: 6;
+  color: var(--fg); background: var(--chip-bg); border: 1px solid var(--code-border);
+  font-family: var(--font); font-size: 1.9vmin; padding: .45em .9em; border-radius: 2em;
+  opacity: .9; transition: opacity .4s; pointer-events: none; white-space: nowrap;
+}
+.hint.gone { opacity: 0; }
+
+/* Subtle scrollbars for the rare long slide. */
+.slide::-webkit-scrollbar { width: 8px; height: 8px; }
+.slide::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .slide, .progress i { transition: none; }
+}
+
+</style>
+</head>
+<body class="deck">
+<div class="stage" id="stage">
+<section class="slide lead">
+<h1>Welcome</h1>
+<p>This is a walkable poster. Move with <strong>WASD</strong> / arrows, press <strong>E<em>*
+(or *</em>Space</strong> to auto-walk) at a kiosk to view its slide.</p>
+</section>
+<section class="slide">
+<h2>The Problem</h2>
+<p>Replace this with the problem your talk addresses — or add real slides
+(see the SLIDES_SYSTEM README).</p>
+</section>
+<section class="slide">
+<h2>Our Approach</h2>
+<p>Replace this with your method or key idea.</p>
+<ul>
+<li>a point worth making</li>
+<li>and another one</li>
+</ul>
+</section>
+<section class="slide">
+<h2>Results</h2>
+<p>Replace this with your findings.</p>
+<table>
+<thead><tr><th style="text-align:left">Metric</th><th style="text-align:center">Before</th><th style="text-align:right">After</th></tr></thead>
+<tbody>
+<tr><td style="text-align:left">Speed</td><td style="text-align:center">20 s</td><td style="text-align:right">95 s</td></tr>
+</tbody>
+</table>
+</section>
+<section class="slide center">
+<h2>Q&amp;A · Thanks</h2>
+<p>Thanks for visiting! Add contact details or a QR code here.</p>
+</section>
+</div>
+<button class="nav prev" type="button" aria-label="Previous slide">&#8249;</button>
+<button class="nav next" type="button" aria-label="Next slide">&#8250;</button>
+<div class="hud"><b id="cur">1</b> / <span id="total">1</span></div>
+<div class="progress"><i id="bar"></i></div>
+<div class="hint" id="hint">Click the slide, then &larr; &rarr; &middot; or tap the edges</div>
+<script>
+/* runtime.js — the tiny in-deck navigator inlined into every generated deck.
+   Zero dependencies. Works inside the game's slide <iframe> AND when the deck
+   .html is opened directly in a browser.
+
+   Navigate by: ← → / PageUp PageDown / Space / Home / End (keyboard works once
+   the slide is focused), the on-screen ‹ › arrows, or clicking the left/right
+   edge of the slide. The deep-link hash (#3) selects a slide on load.
+
+   NOTE on focus: while a slide is open in the game, the parent page owns the
+   keyboard until you click *into* the iframe (a documented project gotcha), so
+   we window.focus() on click and provide click / button navigation that never
+   needs the keyboard. */
+(function () {
+  "use strict";
+  var slides = [].slice.call(document.querySelectorAll(".slide"));
+  if (!slides.length) return;
+
+  var total = slides.length;
+  var cur = document.getElementById("cur");
+  var bar = document.getElementById("bar");
+  var totalEl = document.getElementById("total");
+  var hint = document.getElementById("hint");
+  var prevBtn = document.querySelector(".nav.prev");
+  var nextBtn = document.querySelector(".nav.next");
+  if (totalEl) totalEl.textContent = total;
+
+  // Standalone (deck opened on its own) vs embedded (inside the game's kiosk
+  // iframe). Standalone gets the keyboard immediately and can go fullscreen;
+  // embedded shows the "click to take focus" hint (a documented project gotcha).
+  var embedded = true;
+  try { embedded = window.self !== window.top; } catch (e) { embedded = true; }
+  if (hint) {
+    hint.textContent = embedded
+      ? "Click the slide, then ← →  ·  or tap the edges"
+      : "← → navigate  ·  F for fullscreen  ·  or tap the edges";
+  }
+
+  var idx = -1;
+
+  function show(n) {
+    n = Math.max(0, Math.min(total - 1, n));
+    if (n === idx) return;
+    idx = n;
+    for (var i = 0; i < total; i++) slides[i].classList.toggle("active", i === idx);
+    if (cur) cur.textContent = idx + 1;
+    if (bar) bar.style.width = ((idx + 1) / total * 100) + "%";
+    if (prevBtn) prevBtn.classList.toggle("disabled", idx === 0);
+    if (nextBtn) nextBtn.classList.toggle("disabled", idx === total - 1);
+    var h = "#" + (idx + 1);
+    if (location.hash !== h) { try { history.replaceState(null, "", h); } catch (e) { location.hash = h; } }
+  }
+  function next() { show(idx + 1); }
+  function prev() { show(idx - 1); }
+  function dismissHint() { if (hint) hint.classList.add("gone"); }
+
+  function toggleFullscreen() {
+    var d = document, el = d.documentElement;
+    var on = d.fullscreenElement || d.webkitFullscreenElement;
+    var fn = on ? (d.exitFullscreen || d.webkitExitFullscreen)
+               : (el.requestFullscreen || el.webkitRequestFullscreen);
+    if (fn) { try { var p = fn.call(on ? d : el); if (p && p.catch) p.catch(function () {}); } catch (_) {} }
+  }
+
+  document.addEventListener("keydown", function (e) {
+    switch (e.key) {
+      case "ArrowRight": case "PageDown": case " ": case "Spacebar":
+        next(); e.preventDefault(); break;
+      case "ArrowLeft": case "PageUp":
+        prev(); e.preventDefault(); break;
+      case "Home": show(0); e.preventDefault(); break;
+      case "End": show(total - 1); e.preventDefault(); break;
+      case "f": case "F": toggleFullscreen(); e.preventDefault(); break;
+      default: return;
+    }
+    dismissHint();
+  });
+
+  document.addEventListener("click", function (e) {
+    try { window.focus(); } catch (_) {}
+    if (e.target.closest && e.target.closest("a, button, .hud, .progress, .hint")) return;
+    if (e.clientX < window.innerWidth * 0.3) prev(); else next();
+    dismissHint();
+  });
+
+  if (prevBtn) prevBtn.addEventListener("click", function (e) { e.stopPropagation(); prev(); dismissHint(); });
+  if (nextBtn) nextBtn.addEventListener("click", function (e) { e.stopPropagation(); next(); dismissHint(); });
+
+  var start = parseInt((location.hash || "").slice(1), 10);
+  show(isNaN(start) ? 0 : start - 1);
+  try { window.focus(); } catch (_) {}
+})();
+
+</script>
+</body>
+</html>

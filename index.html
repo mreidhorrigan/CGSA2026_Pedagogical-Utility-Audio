@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Walkable Presentation</title>
+<style>
+  :root{
+    --bg0:#0f1626; --bg1:#1b2740;
+    --ink:#e8eef5; --muted:#9fb0c6;
+    --accent:#4ecdc4; --accent2:#5f7cff;
+    --card:#141d30; --line:rgba(255,255,255,.10);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; overflow:hidden; background:var(--bg0);
+    color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  canvas#game{ display:block; position:fixed; inset:0; }
+
+  /* ---- overlays ---- */
+  .overlay{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+    background:rgba(8,12,22,.62); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:10; }
+  .hidden{ display:none !important; }
+
+  .panel{ width:min(560px,92vw); max-height:94vh; overflow:auto; background:var(--card); border:1px solid var(--line);
+    border-radius:18px; padding:34px 36px; box-shadow:0 24px 60px rgba(0,0,0,.5); text-align:center; }
+  .panel .kicker{ color:var(--accent); font-weight:700; letter-spacing:.14em; text-transform:uppercase; font-size:12px; }
+  .panel h1{ font-size:30px; margin:10px 0 6px; line-height:1.15; }
+  .panel p.sub{ color:var(--muted); font-size:15px; margin-bottom:22px; }
+  .controls{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:24px; }
+  .ctrl{ display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--muted); font-size:13px; }
+  .keys{ display:flex; gap:5px; }
+  kbd{ background:#0d1424; border:1px solid var(--line); border-bottom-width:3px; border-radius:7px;
+    min-width:30px; padding:6px 8px; font-family:inherit; font-size:13px; font-weight:600; color:var(--ink); }
+  .btn{ appearance:none; border:0; cursor:pointer; font:inherit; font-weight:700; font-size:16px;
+    color:#06121f; background:linear-gradient(180deg,var(--accent),#37b3aa);
+    padding:13px 30px; border-radius:12px; box-shadow:0 8px 24px rgba(78,205,196,.32); }
+  .btn:hover{ filter:brightness(1.06); }
+  .btn:disabled{ opacity:.55; cursor:default; box-shadow:none; }
+
+  /* ---- sheet picker (start screen) ---- */
+  .picker-label{ color:var(--muted); font-size:12px; font-weight:700; letter-spacing:.1em;
+    text-transform:uppercase; margin-bottom:10px; }
+  .sheets{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:24px; }
+  .sheet{ appearance:none; cursor:pointer; font:inherit; color:var(--muted);
+    background:#0d1424; border:1px solid var(--line); border-radius:12px; padding:8px 8px 6px;
+    display:flex; flex-direction:column; align-items:center; gap:5px; width:74px;
+    transition:border-color .15s, transform .1s, box-shadow .15s; }
+  .sheet:hover{ transform:translateY(-2px); }
+  .sheet span{ font-size:11px; font-weight:600; }
+  .sheet canvas{ display:block; }
+  .sheet.sel{ border-color:var(--accent); box-shadow:0 0 0 2px rgba(78,205,196,.4) inset; color:var(--ink); }
+
+  /* ---- slide modal ---- */
+  .slide-card{ width:min(940px,94vw); max-height:94vh; background:var(--card); border:1px solid var(--line);
+    border-radius:16px; box-shadow:0 24px 70px rgba(0,0,0,.55); overflow:hidden; display:flex; flex-direction:column; }
+  .slide-card:focus{ outline:none; }
+  .slide-head{ display:flex; align-items:center; justify-content:space-between;
+    padding:14px 16px 14px 20px; border-bottom:1px solid var(--line); }
+  .slide-head h2{ font-size:18px; }
+  .head-right{ display:flex; align-items:center; gap:14px; }
+  .slide-head .counter{ color:var(--muted); font-size:13px; font-weight:600; }
+  .x{ appearance:none; cursor:pointer; font:inherit; color:var(--muted); background:transparent;
+    border:1px solid var(--line); border-radius:8px; width:30px; height:30px; font-size:14px; line-height:1; }
+  .x:hover{ color:var(--ink); border-color:var(--muted); }
+
+  /* image / placeholder = 16:9 contained; pdf / html = tall scrollable doc */
+  .slide-stage{ aspect-ratio:16/9; display:flex; align-items:center; justify-content:center;
+    background:radial-gradient(120% 120% at 50% 0%, #1a2742 0%, #101a2e 100%); padding:24px; }
+  .slide-stage.pdf, .slide-stage.html{ aspect-ratio:auto; height:74vh; padding:0; }
+  .slide-img{ max-width:100%; max-height:100%; border-radius:8px; }
+  .slide-doc{ width:100%; height:100%; border:0; background:#fff; display:block; }
+  /* embed = a 16:9 video/iframe window (YouTube/Vimeo/any URL), filled edge-to-edge */
+  .slide-stage.embed{ aspect-ratio:16/9; padding:0; background:#000; }
+  .slide-embed{ width:100%; height:100%; border:0; display:block; background:#000; }
+
+  .slide-foot{ display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap;
+    padding:12px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; }
+  .slide-foot kbd{ min-width:auto; padding:3px 7px; border-bottom-width:2px; }
+  .slide-foot .sep{ opacity:.4; }
+
+  /* ---- HUD ---- */
+  #hud{ position:fixed; left:0; right:0; bottom:0; z-index:5; pointer-events:none;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:14px 18px; background:linear-gradient(0deg, rgba(8,12,22,.78), rgba(8,12,22,0)); }
+  #hud .hint{ font-size:14px; color:var(--ink); text-shadow:0 1px 4px rgba(0,0,0,.6); }
+  #hud .progress{ font-size:13px; font-weight:600; color:var(--accent);
+    background:rgba(8,12,22,.6); border:1px solid var(--line); padding:7px 12px; border-radius:999px; }
+  #hud .hud-right{ display:flex; align-items:center; gap:10px; }
+  #hud .mp{ font-size:13px; font-weight:600; color:#cfe1ff; pointer-events:none;
+    background:rgba(8,12,22,.6); border:1px solid var(--line); padding:7px 12px; border-radius:999px; }
+  /* multiplayer name field on the start screen (revealed only when a relay is found) */
+  .mp-name{ margin-bottom:22px; }
+  .mp-input{ width:min(260px,80%); font:inherit; font-size:15px; color:var(--ink); text-align:center;
+    background:#0d1424; border:1px solid var(--line); border-radius:10px; padding:10px 12px; }
+  .mp-input:focus{ outline:none; border-color:var(--accent); }
+</style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <!-- Intro -->
+  <div id="intro" class="overlay">
+    <div class="panel">
+      <div class="kicker">Interactive Poster</div>
+      <h1 id="introTitle">Your Presentation</h1>
+      <p class="sub">Walk up to each kiosk and open the slide it’s showing.</p>
+      <div class="controls">
+        <div class="ctrl"><div class="keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></div><span>or arrows — move</span></div>
+        <div class="ctrl"><div class="keys"><kbd>E</kbd></div><span>view slide</span></div>
+        <div class="ctrl"><div class="keys"><kbd>Space</kbd></div><span>auto-walk to next</span></div>
+        <div class="ctrl"><div class="keys"><kbd>Esc</kbd></div><span>close slide</span></div>
+        <div class="ctrl"><div class="keys"><kbd>C</kbd></div><span>change sheet</span></div>
+        <div class="ctrl"><div class="keys"><kbd>M</kbd></div><span>mute</span></div>
+      </div>
+      <div class="picker-label">Choose your sheet</div>
+      <div id="sheetPicker" class="sheets"></div>
+      <div id="mpNameWrap" class="mp-name hidden">
+        <div class="picker-label" style="margin-bottom:6px">Your name — others in the room will see it</div>
+        <input id="mpName" class="mp-input" type="text" maxlength="24" autocomplete="off" spellcheck="false" placeholder="Ghost">
+      </div>
+      <button id="startBtn" class="btn">Enter the room →</button>
+    </div>
+  </div>
+
+  <!-- Slide modal -->
+  <div id="slide" class="overlay hidden">
+    <div class="slide-card" id="slideCard" tabindex="-1">
+      <div class="slide-head">
+        <h2 id="slideTitle">Slide</h2>
+        <div class="head-right">
+          <span class="counter" id="slideCounter">Slide 1 of 1</span>
+          <button id="slideClose" class="x" title="Close (Esc)">✕</button>
+        </div>
+      </div>
+      <div class="slide-stage" id="slideStage"></div>
+      <div class="slide-foot">
+        <kbd>←</kbd><kbd>→</kbd><span>browse</span>
+        <span class="sep">·</span>
+        <kbd>Space</kbd><span>next</span>
+        <span class="sep">·</span>
+        <kbd>Esc</kbd><span>close &amp; keep walking</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div class="hint" id="hudHint">Move with WASD / arrows.</div>
+    <div class="hud-right">
+      <div class="mp hidden" id="mpStatus"></div>
+      <div class="progress" id="hudProgress">Slides viewed: 0 / 0</div>
+    </div>
+  </div>
+
+  <!-- slides.js sets window.SLIDES_MANIFEST (generated by build_slides.py).
+       Loaded before game.js; game.js falls back to image-probing then placeholders. -->
+  <script src="slides.js" defer></script>
+  <script src="game.js" defer></script>
+</body>
+</html>
