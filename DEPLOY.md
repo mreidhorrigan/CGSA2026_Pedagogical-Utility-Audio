@@ -62,6 +62,39 @@ talk has its own room (`https://…onrender.com/?room=cgsa2026`).
 - **Region = latency.** `render.yaml` uses `oregon`; switch to the region nearest
   your venue (e.g. `frankfurt`, `singapore`) for snappier ghost movement.
 
+## Capacity and instances (can 10-20 people join?)
+
+**Short answer: yes.** One server comfortably hosts a roomful — you do not need to
+"scale up" for 10–20 people, and in fact you specifically should not.
+
+Two things people mix up:
+
+- **Instance** = one running *copy of the server* (`serve.py`). You are running **one**.
+- **Player** = one *person* who connected. A single instance serves **many** players.
+
+They're independent — one instance holds many players at once. The relay is built
+for up to **80 players per room** (`MAX_PLAYERS` in `serve.py`), so 10–20 is well
+within range. Everyone who opens the URL (same `?room=`, or no room = the default
+`main`) lands in the **same** room and sees each other.
+
+**Why keep it to exactly one instance:** the list of who's in the room and where
+each ghost is lives in that instance's **memory**. If Render ran two instances,
+your visitors would be split between them at random, and people on copy A would not
+see people on copy B — each copy only remembers its own crowd. For *shared*
+multiplayer everyone must hit the **same** instance, so leave the instance count at
+1. (Free and Starter are single-instance by default — just don't turn on extra
+instances / autoscaling.)
+
+**Will the free tier keep up with 20?** The *software* is fine to 80; the only
+question is the free plan's small CPU share (0.1 CPU). Each player pings the relay
+about **8×/second**, so 20 players ≈ ~160 tiny requests/second. Around 10 people is
+comfortable on **Free**; pushing toward 20 the free CPU can get busy and ghosts may
+glide a little less smoothly (it won't break or disconnect anyone). **For a live
+talk expecting ~20, run on Render Starter (~$7/mo) for the day** — more CPU and no
+spin-down — then drop back to Free afterward. (If you ever needed to lighten the
+load without paying, raising `NET_SYNC_MS` in `game.js` from 120 to ~200 ms cuts
+the request rate by ~40%, at the cost of slightly steppier ghost motion.)
+
 ## Test it locally exactly as Render runs it
 
 ```bash

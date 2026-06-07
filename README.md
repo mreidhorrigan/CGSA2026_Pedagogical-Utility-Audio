@@ -5,6 +5,9 @@ the room and views your slides at kiosks — slides can be **images, PDFs, or
 scrollable HTML documents**. The room **re-lays-itself-out automatically** for
 however many slides you have.
 
+> 🧭 **New here?** [INDEX.md](INDEX.md) is the navigation hub for every doc and task.
+> **Play it live (multiplayer):** https://cgsa2026-audio-presentation.onrender.com
+
 - **Free & open** — plain HTML + JavaScript + Canvas. **No engine, no runtime
   dependencies, no build step** for the game itself.
 - **Browser-side only** — runs entirely client-side, even straight off
@@ -232,9 +235,15 @@ web server. No server-side code for the **single-player** poster. (Run the Pytho
 scripts locally before deploying; only the generated `slides.js` + your `slides/`
 files ship.)
 
-**Multiplayer** needs the live relay, so it isn't a static deploy: run
-`python3 serve.py` on a machine attendees can reach (LAN, hotspot, or a tunnel —
-see *Serve it for an audience* above).
+**Multiplayer** needs the live relay, so it isn't a static deploy. Two ways to host it:
+
+- **On the internet (recommended for remote attendees) — [Render](https://render.com):**
+  this repo ships a `render.yaml` Blueprint that runs `serve.py` as one free Python
+  web service. It's already live at
+  **https://cgsa2026-audio-presentation.onrender.com**. Full steps, the join QR, and
+  capacity/scaling ("how many people can join?") notes are in **[DEPLOY.md](DEPLOY.md)**.
+- **On your own machine (LAN / hotspot / tunnel):** run `python3 serve.py` somewhere
+  attendees can reach — see *Serve it for an audience* above.
 
 ## Want real TypeScript later?
 
