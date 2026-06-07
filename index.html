@@ -93,6 +93,12 @@
   .mp-input{ width:min(260px,80%); font:inherit; font-size:15px; color:var(--ink); text-align:center;
     background:#0d1424; border:1px solid var(--line); border-radius:10px; padding:10px 12px; }
   .mp-input:focus{ outline:none; border-color:var(--accent); }
+  /* in-game speech-bubble composer (F key) */
+  #msgComposer{ position:fixed; left:0; right:0; bottom:64px; z-index:7; pointer-events:none;
+    display:flex; flex-direction:column; align-items:center; gap:6px; }
+  #msgComposer .cue{ font-size:12px; font-weight:600; color:#9fe9ff; text-shadow:0 1px 4px rgba(0,0,0,.7); }
+  #msgComposer .mp-input{ pointer-events:auto; width:min(420px,86%); border-color:#5fe8ff;
+    box-shadow:0 0 0 3px rgba(95,232,255,.15), 0 6px 24px rgba(0,0,0,.5); }
 </style>
 </head>
 <body>
@@ -109,6 +115,7 @@
         <div class="ctrl"><div class="keys"><kbd>E</kbd></div><span>view / leave slide</span></div>
         <div class="ctrl"><div class="keys"><kbd>Space</kbd></div><span>auto-walk to next</span></div>
         <div class="ctrl"><div class="keys"><kbd>&lt;</kbd><kbd>&gt;</kbd></div><span>browse slides</span></div>
+        <div class="ctrl"><div class="keys"><kbd>F</kbd></div><span>say something / ask a question (multiplayer)</span></div>
         <div class="ctrl"><div class="keys"><kbd>C</kbd></div><span>change sheet</span></div>
         <div class="ctrl"><div class="keys"><kbd>M</kbd></div><span>mute</span></div>
       </div>
@@ -143,6 +150,13 @@
         <kbd>&lt;</kbd><kbd>&gt;</kbd><span>browse</span>
       </div>
     </div>
+  </div>
+
+  <!-- in-game speech-bubble composer (F key) -->
+  <div id="msgComposer" class="hidden">
+    <div class="cue">Type a message — <b>Enter</b> to post · <b>Esc</b> to cancel</div>
+    <input id="msgInput" class="mp-input" type="text" maxlength="100" autocomplete="off"
+           spellcheck="false" placeholder="Say something about yourself, or ask a question…">
   </div>
 
   <!-- HUD -->

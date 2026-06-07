@@ -34,6 +34,7 @@ python3 -m http.server 8000   # then open http://localhost:8000
 | `Space` | auto-walk to (and open) the **next** slide — the first one if none yet |
 | `< >` | browse slides while one is open (without walking) |
 | `Esc` | also closes a slide — optional; `E` or walking away leaves it **without** dropping the browser out of fullscreen |
+| `F` | **(multiplayer)** write a short speech-bubble message over your ghost — `Enter` posts, `Esc` cancels, `F` again clears |
 | `C` | change ghost sheet · `M` mute |
 
 > **Leaving a slide never has to touch `Esc`.** Because browser fullscreen treats
@@ -159,6 +160,15 @@ same URL in **two browser tabs/windows** on one machine:
   ghosts move at once (e.g. for a demo or screenshot). Stacked/hidden tabs will
   look like the other ghost "left." This is just browser tab-throttling — real
   attendees on their own devices are never affected.
+
+### Speech bubbles — live questions over your ghost
+
+Press **`F`** to type a short message (≤100 chars); it floats in a speech bubble
+above your ghost for **everyone in the room**, replacing the random name tag, and
+**lingers until you press `F` again** to clear it. `Enter` posts, `Esc` cancels.
+Great for audience **questions during the talk** ("How does X scale?") or a quick
+hello. Messages are length-capped and drawn as plain canvas text on every screen —
+never injected as HTML — so the relay stays safe.
 
 **Getting attendees connected:**
 

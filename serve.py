@@ -35,6 +35,7 @@ PLAYER_TTL = 6.0     # seconds: drop a ghost we haven't heard from in this long
 MAX_PLAYERS = 80     # per room — a sane cap so one room can't grow without bound
 MAX_BODY = 4096      # bytes: reject larger POST bodies outright
 NAME_MAX = 24        # characters of a visitor name we keep
+MSG_MAX = 100        # characters of a speech-bubble message we keep (may be empty)
 
 _lock = threading.Lock()
 _rooms = {}          # rooms[name][id] = {name, sheet, x, y, fx, fy, t}
@@ -60,6 +61,11 @@ def _clean_name(s):
     return s or "Ghost"
 
 
+def _clean_msg(s):
+    """A speech-bubble message: printable, length-capped, may be empty (= no bubble)."""
+    return "".join(ch for ch in str(s or "") if ch.isprintable())[:MSG_MAX].strip()
+
+
 def _sync(payload):
     """Apply one player's update and return the list of *other* players in its room."""
     now = time.time()
@@ -69,6 +75,7 @@ def _sync(payload):
     roomname = (str(payload.get("room", "main"))[:40] or "main")
     rec = {
         "name": _clean_name(payload.get("name")),
+        "msg": _clean_msg(payload.get("msg")),
         "sheet": int(_clampf(payload.get("sheet"), 0, 999, 0)),
         "x": _clampf(payload.get("x"), -2, 200),
         "y": _clampf(payload.get("y"), -2, 200),
@@ -83,7 +90,7 @@ def _sync(payload):
         if pid in room or len(room) < MAX_PLAYERS:
             room[pid] = rec
         others = [(k, dict(p)) for k, p in room.items() if k != pid]
-    return [{"id": k, "name": p["name"], "sheet": p["sheet"],
+    return [{"id": k, "name": p["name"], "msg": p["msg"], "sheet": p["sheet"],
              "x": round(p["x"], 3), "y": round(p["y"], 3),
              "fx": round(p["fx"], 3), "fy": round(p["fy"], 3),
              "age": int((now - p["t"]) * 1000)} for k, p in others]

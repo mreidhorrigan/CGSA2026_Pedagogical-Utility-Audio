@@ -67,6 +67,7 @@ const SHEET_THEMES = [
 /* --- Multiplayer (optional; active only when the page is served by serve.py) --- */
 const NET_SYNC_MS = 120;   // ms between position exchanges with the relay
 const NET_LERP = 0.18;     // remote-ghost position smoothing per frame (0..1)
+const MSG_MAX = 100;       // max characters in a ghost's speech-bubble message (serve.py caps too)
 
 /* --- Audio: sine-tone sound design ----------------------------------------- */
 const MASTER_VOLUME = 0.85;
@@ -116,12 +117,14 @@ let introEl, slideEl, slideCardEl, slideTitleEl, slideCounterEl, slideStageEl,
     hudHintEl, hudProgressEl, startBtn;
 let lastVisited = -1, lastHint = "";
 let mpNameWrap = null, mpNameEl = null, mpStatusEl = null; // multiplayer DOM (optional)
+let msgComposerEl = null, msgInputEl = null;               // speech-bubble composer (F key)
 
 /** One remote visitor. x,y are the *rendered* position; tx,ty the latest reported
- *  target we ease toward. @typedef {{x:number,y:number,tx?:number,ty?:number,fx:number,fy:number,name:string,sheet:number}} Peer */
+ *  target we ease toward. @typedef {{x:number,y:number,tx?:number,ty?:number,fx:number,fy:number,name:string,sheet:number,msg?:string}} Peer */
 /** Multiplayer state — stays inert unless serve.py's relay answers (see §3b NET). */
 const net = {
   on: false, base: "", id: "", name: "", room: "main",
+  msg: "", composing: false,        // this ghost's speech-bubble text + whether the composer is open
   /** @type {Map<string, Peer>} */ peers: new Map(),
   inflight: false, lastSent: 0, fails: 0,
 };
@@ -223,7 +226,7 @@ function netSync() {
   net.inflight = true; net.lastSent = performance.now();
   net.name = (mpNameEl && mpNameEl.value.trim()) || net.name;
   const body = JSON.stringify({
-    id: net.id, room: net.room, name: net.name, sheet: sheetIndex,
+    id: net.id, room: net.room, name: net.name, sheet: sheetIndex, msg: net.msg,
     x: +player.x.toFixed(3), y: +player.y.toFixed(3), fx: +player.fx.toFixed(3), fy: +player.fy.toFixed(3),
   });
   fetch(net.base + "/net/sync", { method: "POST", cache: "no-store", headers: { "Content-Type": "application/json" }, body })
@@ -235,7 +238,7 @@ function netSync() {
         seen.add(p.id);
         let peer = net.peers.get(p.id);
         if (!peer) { peer = { x: p.x, y: p.y, fx: p.fx, fy: p.fy, name: p.name, sheet: p.sheet }; net.peers.set(p.id, peer); }
-        peer.tx = p.x; peer.ty = p.y; peer.fx = p.fx; peer.fy = p.fy; peer.name = p.name; peer.sheet = p.sheet;
+        peer.tx = p.x; peer.ty = p.y; peer.fx = p.fx; peer.fy = p.fy; peer.name = p.name; peer.sheet = p.sheet; peer.msg = p.msg || "";
       }
       for (const id of [...net.peers.keys()]) if (!seen.has(id)) net.peers.delete(id);
     })
@@ -264,7 +267,8 @@ function drawPeer(peer) {
   ctx.globalAlpha = 0.9;
   paintGhost(ctx, c.x, c.y - 8 + hover, 1, theme, sdx, sdy);
   ctx.globalAlpha = 1;
-  label(peer.name || "Ghost", c.x, c.y - 48 + hover, 12, "#cfe1ff");
+  if (peer.msg) speechBubble(peer.msg, c.x, c.y - 44 + hover);     // a posted message takes the place of the name tag
+  else label(peer.name || "Ghost", c.x, c.y - 48 + hover, 12, "#cfe1ff");
 }
 
 /* ----------------------------------------------------------------------------
@@ -412,6 +416,9 @@ function init() {
   mpNameWrap = document.getElementById("mpNameWrap");
   mpNameEl   = /** @type {HTMLInputElement|null} */ (document.getElementById("mpName"));
   mpStatusEl = document.getElementById("mpStatus");
+  msgComposerEl = document.getElementById("msgComposer");
+  msgInputEl    = /** @type {HTMLInputElement|null} */ (document.getElementById("msgInput"));
+  if (msgInputEl) msgInputEl.addEventListener("keydown", onComposerKey);
   netInit();   // probes for serve.py's relay; no-op (stays single-player) if absent
 
   sheetIndex = Math.floor(Math.random() * SHEET_THEMES.length); // random ghost
@@ -492,6 +499,7 @@ function selectSheet(i) {
 function onKeyDown(e) {
   const k = e.key.toLowerCase();
   audio.resume();
+  if (net.composing) return;            // composing a speech-bubble message — let the text input own the keys
 
   if (state === "intro") {
     if (!startBtn.disabled && ["enter", " ", "w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(k)) {
@@ -532,6 +540,7 @@ function onKeyDown(e) {
   else if (k === "e" || k === "enter") { if (activeIndex >= 0) openSlide(EXHIBITS[activeIndex].slide, activeIndex); }
   else if (k === "c") { sheetIndex = (sheetIndex + 1) % SHEET_THEMES.length; sfx.sheet(); toast("Sheet: " + SHEET_THEMES[sheetIndex].name); }
   else if (k === "m") { audio.setMuted(!audio.muted); toast(audio.muted ? "Sound off" : "Sound on"); }
+  else if (k === "f") { toggleMessage(); }   // post / clear a speech-bubble message
 }
 
 /** @param {KeyboardEvent} e */
@@ -550,6 +559,50 @@ function autoPathNext() {
   let t = currentTarget < 0 ? 0 : currentTarget + 1;
   if (t >= EXHIBITS.length) t = 0;          // wrap around
   auto.active = true; auto.goal = t;
+}
+
+/* --- Speech bubbles (F key) — write a short message that floats over your ghost
+   for everyone in the room; press F again to clear it. Drawn as canvas text only
+   (never HTML), and length-capped here + on the relay, so a remote message is inert. */
+
+/** F key: open the composer, or — if a message is already up — clear it. */
+function toggleMessage() {
+  if (net.composing) return;
+  if (net.msg) { net.msg = ""; sfx.close(); toast("Message cleared"); return; }
+  openComposer();
+}
+
+/** Show the little text box and take the keyboard for typing. */
+function openComposer() {
+  if (!msgComposerEl || !msgInputEl) return;
+  net.composing = true;
+  msgInputEl.value = "";
+  msgComposerEl.classList.remove("hidden");
+  msgInputEl.focus();
+}
+
+/** Commit what's typed as this ghost's message (sent on the next sync). */
+function postMessage() {
+  const raw = msgInputEl ? msgInputEl.value : "";
+  net.msg = raw.replace(/\s+/g, " ").trim().slice(0, MSG_MAX);
+  closeComposer();
+  if (net.msg) { sfx.interact(1); toast("Message posted — press F to clear"); }
+}
+
+/** Hide the composer and hand the keyboard back to the game. */
+function closeComposer() {
+  net.composing = false;
+  if (msgComposerEl) msgComposerEl.classList.add("hidden");
+  if (msgInputEl) msgInputEl.blur();
+  try { canvas.focus(); } catch (_) { /* ignore */ }
+}
+
+/** Keys while the composer is focused: Enter posts, Esc cancels; the rest just types.
+ *  @param {KeyboardEvent} e */
+function onComposerKey(e) {
+  e.stopPropagation();                  // keep typing out of the game's movement handler
+  if (e.key === "Enter") { e.preventDefault(); postMessage(); }
+  else if (e.key === "Escape") { e.preventDefault(); closeComposer(); }
 }
 
 function startGame() {
@@ -806,6 +859,7 @@ function drawGhost() {
 
   shadow(c.x, c.y, 15 - float * 0.4);
   paintGhost(ctx, c.x, c.y - 8 + float, 1, SHEET_THEMES[sheetIndex], sdx, sdy);
+  if (net.msg) speechBubble(net.msg, c.x, c.y - 46 + float);     // your own posted message, so you can see what others see
 }
 
 /** Chevron near the player pointing toward the nearest unvisited kiosk. */
@@ -1030,6 +1084,42 @@ function label(text, x, y, size, color) {
   ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
   ctx.lineWidth = 4; ctx.strokeStyle = "rgba(0,0,0,0.6)"; ctx.strokeText(text, x, y);
   ctx.fillStyle = color; ctx.fillText(text, x, y);
+}
+
+/** A small speech bubble of `text` whose tail tip sits at (cx, tipY). Canvas text
+ *  only — never HTML — so a remote message can't inject markup. Word-wraps to a few
+ *  short lines and ellipsises anything that still overflows. @param {string} text */
+function speechBubble(text, cx, tipY) {
+  const fontSize = 13, lineH = 16, padX = 9, padY = 6, maxTextW = 200, maxLines = 3;
+  ctx.font = `600 ${fontSize}px -apple-system,Segoe UI,Roboto,sans-serif`;
+  // greedy word-wrap, then clamp to maxLines
+  const all = [];
+  let line = "";
+  for (const w of String(text).split(" ")) {
+    const test = line ? line + " " + w : w;
+    if (ctx.measureText(test).width > maxTextW && line) { all.push(line); line = w; }
+    else line = test;
+  }
+  if (line) all.push(line);
+  const lines = all.slice(0, maxLines);
+  if (all.length > maxLines && lines.length) lines[lines.length - 1] += " …";
+  for (let i = 0; i < lines.length; i++) {                 // clamp any single over-long line (e.g. one huge word)
+    let s = lines[i];
+    if (ctx.measureText(s).width > maxTextW) {
+      while (s.length > 1 && ctx.measureText(s + "…").width > maxTextW) s = s.slice(0, -1);
+      lines[i] = s + "…";
+    }
+  }
+  if (!lines.length) return;
+  const tw = Math.min(maxTextW, Math.max.apply(null, lines.map(l => ctx.measureText(l).width)));
+  const bw = tw + padX * 2, bh = lines.length * lineH + padY * 2;
+  const bx = cx - bw / 2, by = tipY - 7 - bh;             // bubble sits above a 7px tail
+  roundRect(bx, by, bw, bh, 9, "rgba(8,12,24,0.92)", "rgba(95,232,255,0.9)");
+  ctx.beginPath();                                        // downward tail toward the ghost
+  ctx.moveTo(cx - 6, by + bh - 0.5); ctx.lineTo(cx + 6, by + bh - 0.5); ctx.lineTo(cx, by + bh + 7);
+  ctx.closePath(); ctx.fillStyle = "rgba(8,12,24,0.92)"; ctx.fill();
+  ctx.fillStyle = "#eaf6ff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  for (let i = 0; i < lines.length; i++) ctx.fillText(lines[i], cx, by + padY + lineH / 2 + i * lineH);
 }
 
 /** Lighten (amt>0) / darken (amt<0) a #rrggbb colour. @param {string} hex @param {number} amt */

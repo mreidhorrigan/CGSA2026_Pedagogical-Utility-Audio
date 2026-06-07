@@ -116,11 +116,16 @@ legitimately start with a number, set it by hand in `slides.js`.
 - **serve.py is stdlib-only** (no pip): `ThreadingHTTPServer` + `SimpleHTTPRequestHandler`
   serving `ROOT`, plus `GET /net/info` (probe) and `POST /net/sync` (send mine →
   get others, per `room`, pruned after `PLAYER_TTL`). It validates / clamps / caps
-  everything clients send — keep it that way; remote **names are drawn as canvas
-  text** via `label()`, never injected as HTML.
+  everything clients send — keep it that way; remote **names and speech-bubble
+  messages are drawn as canvas text** via `label()` / `speechBubble()`, never
+  injected as HTML. The `msg` field is `_clean_msg`'d and capped at `MSG_MAX`.
 - **Wire points in game.js:** `netInit()` from `init()`; `netTick()+lerpPeers()`
   in `loop()`; remote ghosts join the depth-sorted actor list in `render()` via
   `drawPeer()` (reuses `paintGhost`); the room count shows in `updateHUD()`.
+- **Speech bubbles (F key):** `toggleMessage()` (§7) opens `#msgComposer` to type
+  `net.msg`; it rides along in `netSync()` and renders as a `speechBubble()` over
+  each ghost (replacing the name tag). `net.composing` makes `onKeyDown` cede the
+  keyboard to the text input. Mirror any new networked field in `serve.py`'s `_sync`.
 
 ## Gotchas
 - **Leaving a slide is fullscreen-safe by design.** In `onKeyDown()` (§7), the
