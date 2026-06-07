@@ -13,5 +13,5 @@ services:
     region: oregon              # change to frankfurt/singapore/etc. for lower latency to your audience
     buildCommand: pip install -r requirements.txt   # no deps; just lets Render detect a Python service
     startCommand: python serve.py                    # binds 0.0.0.0:$PORT automatically
-    healthCheckPath: /net/info  # 200 JSON from the relay = the service is live
-    autoDeploy: true            # redeploy on every push to the connected branch
+    healthCheckPath: /net/info       # 200 JSON from the relay = the service is live
+    autoDeployTrigger: commit        # redeploy on every push to the connected branch
