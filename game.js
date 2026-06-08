@@ -30,12 +30,14 @@
 
 const TALK_TITLE = "Your Presentation";
 
-/** Public URL the start-screen "scan to open on your phone" QR encodes. Set this to
- *  your deployed address and the QR always points there — so you can scan it off your
- *  laptop screen to open the deployment on a phone, even while developing on localhost.
- *  Leave "" to auto-use the address the page is actually served from (your LAN IP /
- *  the Render URL); when "", the QR hides on file:// and localhost (unreachable). */
-const JOIN_URL = "https://cgsa2026-audio-presentation.onrender.com/";
+/** Public URL the start-screen "scan to open on your phone" QR encodes.
+ *  ""  → auto-use the address the page is actually served from: your LAN IP when you
+ *        serve on the LAN (so a phone scan opens THIS build — best for testing), or the
+ *        Render URL when running on Render. Hidden on file:// and localhost (a phone
+ *        can't reach those). This is the default you usually want.
+ *  Or hard-pin it to always point somewhere regardless of how the page is opened, e.g.
+ *  "https://cgsa2026-audio-presentation.onrender.com/" to always send phones to Render. */
+const JOIN_URL = "";
 
 const TILE_W = 96;          // isometric tile width  (px)
 const TILE_H = 48;          // isometric tile height (px)  — 2:1 is classic iso
@@ -126,7 +128,7 @@ let introEl, slideEl, slideCardEl, slideTitleEl, slideCounterEl, slideStageEl,
     hudHintEl, hudProgressEl, startBtn;
 let lastVisited = -1, lastHint = "";
 let mpNameWrap = null, mpNameEl = null, mpStatusEl = null; // multiplayer DOM (optional)
-let msgComposerEl = null, msgInputEl = null;               // speech-bubble composer (F key)
+let msgComposerEl = null, msgInputEl = null, chatBtnEl = null; // speech-bubble composer (F key / 💬 on touch)
 
 /** One remote visitor. x,y are the *rendered* position; tx,ty the latest reported
  *  target we ease toward. @typedef {{x:number,y:number,tx?:number,ty?:number,fx:number,fy:number,name:string,sheet:number,msg?:string}} Peer */
@@ -428,11 +430,16 @@ function init() {
   msgComposerEl = document.getElementById("msgComposer");
   msgInputEl    = /** @type {HTMLInputElement|null} */ (document.getElementById("msgInput"));
   if (msgInputEl) msgInputEl.addEventListener("keydown", onComposerKey);
+  chatBtnEl = document.getElementById("chatBtn");                         // touch: opens the composer (no F key on a phone)
+  if (chatBtnEl) chatBtnEl.addEventListener("click", toggleMessage);
+  const msgPostEl = document.getElementById("msgPost"), msgCancelEl = document.getElementById("msgCancel");
+  if (msgPostEl) msgPostEl.addEventListener("click", postMessage);        // keyboard-free post / dismiss (no Enter/Esc on mobile)
+  if (msgCancelEl) msgCancelEl.addEventListener("click", closeComposer);
   netInit();   // probes for serve.py's relay; no-op (stays single-player) if absent
 
   sheetIndex = Math.floor(Math.random() * SHEET_THEMES.length); // random ghost
   buildSheetPicker();
-  buildJoinQR();   // "scan to open on your phone" — shown only when served over http(s) on a routable host
+  try { buildJoinQR(); } catch (e) { /* a QR hiccup must never block init / the listeners below */ }
 
   resize();
   window.addEventListener("resize", resize);
@@ -617,7 +624,7 @@ function onKeyUp(e) {
  *  a phone visitor needs no keyboard. @param {PointerEvent} e */
 function onCanvasPointer(e) {
   if (state !== "walking" || net.composing) return;   // only while roaming; ignore taps mid-slide / while typing
-  if (e.button !== 0) return;                          // primary button / any touch only (skip right-click etc.)
+  if (e.pointerType === "mouse" && e.button > 0) return; // ignore non-primary MOUSE buttons; always allow touch / pen
   e.preventDefault();
   audio.ensure(); audio.resume();                      // first touch also unlocks audio on mobile
   const r = canvas.getBoundingClientRect();
@@ -676,7 +683,7 @@ function postMessage() {
   const raw = msgInputEl ? msgInputEl.value : "";
   net.msg = raw.replace(/\s+/g, " ").trim().slice(0, MSG_MAX);
   closeComposer();
-  if (net.msg) { sfx.interact(1); toast("Message posted — press F to clear"); }
+  if (net.msg) { sfx.interact(1); toast("Message posted — F or 💬 to clear"); }
 }
 
 /** Hide the composer and hand the keyboard back to the game. */
@@ -996,6 +1003,8 @@ function updateHUD() {
     if (net.on) { mpStatusEl.textContent = `👻 ${net.peers.size + 1} in the room`; mpStatusEl.classList.remove("hidden"); }
     else mpStatusEl.classList.add("hidden");
   }
+  // 💬 opener rides along with multiplayer; CSS keeps it hidden unless it's a touch device.
+  if (chatBtnEl) chatBtnEl.classList.toggle("show", net.on && state === "walking" && !net.composing);
 
   let hint;
   if (state !== "walking") hint = lastHint;

@@ -29,6 +29,18 @@
   .controls{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:24px; }
   .ctrl{ display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--muted); font-size:13px; }
   .keys{ display:flex; gap:5px; }
+  /* Touch devices: the keyboard chips are useless on a phone and make the start
+     panel too tall (the "Enter the room" button can fall off-screen) — swap them for
+     a tap hint, and hide the join QR (a phone holder doesn't scan their own screen). */
+  .touch-controls{ display:none; flex-direction:column; gap:8px; margin-bottom:24px;
+    color:var(--muted); font-size:14px; line-height:1.5; }
+  .touch-controls b{ color:var(--ink); }
+  @media (pointer: coarse){
+    .controls{ display:none; }
+    .touch-controls{ display:flex; }
+    #qrJoin{ display:none !important; }
+  }
+  @media (max-width: 480px){ .panel{ padding:26px 22px; } }
   kbd{ background:#0d1424; border:1px solid var(--line); border-bottom-width:3px; border-radius:7px;
     min-width:30px; padding:6px 8px; font-family:inherit; font-size:13px; font-weight:600; color:var(--ink); }
   .btn{ appearance:none; border:0; cursor:pointer; font:inherit; font-weight:700; font-size:16px;
@@ -104,6 +116,20 @@
   #msgComposer .cue{ font-size:12px; font-weight:600; color:#9fe9ff; text-shadow:0 1px 4px rgba(0,0,0,.7); }
   #msgComposer .mp-input{ pointer-events:auto; width:min(420px,86%); border-color:#5fe8ff;
     box-shadow:0 0 0 3px rgba(95,232,255,.15), 0 6px 24px rgba(0,0,0,.5); }
+  #msgComposer .msg-actions{ display:flex; gap:10px; margin-top:2px; pointer-events:auto; }
+  .msg-btn{ appearance:none; cursor:pointer; font:inherit; font-weight:700; font-size:14px; border:0;
+    border-radius:10px; padding:9px 18px; color:#06121f; background:linear-gradient(180deg,var(--accent),#37b3aa); }
+  .msg-btn.ghost{ color:var(--ink); background:transparent; border:1px solid var(--line); }
+  /* Floating 💬 (touch only) opens the composer — there's no F key on a phone. On touch the
+     composer also moves to the top so the on-screen keyboard can't cover it. */
+  .chat-btn{ display:none; position:fixed; right:16px; bottom:74px; z-index:6;
+    width:54px; height:54px; align-items:center; justify-content:center; border-radius:50%;
+    border:1px solid var(--line); background:rgba(13,20,38,.92); color:#9fe9ff; font-size:24px;
+    cursor:pointer; box-shadow:0 6px 20px rgba(0,0,0,.5); pointer-events:auto; }
+  @media (pointer: coarse){
+    .chat-btn.show{ display:flex; }
+    #msgComposer{ top:16px; bottom:auto; }
+  }
 </style>
 </head>
 <body>
@@ -115,6 +141,7 @@
       <div class="kicker">Interactive Poster</div>
       <h1 id="introTitle">Your Presentation</h1>
       <p class="sub">Walk up to each kiosk and open the slide it’s showing.</p>
+      <button id="startBtn" class="btn" style="margin-bottom:22px">Enter the room →</button>
       <div class="controls">
         <div class="ctrl"><div class="keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></div><span>or arrows — move (walk away to leave a slide)</span></div>
         <div class="ctrl"><div class="keys"><kbd>E</kbd></div><span>view / leave slide</span></div>
@@ -124,6 +151,11 @@
         <div class="ctrl"><div class="keys"><kbd>F</kbd></div><span>say something / ask a question (multiplayer)</span></div>
         <div class="ctrl"><div class="keys"><kbd>C</kbd></div><span>change sheet</span></div>
         <div class="ctrl"><div class="keys"><kbd>M</kbd></div><span>mute</span></div>
+      </div>
+      <div class="touch-controls">
+        <span>👆 <b>Tap</b> where you want to go — <b>tap a kiosk</b> to open its slide.</span>
+        <span>Leave a slide by tapping <b>✕</b> or the dark edge around it.</span>
+        <span>Tap <b>💬</b> (bottom-right) to say something or ask a question.</span>
       </div>
       <div class="picker-label">Choose your sheet</div>
       <div id="sheetPicker" class="sheets"></div>
@@ -136,7 +168,6 @@
         <div class="picker-label" style="margin-bottom:6px">Your name — others in the room will see it</div>
         <input id="mpName" class="mp-input" type="text" maxlength="24" autocomplete="off" spellcheck="false" placeholder="Ghost">
       </div>
-      <button id="startBtn" class="btn">Enter the room →</button>
     </div>
   </div>
 
@@ -163,12 +194,19 @@
     </div>
   </div>
 
-  <!-- in-game speech-bubble composer (F key) -->
+  <!-- in-game speech-bubble composer (F key on desktop; 💬 button on touch) -->
   <div id="msgComposer" class="hidden">
-    <div class="cue">Type a message — <b>Enter</b> to post · <b>Esc</b> to cancel</div>
+    <div class="cue">Type a message — <b>Enter</b> / <b>Post</b> to send · <b>Esc</b> / <b>Cancel</b> to dismiss</div>
     <input id="msgInput" class="mp-input" type="text" maxlength="100" autocomplete="off"
            spellcheck="false" placeholder="Say something about yourself, or ask a question…">
+    <div class="msg-actions">
+      <button id="msgCancel" type="button" class="msg-btn ghost">Cancel</button>
+      <button id="msgPost" type="button" class="msg-btn">Post</button>
+    </div>
   </div>
+
+  <!-- touch-only floating button that opens the composer (stands in for the F key) -->
+  <button id="chatBtn" class="chat-btn" type="button" aria-label="Say something or ask a question">💬</button>
 
   <!-- HUD -->
   <div id="hud">

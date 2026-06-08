@@ -129,10 +129,15 @@ legitimately start with a number, set it by hand in `slides.js`.
 - **Wire points in game.js:** `netInit()` from `init()`; `netTick()+lerpPeers()`
   in `loop()`; remote ghosts join the depth-sorted actor list in `render()` via
   `drawPeer()` (reuses `paintGhost`); the room count shows in `updateHUD()`.
-- **Speech bubbles (F key):** `toggleMessage()` (§7) opens `#msgComposer` to type
-  `net.msg`; it rides along in `netSync()` and renders as a `speechBubble()` over
-  each ghost (replacing the name tag). `net.composing` makes `onKeyDown` cede the
-  keyboard to the text input. Mirror any new networked field in `serve.py`'s `_sync`.
+- **Speech bubbles (F key / 💬 on touch):** `toggleMessage()` (§7) opens
+  `#msgComposer` to type `net.msg`; it rides along in `netSync()` and renders as a
+  `speechBubble()` over each ghost (replacing the name tag). `net.composing` makes
+  `onKeyDown` cede the keyboard to the text input. Phones have no F key, so a floating
+  `#chatBtn` (💬) calls the same `toggleMessage()`, and `#msgComposer` carries **Post/
+  Cancel** buttons (`postMessage`/`closeComposer`) since there's no Enter/Esc; on touch
+  (`@media (pointer:coarse)`) the composer moves to the top, clear of the on-screen
+  keyboard, and the button shows only while `net.on`. Mirror any new networked field
+  in `serve.py`'s `_sync`.
 
 ## Gotchas
 - **Leaving a slide is fullscreen-safe by design.** In `onKeyDown()` (§7), the

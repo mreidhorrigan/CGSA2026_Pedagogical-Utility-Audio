@@ -35,7 +35,7 @@ python3 -m http.server 8000   # then open http://localhost:8000
 | `Space` | auto-walk to (and open) the **next** slide — the first one if none yet |
 | `< >` | browse slides while one is open (without walking) |
 | `Esc` | also closes a slide — optional; `E` or walking away leaves it **without** dropping the browser out of fullscreen |
-| `F` | **(multiplayer)** write a short speech-bubble message over your ghost — `Enter` posts, `Esc` cancels, `F` again clears |
+| `F` / **💬** | **(multiplayer)** write a short speech-bubble message over your ghost — `Enter` posts, `Esc` cancels, `F` again clears. On a phone, tap the floating **💬** button (bottom-right) and use **Post** / **Cancel** |
 | `C` | change ghost sheet · `M` mute |
 
 > **Leaving a slide never has to touch `Esc`.** Because browser fullscreen treats

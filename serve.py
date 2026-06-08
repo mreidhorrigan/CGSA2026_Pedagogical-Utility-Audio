@@ -105,6 +105,16 @@ class Handler(SimpleHTTPRequestHandler):
             return
         super().log_message(fmt, *args)
 
+    def end_headers(self):
+        # Static assets: "no-cache" = the browser may keep a copy but must revalidate
+        # before using it, so an edit / redeploy is picked up at once instead of a
+        # stale game.js / slides.js sticking around (mobile Safari caches hard). The
+        # file's Last-Modified makes this cheap: a 304 when nothing changed. /net/
+        # JSON sets its own no-store via _json(), so leave those alone.
+        if not urlparse(self.path).path.startswith("/net/"):
+            self.send_header("Cache-Control", "no-cache")
+        super().end_headers()
+
     def _json(self, obj, code=200):
         body = json.dumps(obj).encode("utf-8")
         self.send_response(code)
