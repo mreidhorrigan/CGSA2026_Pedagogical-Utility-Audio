@@ -15,9 +15,10 @@ at kiosks. Pure client-side, no framework — plus an **optional** stdlib server
   introduce npm / Vite / webpack / bundlers / runtime dependencies. The game is
   deliberately **build-free vanilla JS**.
 - **One vendored static file** exists and is allowed: `tools/qrcode-generator.js`
-  (qrcode-generator, MIT) used *only* by the presenter-facing `tools/qr.html`,
-  never by the game runtime — a plain `<script>` include, the same "ship a static
-  file" spirit (no npm/build). `serve.py` is **stdlib-only** (no pip). Keep both true.
+  (qrcode-generator, MIT) — a plain `<script>` include, the same "ship a static
+  file" spirit (no npm/build). It backs the presenter-facing `tools/qr.html` **and**
+  the game's own start-screen "scan to open on your phone" QR (`buildJoinQR()`, §6).
+  `serve.py` is **stdlib-only** (no pip). Keep both true.
 - `game.js` is **plain JS with `// @ts-check` + JSDoc** (not `.ts`), so editors
   type-check it with zero tooling (`jsconfig.json`). Keep it that way.
 - It must keep running from **`file://`** (double-click `index.html`) as well as
@@ -50,7 +51,7 @@ at kiosks. Pure client-side, no framework — plus an **optional** stdlib server
 
 ## File map
 ```
-index.html        page, overlays (intro / slide / HUD), CSS; loads slides.js then game.js
+index.html        page, overlays (intro / slide / HUD), CSS; loads qrcode-generator.js, slides.js, then game.js
 game.js           the game — sections 1–11 (+ 3b NET), CONFIG block at the top
 slides.js         GENERATED manifest (window.SLIDES_MANIFEST) — don't hand-edit casually
 build_slides.py   slides/  -> slides.js (deterministic; OWNS the naming convention)
@@ -72,7 +73,7 @@ HANDOFF.md        handoff + manual test checklist for the QR / embed / multiplay
 | 4 | SLIDE LOADING | `loadSlides()`: manifest → image-probe → placeholders; `normalizeSlide`/`guessType` |
 | 5 | ROOM LAYOUT | `buildRoom(count)`: ring of kiosks, grid sized to fit, walkway, player |
 | 6 | INIT | DOM refs, random ghost, picker, listeners, async load → `buildRoom` |
-| 7 | INPUT | `onKeyDown/Up`; `autoPathNext()` (Space); `startGame()` |
+| 7 | INPUT | `onKeyDown/Up`; `onCanvasPointer` (tap/click → `walkToKiosk`/`walkToPoint`); `autoPathNext()` (Space); `startGame()` |
 | 8 | UPDATE | movement (auto-walk OR keys), collision, active-kiosk detection |
 | 9 | RENDER | floor, kiosks, ghost (`paintGhost`), guidance arrow, toast, HUD |
 | 10 | SLIDE MODAL | open/close/`setSlide`; `renderSlideDOM()` switches on slide `type` |
@@ -101,6 +102,12 @@ with `init()`. Use `escapeHtml` for element text, `escapeAttr` for attributes
 - **Change the room shape:** edit `buildRoom()` (§5) — currently a ring.
 - **Add a control key:** handle it in `onKeyDown()` (§7) and list it in the intro
   controls (`index.html`) + README.
+- **Touch / click navigation (phone support):** `onCanvasPointer` (§7) hit-tests
+  taps — `kioskAtScreen()` (§11, a screen-space box over each kiosk) routes a tap to
+  `walkToKiosk()` (auto-walk + open), else `screenToWorld()` (§11, the inverse iso
+  projection) feeds `walkToPoint()` (auto-walk to a floor tile, then stop). Both reuse
+  the Space auto-walk machinery in §8 (`auto` now also carries a free point + a stuck
+  guard). The canvas has `touch-action:none` so taps navigate instead of scrolling.
 
 ## Slide naming convention (single source of truth)
 `build_slides.py` defines it. Files are ordered by a natural sort; `title_from()`

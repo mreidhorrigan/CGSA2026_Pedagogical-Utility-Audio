@@ -30,6 +30,13 @@
 
 const TALK_TITLE = "Your Presentation";
 
+/** Public URL the start-screen "scan to open on your phone" QR encodes. Set this to
+ *  your deployed address and the QR always points there — so you can scan it off your
+ *  laptop screen to open the deployment on a phone, even while developing on localhost.
+ *  Leave "" to auto-use the address the page is actually served from (your LAN IP /
+ *  the Render URL); when "", the QR hides on file:// and localhost (unreachable). */
+const JOIN_URL = "https://cgsa2026-audio-presentation.onrender.com/";
+
 const TILE_W = 96;          // isometric tile width  (px)
 const TILE_H = 48;          // isometric tile height (px)  — 2:1 is classic iso
 const PLAYER_SPEED = 5.0;   // tiles per second
@@ -105,7 +112,9 @@ let sheetIndex = 0;                  // current SHEET_THEMES index
 
 const player = { x: 6.5, y: 6.5, fx: 0, fy: 1, moving: false };
 const keys = { up: false, down: false, left: false, right: false };
-const auto = { active: false, goal: -1 }; // Space-driven auto-walk
+// Auto-walk: Space → next kiosk, or a tap/click → a kiosk (goal>=0, opens on
+// arrival) or a free floor point (goal<0, walk to auto.tx/ty and stop).
+const auto = { active: false, goal: -1, tx: 0, ty: 0, lastDist: Infinity, stuck: 0 };
 
 /** Highlighted "walkway" tiles connecting the kiosks. @type {Set<string>} */
 const pathTiles = new Set();
@@ -423,12 +432,14 @@ function init() {
 
   sheetIndex = Math.floor(Math.random() * SHEET_THEMES.length); // random ghost
   buildSheetPicker();
+  buildJoinQR();   // "scan to open on your phone" — shown only when served over http(s) on a routable host
 
   resize();
   window.addEventListener("resize", resize);
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("keyup", onKeyUp);
   window.addEventListener("blur", () => { keys.up = keys.down = keys.left = keys.right = false; });
+  canvas.addEventListener("pointerdown", onCanvasPointer); // tap / click to walk (and tap a kiosk to open it)
   canvas.tabIndex = -1;                 // focusable (out of tab order) so closeSlide() can pull the keyboard back from a slide iframe
   startBtn.addEventListener("click", startGame);
   must("slideClose").addEventListener("click", closeSlide);
@@ -491,6 +502,55 @@ function selectSheet(i) {
   Array.from(must("sheetPicker").children).forEach((el, idx) => el.classList.toggle("sel", idx === sheetIndex));
 }
 
+/* --- "Scan to open on your phone" — a QR of this page's own URL on the start
+   screen, so an attendee can open the presentation on their phone (and join the
+   same room over multiplayer). Drawn with the vendored qrcode-generator (a plain
+   <script> include, like tools/qr.html — no build, works offline). Shown only when
+   served over http(s) on a routable host; hidden on file:// and loopback, where the
+   address wouldn't resolve on a separate device. ------------------------------- */
+
+/** The address to encode in the join QR, or "" when there's nothing shareable. */
+function shareableUrl() {
+  const j = JOIN_URL.trim();
+  if (j) return /^https?:\/\//i.test(j) ? j : "https://" + j;   // explicit override → always shown, points wherever you set it
+  if (!/^https?:$/.test(location.protocol)) return "";   // file:// → not reachable from a phone
+  const h = location.hostname;
+  if (h === "localhost" || h === "127.0.0.1" || h === "0.0.0.0" || h === "::1") return ""; // loopback → only this machine
+  return location.origin + location.pathname + location.search; // keep ?room=… ; drop any #hash
+}
+
+/** Render the start-screen join QR; no-op (stays hidden) if there's nothing to share. */
+function buildJoinQR() {
+  const box = document.getElementById("qrJoin");
+  const codeEl = document.getElementById("qrCode");
+  const urlEl = document.getElementById("qrUrl");
+  const make = /** @type {any} */ (window).qrcode;
+  const url = shareableUrl();
+  if (!box || !codeEl || !urlEl || !url || typeof make !== "function") return;
+  const qr = makeQRCode(make, url, "M");
+  if (!qr) return;
+  codeEl.innerHTML = qrSvg(qr);
+  urlEl.textContent = url.replace(/^https?:\/\//, "");
+  box.classList.remove("hidden");
+}
+
+/** Smallest QR version that fits `text` at error-correction `ecl`. @param {any} make @param {string} text @param {string} ecl */
+function makeQRCode(make, text, ecl) {
+  try { const a = make(0, ecl); a.addData(text); a.make(); return a; } catch (e) { /* fall through to fixed versions */ }
+  for (let t = 1; t <= 40; t++) { try { const m = make(t, ecl); m.addData(text); m.make(); return m; } catch (e2) { /* try the next version */ } }
+  return null;
+}
+
+/** One crisp <path> over all dark modules, with the spec's 4-module quiet zone. @param {any} qr */
+function qrSvg(qr) {
+  const QUIET = 4, n = qr.getModuleCount(), total = n + QUIET * 2;
+  let path = "";
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) path += `M${c + QUIET} ${r + QUIET}h1v1h-1z`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${total} ${total}" shape-rendering="crispEdges" `
+    + `role="img" aria-label="QR code to open this presentation">`
+    + `<rect width="${total}" height="${total}" fill="#ffffff"/><path d="${path}" fill="#000000"/></svg>`;
+}
+
 /* ----------------------------------------------------------------------------
    7. INPUT
    -------------------------------------------------------------------------- */
@@ -540,7 +600,7 @@ function onKeyDown(e) {
   else if (k === "e" || k === "enter") { if (activeIndex >= 0) openSlide(EXHIBITS[activeIndex].slide, activeIndex); }
   else if (k === "c") { sheetIndex = (sheetIndex + 1) % SHEET_THEMES.length; sfx.sheet(); toast("Sheet: " + SHEET_THEMES[sheetIndex].name); }
   else if (k === "m") { audio.setMuted(!audio.muted); toast(audio.muted ? "Sound off" : "Sound on"); }
-  else if (k === "f") { toggleMessage(); }   // post / clear a speech-bubble message
+  else if (k === "f") { e.preventDefault(); toggleMessage(); }   // post / clear a speech-bubble message (preventDefault so this "f" doesn't leak into the composer it opens)
 }
 
 /** @param {KeyboardEvent} e */
@@ -552,13 +612,43 @@ function onKeyUp(e) {
   else if (k === "d" || k === "arrowright") keys.right = false;
 }
 
+/** Tap / click in the play area (touch, pen, or mouse): walk to a tapped kiosk and
+ *  open it, otherwise walk to the tapped floor tile. Mirrors the Space auto-walk, so
+ *  a phone visitor needs no keyboard. @param {PointerEvent} e */
+function onCanvasPointer(e) {
+  if (state !== "walking" || net.composing) return;   // only while roaming; ignore taps mid-slide / while typing
+  if (e.button !== 0) return;                          // primary button / any touch only (skip right-click etc.)
+  e.preventDefault();
+  audio.ensure(); audio.resume();                      // first touch also unlocks audio on mobile
+  const r = canvas.getBoundingClientRect();
+  const sx = e.clientX - r.left, sy = e.clientY - r.top;
+  const ki = kioskAtScreen(sx, sy);
+  if (ki >= 0) walkToKiosk(ki);
+  else { const w = screenToWorld(sx, sy); walkToPoint(w.x, w.y); }
+}
+
+/** Begin auto-walking to a kiosk; it opens once we're in range. @param {number} i exhibit index */
+function walkToKiosk(i) {
+  auto.active = true; auto.goal = i;
+  auto.lastDist = Infinity; auto.stuck = 0;
+}
+
+/** Begin auto-walking to a free floor point (tapped tile); we just stop on arrival.
+ *  @param {number} tx @param {number} ty */
+function walkToPoint(tx, ty) {
+  auto.active = true; auto.goal = -1;
+  auto.tx = clamp(tx, 0.4, GRID - 1 - 0.4);
+  auto.ty = clamp(ty, 0.4, GRID - 1 - 0.4);
+  auto.lastDist = Infinity; auto.stuck = 0;
+}
+
 /** Auto-walk to (and then open) the next slide; first slide if none reached yet.
  *  This is the hook a future "audio-instruction" navigator would call. */
 function autoPathNext() {
   if (!EXHIBITS.length) return;
   let t = currentTarget < 0 ? 0 : currentTarget + 1;
   if (t >= EXHIBITS.length) t = 0;          // wrap around
-  auto.active = true; auto.goal = t;
+  walkToKiosk(t);
 }
 
 /* --- Speech bubbles (F key) — write a short message that floats over your ghost
@@ -620,18 +710,26 @@ function startGame() {
 
 /** @param {number} dt seconds */
 function update(dt) {
-  // desired movement direction: auto-walk goal, else keys
+  // desired movement direction: an auto-walk target (a kiosk to open, or a tapped
+  // floor point to stop at), else the held keys.
   let dx = 0, dy = 0;
-  if (auto.active && auto.goal >= 0 && auto.goal < EXHIBITS.length) {
-    const g = EXHIBITS[auto.goal];
-    const gx = g.tx - player.x, gy = g.ty - player.y;
-    if (Math.hypot(gx, gy) <= INTERACT_RANGE * 0.9) {     // arrived
+  if (auto.active) {
+    const toKiosk = auto.goal >= 0 && auto.goal < EXHIBITS.length;
+    const g = toKiosk ? EXHIBITS[auto.goal] : null;
+    const gx = (g ? g.tx : auto.tx) - player.x, gy = (g ? g.ty : auto.ty) - player.y;
+    const d = Math.hypot(gx, gy);
+    const arrive = toKiosk ? INTERACT_RANGE * 0.9 : 0.3;  // 0.3 > max step/frame → no overshoot jitter at a tapped point
+    if (d <= arrive) {                                    // arrived
       auto.active = false;
-      openSlide(g.slide, auto.goal);
-      return;                                             // modal now open
+      if (g) { openSlide(g.slide, auto.goal); return; }   // kiosk → modal now open
+    } else {
+      if (d > auto.lastDist - 1e-3) auto.stuck += dt; else auto.stuck = 0; // blocked (e.g. tapped behind a kiosk)?
+      auto.lastDist = d;
+      if (auto.stuck > 0.7) auto.active = false;          // give up rather than grind in place
+      else { dx = gx; dy = gy; }
     }
-    dx = gx; dy = gy;
-  } else {
+  }
+  if (!auto.active) {
     if (keys.up)    { dx -= 1; dy -= 1; }
     if (keys.down)  { dx += 1; dy += 1; }
     if (keys.left)  { dx -= 1; dy += 1; }
@@ -902,6 +1000,7 @@ function updateHUD() {
   let hint;
   if (state !== "walking") hint = lastHint;
   else if (auto.active && auto.goal >= 0) hint = `Walking to “${EXHIBITS[auto.goal].title}”…`;
+  else if (auto.active) hint = `On my way…`;
   else if (activeIndex >= 0) hint = `Press E to view “${EXHIBITS[activeIndex].title}”  ·  Space → next`;
   else {
     const n = nextUnvisited();
@@ -1042,6 +1141,28 @@ function phCard(/** @type {number} */ n, /** @type {string} */ title, /** @type 
 function isoToScreen(wx, wy) { return { x: (wx - wy) * (TILE_W / 2), y: (wx + wy) * (TILE_H / 2) }; }
 /** @param {number} wx @param {number} wy */
 function toScreen(wx, wy) { const p = isoToScreen(wx, wy); return { x: p.x + originX, y: p.y + originY }; }
+
+/** Inverse of toScreen: a canvas-relative screen point → world tile coords on the
+ *  floor plane (used to turn a tap/click into a walk goal). @param {number} sx @param {number} sy */
+function screenToWorld(sx, sy) {
+  const ix = sx - originX, iy = sy - originY;          // solve isoToScreen for (wx,wy)
+  return { x: ix / TILE_W + iy / TILE_H, y: iy / TILE_H - ix / TILE_W };
+}
+
+/** Which kiosk (if any) was tapped: a screen-space hit-box spanning each kiosk's
+ *  pillar + sign (taller than its floor tile, so tapping the visible sign counts);
+ *  the front-most wins where boxes overlap. @param {number} sx @param {number} sy @returns {number} exhibit index or -1 */
+function kioskAtScreen(sx, sy) {
+  let pick = -1, bestDepth = -Infinity;
+  for (let i = 0; i < EXHIBITS.length; i++) {
+    const c = toScreen(EXHIBITS[i].tx, EXHIBITS[i].ty);
+    if (sx >= c.x - 34 && sx <= c.x + 34 && sy >= c.y - 96 && sy <= c.y + 18) {
+      const depth = EXHIBITS[i].tx + EXHIBITS[i].ty;
+      if (depth > bestDepth) { bestDepth = depth; pick = i; }
+    }
+  }
+  return pick;
+}
 
 /** @param {number} cx @param {number} cy @param {string} fill @param {string|null} stroke */
 function diamond(cx, cy, fill, stroke) {

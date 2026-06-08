@@ -29,6 +29,7 @@ python3 -m http.server 8000   # then open http://localhost:8000
 
 | Key | Action |
 |-----|--------|
+| **tap / click** | **walk to where you tap — tap a kiosk to walk over and open it** (touch or mouse; no keyboard needed, so it works on a phone) |
 | `W A S D` / arrows | move — **and while a slide is open, any movement key closes it and walks you away** |
 | `E` | view the nearby slide; **press `E` again to leave it** (the same key toggles it shut) |
 | `Space` | auto-walk to (and open) the **next** slide — the first one if none yet |
@@ -181,6 +182,16 @@ never injected as HTML — so the relay stays safe.
 Find your IP with `ipconfig getifaddr en0`. If macOS asks whether “Python” may
 accept incoming connections, click **Allow**. Flags: `--port`, `--host`,
 `--room <code>` (a soft room code carried in the QR link).
+
+### Phones join by scanning — the QR is already on the start screen
+
+When the game is **served over http(s)** on a routable address (your LAN IP, a
+tunnel, or the Render URL — not `file://` or `localhost`), the start screen shows a
+**“Scan to open on your phone”** QR of the page’s own URL automatically. Point a
+phone camera at the projected intro and it opens the presentation there (joining the
+same `?room=…` if you set one). Nothing to generate — it’s drawn from the same MIT
+QR library, fully offline. On `file://` or `localhost` it’s hidden (a phone couldn’t
+reach those), so use the tool below to craft a LAN/tunnel link.
 
 ### A QR code to put on a slide
 
