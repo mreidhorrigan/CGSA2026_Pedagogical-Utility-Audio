@@ -11,6 +11,37 @@ confirm). User guide = `README.md`; architecture/contributor guide = `CLAUDE.md`
 
 ---
 
+## 2026-06-07 update — live on Render + controls, lattice, speech bubbles
+
+This session put the poster **online for remote multiplayer** and added three
+things on top of the 2026-06-02 work below. Everything is committed to git and
+pushed to GitHub (`mreidhorrigan/CGSA2026_Pedagogical-Utility-Audio`, branch
+`main`); **pushing to `main` auto-redeploys to Render.** Navigation hub: `INDEX.md`.
+
+**Live:** https://cgsa2026-audio-presentation.onrender.com
+
+| What | Where it lives | Notes |
+|------|----------------|-------|
+| **Render deployment** | `render.yaml`, `requirements.txt`, `serve.py` (binds `$PORT`) | One **free Python web service** = static site **and** ghost relay on one HTTPS origin. No Node. Full guide + caveats: **`DEPLOY.md`**. |
+| **Fullscreen-safe slide controls** | `game.js` §7/§10 | Leave a slide with **E** (toggle), by **walking away** (WASD/arrows), or **Esc** — you're no longer forced onto Esc (which exits browser fullscreen). Same-origin slide iframes forward E/Esc/WASD via `wireSlideIframeKeys()`; cross-origin PDFs/embeds leave via the **✕**. |
+| **Cyberpunk lattice floor** | `game.js` `drawFloor()` | Cosmetic: dark void + glowing cyan isometric grid + magenta walkway underglow. |
+| **Speech bubbles (F)** | `game.js` + `serve.py` `_clean_msg` | Press **F** to post a ≤100-char message over your ghost for the whole room (it replaces the name tag); **F** again clears. Built for live audience Q&A. Canvas text only — never HTML; the relay caps + sanitizes. |
+
+### Operating it for the talk
+- **Warm it first:** the free tier sleeps after ~15 min idle (~50 s cold start). Open the URL a couple of minutes before presenting, or move to Render **Starter** for the day. Keep it **one instance** (relay state is in memory). Capacity / "how many can join": `DEPLOY.md`.
+- **Join QR:** open `…onrender.com/tools/qr.html` (optionally point people at `…/?room=cgsa2026`) and drop the QR on a slide.
+
+### Manual test checklist (browser only — can't be automated here)
+- [ ] Fullscreen → open a slide → click *into* it → **E** closes it; **WASD** closes + walks. A PDF/video slide leaves via the **✕**.
+- [ ] Two windows side-by-side → **Start** in both → **👻 2 in the room**; walking in one moves that ghost in the other.
+- [ ] Press **F**, type a question, **Enter** → a bubble appears over that ghost in *both* windows; **F** again clears it; **Esc** cancels the composer.
+- [ ] The floor renders as a glowing cyan lattice on a dark base.
+
+### Rollback points (git tags, pushed to GitHub)
+`v1.0` initial Render deploy · `v1.1` + cyberpunk lattice (pre-speech-bubbles) · `v1.2` this complete, verified state. Undo one change with `git revert <hash>`; jump to a checkpoint with `git checkout v1.2`.
+
+---
+
 ## TL;DR — run each piece
 
 ```bash
@@ -109,7 +140,8 @@ kill $SRV 2>/dev/null; rm -f /tmp/h.log
 - **`crypto.randomUUID`** may be absent on non-HTTPS origins; the code falls back to a random id automatically.
 
 ## Rollback
-A complete pre-change backup is the sibling folder
-`../Presentation_backup_20260602-132532/`. This project is **not** a git repo, so
-to revert a file just copy it back from there. (Safe to delete the backup once
-you're happy.)
+This project **is** now a git repo with a GitHub remote and tagged checkpoints
+(`v1.0`, `v1.1`, `v1.2` — see the 2026-06-07 section above). Revert a single change
+with `git revert <hash>`, or return to a known-good build with `git checkout v1.2`.
+(The old pre-git folder backup `../Presentation_backup_20260602-132532/` predates
+all of this and is safe to delete.)
