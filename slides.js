@@ -16,62 +16,37 @@ window.SLIDES_MANIFEST = [
   },
   {
     "type": "html",
-    "src": "slides/03_why_audio_first.html",
-    "title": "Why Audio First"
-  },
-  {
-    "type": "html",
-    "src": "slides/04_the_audio_training_sequence.html",
+    "src": "slides/03_the_audio_training_sequence.html",
     "title": "The Audio Training Sequence"
   },
   {
     "type": "html",
-    "src": "slides/05_ergatogeny_repeats_phylogeny.html",
-    "title": "Ergatogeny Repeats Phylogeny"
-  },
-  {
-    "type": "html",
-    "src": "slides/06_problems_with_the_pipeline.html",
+    "src": "slides/04_problems_with_the_pipeline.html",
     "title": "Problems With The Pipeline"
   },
   {
     "type": "html",
-    "src": "slides/07_a_timeline_of_audio_control.html",
+    "src": "slides/05_a_timeline_of_audio_control.html",
     "title": "A Timeline Of Audio Control"
   },
   {
     "type": "html",
-    "src": "slides/08_where_the_timeline_comes_from.html",
+    "src": "slides/06_where_the_timeline_comes_from.html",
     "title": "Where The Timeline Comes From"
   },
   {
     "type": "html",
-    "src": "slides/09_the_linearising_trap.html",
-    "title": "The Linearising Trap"
-  },
-  {
-    "type": "html",
-    "src": "slides/10_the_present_chaosifier.html",
+    "src": "slides/07_the_present_chaosifier.html",
     "title": "The Present Chaosifier"
   },
   {
     "type": "html",
-    "src": "slides/11_a_longer_genealogy.html",
-    "title": "A Longer Genealogy"
+    "src": "slides/08_audio_led_games.html",
+    "title": "Audio Led Games"
   },
   {
     "type": "html",
-    "src": "slides/12_clod_bathos_superior_machine.html",
-    "title": "Clod Bathos Superior Machine"
-  },
-  {
-    "type": "html",
-    "src": "slides/13_autofac_rad_shipping.html",
-    "title": "Autofac Rad Shipping"
-  },
-  {
-    "type": "html",
-    "src": "slides/14_references_and_links.html",
+    "src": "slides/09_references_and_links.html",
     "title": "References And Links"
   }
 ];
