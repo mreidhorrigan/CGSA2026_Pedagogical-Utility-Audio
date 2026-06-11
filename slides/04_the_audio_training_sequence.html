@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The audio training sequence — traditional</title>
+<style>
+  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#ffd166;--line:#322747}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding:clamp(20px,4vw,56px)}
+  main{max-width:46rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
+  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
+  p{margin:.75em 0}
+  ol.seq{list-style:none;counter-reset:step;margin:1.2em 0;padding:0}
+  ol.seq>li{counter-increment:step;background:var(--panel);border:1px solid var(--line);
+            border-radius:10px;padding:.7em .9em .7em 3em;margin:.5em 0;position:relative}
+  ol.seq>li::before{content:counter(step);position:absolute;left:.8em;top:.62em;
+            color:var(--accent);font-weight:800;font-size:1.15em}
+  ol.seq b{color:#fff}
+  ol.seq .eg{color:var(--muted);font-size:.9em;display:block;margin-top:.15em}
+  strong,em{color:#fff}
+  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">How audio is taught</p>
+  <h1>The audio training sequence — traditional</h1>
+
+  <ol class="seq">
+    <li><b>Practice</b><span class="eg">music · storytelling (theatre) · tabletop roleplay</span></li>
+    <li><b>Recording</b><span class="eg">e.g. soundwalking, performance documentation, actual-play podcast</span></li>
+    <li><b>Editing</b><span class="eg">e.g. Audacity</span></li>
+    <li><b>Routing</b><span class="eg">e.g. Reaper</span></li>
+    <li><b>Control and cueing</b><span class="eg">e.g. Ableton, QLab, Traktor — MIDI manipulation</span></li>
+    <li><b>Installation audio; visual / flowchart programming</b><span class="eg">Max — then bespoke software engineering (e.g. the Web Audio SDK)</span></li>
+    <li><b>Gaming middleware</b><span class="eg">FMOD, Wwise — visual flowchart programming (e.g. Unreal MetaSounds), then bespoke engineering (e.g. plugin adaptation for Wwise shipping)</span></li>
+  </ol>
+
+  <p>Seven rungs, climbed in order, each gated by the one before — and each rung is also a
+  <strong>stage in the history of the craft</strong>. That resemblance is the next kiosk's claim.</p>
+
+  <p class="src">From the talk notes.</p>
+</main>
+</body>
+</html>

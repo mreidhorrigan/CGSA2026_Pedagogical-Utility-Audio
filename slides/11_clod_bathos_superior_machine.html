@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clod Bathos, Superior Machine</title>
+<style>
+  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#ff9e9e;--line:#322747}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding:clamp(20px,4vw,56px)}
+  main{max-width:46rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
+  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
+  p{margin:.75em 0}
+  ul{padding-left:1.3em;margin:.8em 0}
+  li{margin:.55em 0}
+  li::marker{color:var(--accent)}
+  strong,em{color:#fff}
+  a{color:var(--accent)}
+  .btn{display:inline-block;background:var(--accent);color:#1b1426;font-weight:700;
+       padding:.6em 1.1em;border-radius:10px;text-decoration:none;margin:.5em 0 1em}
+  .caveat{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+          padding:.9em 1.1em;margin:1.4em 0;color:var(--muted)}
+  .caveat b{color:var(--ink)}
+  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Audio-led games · example 1</p>
+  <h1>Clod Bathos, <em>Superior Machine</em></h1>
+
+  <p><a class="btn" href="https://mreidhorrigan.github.io/Clod-Bathos-Superior-Machine-An-LM-IDN/"
+        target="_blank" rel="noopener">Play it in the browser&nbsp;&nearr;</a></p>
+
+  <ul>
+    <li>A <strong>text-based, stylized command-line game</strong> — successor to
+        choose-your-own-adventure and interactive digital narrative (IDN).</li>
+    <li><strong>Twine, disintermediated.</strong> (Sorry, Twine — no support for LLM runtime
+        dialogue rewording, or for state-machine navigation.)</li>
+    <li>Seeks immersion by <strong>imitating the diegetic medium with the delivery
+        medium</strong> — both of them screens.</li>
+    <li>Exploits <strong>easy text-to-audio conversion</strong>.</li>
+  </ul>
+
+  <p class="caveat"><b>However:</b> LLMs sized for local operability are not (yet) smart
+  enough to carry the game on their own.</p>
+
+  <p class="src">From the talk notes.</p>
+</main>
+</body>
+</html>

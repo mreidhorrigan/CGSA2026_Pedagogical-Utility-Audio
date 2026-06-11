@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where the timeline comes from</title>
+<style>
+  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#79e0c4;--line:#322747}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding:clamp(20px,4vw,56px)}
+  main{max-width:46rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
+  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
+  p{margin:.75em 0}
+  ul{padding-left:1.3em;margin:.8em 0}
+  li{margin:.55em 0}
+  li::marker{color:var(--accent)}
+  strong,em{color:#fff}
+  blockquote{margin:1.4em 0;padding:1em 1.2em;background:var(--panel);
+             border-left:4px solid var(--accent);border-radius:0 10px 10px 0}
+  blockquote p{margin:.2em 0}
+  .payoff{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.9em 1.1em;margin:1.4em 0}
+  figure{margin:1.6em 0 0}
+  .card{background:#f6f1e7;border-radius:12px;padding:12px}
+  .card img{width:100%;height:auto;display:block;border-radius:6px}
+  figcaption{color:var(--muted);font-size:.85em;margin-top:.6em;line-height:1.45}
+  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Genealogy</p>
+  <h1>Where the timeline comes from</h1>
+
+  <blockquote>
+    <p>Game-audio middleware (FMOD, Wwise) and theatrical show-control software (QLab&hellip;)
+    are <strong>siblings, not parent-and-child</strong>. They converge on the same control
+    vocabulary because they descend from a shared ancestor — <strong>MIDI, 1983</strong> —
+    and solved the same problem in parallel. The crossover is real, documented, and
+    bidirectional — but the dominant documented flow is <strong>games&nbsp;&rarr;&nbsp;theatre</strong>.</p>
+  </blockquote>
+
+  <ul>
+    <li><strong>FMOD is demoscene.</strong> “Firelight MODule player” (1995) was born to play
+        tracker music; FMOD Studio (2012) is explicitly “designed like a digital audio
+        workstation.”</li>
+    <li><strong>Wwise is Montréal music-production, not theatre.</strong> Founder Martin H.
+        Klein went music &rarr; Ubisoft (1997) &rarr; Audiokinetic (2000) — no theatre at any
+        stage.</li>
+    <li><strong>The convergence is documented from the other direction:</strong> “An FMOD
+        event is akin to a theatrical sound cue” (Swift, USITT 2020) — a game engine adapted
+        <em>for</em> theatre.</li>
+  </ul>
+
+  <p class="payoff"><strong>The timeline is inherited, twice over</strong> — from the
+  tracker/sequencer <em>playlist</em> and from the DAW's <em>fixed media</em>. Both ancestries
+  push toward linearity; the explorable-space model has <strong>no strong ancestor in either
+  lineage</strong> — which is exactly why exploratory audiogames are “unusual.”</p>
+
+  <figure>
+    <div class="card">
+      <img src="SourceMaterial/AUDIOGAMES/genealogy.svg"
+           alt="Directed graph with MIDI 1.0 (1983) at the root and four branches — theatre/show control, tracker/demoscene, music sequencer/adaptive, and engine/driver abstraction — leading to FMOD, Wwise, QLab and audio games, with arrows marking documented crossovers including games-to-theatre in 2020.">
+    </div>
+    <figcaption>Four lineages feed modern game audio; only one is theatre — and it is a
+    <em>sibling</em> of middleware, not its parent.</figcaption>
+  </figure>
+
+  <p class="src">From the background study, “Audio performance control, from the theatre cue
+  to the game engine.”</p>
+</main>
+</body>
+</html>

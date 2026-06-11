@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Problems with the pipeline</title>
+<style>
+  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#79e0c4;--line:#322747}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding:clamp(20px,4vw,56px)}
+  main{max-width:46rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
+  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
+  p{margin:.75em 0}
+  ul{padding-left:1.3em;margin:.8em 0}
+  li{margin:.6em 0}
+  li::marker{color:var(--accent)}
+  strong,em{color:#fff}
+  figure{margin:1.6em 0 0}
+  .card{background:#f6f1e7;border-radius:12px;padding:12px}
+  .card img{width:100%;height:auto;display:block;border-radius:6px}
+  figcaption{color:var(--muted);font-size:.85em;margin-top:.6em;line-height:1.45}
+  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Critique</p>
+  <h1>Problems with the pipeline</h1>
+
+  <ul>
+    <li><strong>Timelines aren't playtime.</strong> The perception persists that timelines are
+        easier than cyclic playtime — but the fixed-medium timeline mindset, useful for
+        replicable data (annotation, reference), is <em>wrong for user experience</em>.
+        Linear time is also ethnocentric.</li>
+    <li><strong>Middleware nudges students</strong> to specialize in audio — underpaid — and
+        separates them from the interactive logic of the games they score.</li>
+    <li><strong>GUIs impair software-architecture awareness</strong>, blocking access to
+        transferable and generalizable tools.</li>
+    <li><strong>The sequence ranks teachers above learners</strong> — it artificially places
+        instructors ahead of students in a linear development process.</li>
+  </ul>
+
+  <figure>
+    <div class="card">
+      <img src="SourceMaterial/AUDIOGAMES/timeline_vega.svg"
+           alt="Swim-lane timeline of audio performance control from 1972 to 2020: events in six lanes — theatre/show control, tracker/demoscene, music sequencer/adaptive, engine/middleware, standardization, and audio games/accessibility — all descending from MIDI 1.0 in 1983. Stars mark convergences such as MIDI Show Control in 1991, Wwise and QLab both shipping in 2006, and FMOD adapted for theatre in 2020.">
+    </div>
+    <figcaption>Where the pipeline's tools come from: audio performance control, 1972–2020.
+    Six lanes — theatre show control, tracker/demoscene, music sequencers, engine middleware,
+    standardization, audio games — all descending from MIDI&nbsp;1.0 (1983). ★ = documented
+    convergence.</figcaption>
+  </figure>
+
+  <p class="src">Problems from the talk notes; figure from the background study (drawn from
+  <code>timeline_data.json</code> in this room's source material).</p>
+</main>
+</body>
+</html>
