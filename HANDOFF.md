@@ -11,6 +11,60 @@ confirm). User guide = `README.md`; architecture/contributor guide = `CLAUDE.md`
 
 ---
 
+## 2026-06-10 update — phone support (join QR · tap-to-walk · touch chat) + 5 demo kiosks
+
+This session made the poster **fully usable on a phone** (tap-to-walk confirmed on an
+iPhone X) and switched the room to **5 demo kiosks** pending the real slides. All
+committed + pushed to `main` (commits **`1da144a`** phone support, **`01b8c9a`** mobile
+polish) → auto-deployed to Render. **The next session builds the real slides — see
+">>> NEXT SESSION" below.**
+
+| What | Where it lives | Notes |
+|------|----------------|-------|
+| **Join QR on the start screen** | `game.js` `buildJoinQR`/`shareableUrl`/`makeQRCode`/`qrSvg` (§6); `index.html` `#qrJoin`; new `<script src="tools/qrcode-generator.js">` | "Scan to open on your phone" — encodes the page's own URL. `JOIN_URL` config (§1): `""` = auto (LAN IP locally / Render URL in prod); hidden on `file://`, localhost, and touch. The vendored QR lib is **now used by the game runtime**, not just `tools/qr.html`. |
+| **Tap / click to walk** | `game.js` `onCanvasPointer` (§7), `walkToKiosk`/`walkToPoint`, `screenToWorld`/`kioskAtScreen` (§11); `auto` gained a free point + stuck-guard (§8); `canvas{touch-action:none}` | Tap a kiosk → walk over + open it; tap the floor → walk there. Reuses the Space auto-walk. No keyboard needed. |
+| **Phone speech bubbles** | `game.js` `#chatBtn` wiring + `updateHUD` toggle; `index.html` `#chatBtn` (💬), `#msgComposer` Post/Cancel | Floating 💬 (touch + `net.on` only) opens the composer (no F key on a phone); **Post/Cancel** buttons (no Enter/Esc on mobile); composer moves to the **top** on touch so the keyboard can't cover it. |
+| **Phone-friendly start screen** | `index.html` `@media (pointer:coarse)`, `.touch-controls` | On touch, keyboard chips + join QR hidden, replaced with tap hints. **"Enter the room" moved to the top** (under the intro line) so you can skip the instructions. |
+| **Stray-`f` fix** | `game.js` `onKeyDown` `'f'` branch | `preventDefault()` so opening the composer no longer types an `f` into it. |
+| **No stale assets** | `serve.py` `end_headers` | Static files now send `Cache-Control: no-cache` (revalidate; cheap 304s via Last-Modified) so a redeploy/edit is picked up at once — mobile Safari was serving a stale `game.js`/`slides.js`. `/net/*` keeps its own `no-store`. |
+| **5 demo kiosks** | `slides.js` (emptied on purpose) | `window.SLIDES_MANIFEST = []` → the game falls back to the 5 built-in `PLACEHOLDER_SLIDES`. `slides/placeholder.html` (one bundled md2deck deck) is still on disk, unused. |
+
+### Operating notes
+- **Phones self-refresh now** — *except* the first load after this deploy, since the phone still caches the pre-`no-cache` version. Clear it once (Safari **Private tab**, or Settings → Safari → **Clear History and Website Data**); it stays fresh after that.
+- Mac LAN IP last seen **10.0.0.186**. Local phone test: `python3 serve.py --port 8001` (8000 was taken by another server) → open `http://10.0.0.186:8001` on the phone (same Wi-Fi; click **Allow** if macOS firewall prompts).
+
+### Manual checks still open (browser/phone — can't be automated here)
+- [x] iPhone: tap-to-walk + tap-a-kiosk-to-open — **confirmed working** by the user.
+- [ ] iPhone: tap **💬** → keyboard up, composer at top → type → **Post** floats your bubble (desktop sees it); **Cancel** dismisses. *(Deployed but not yet eyeballed — pushed at session end.)*
+- [ ] iPhone: **"Enter the room"** reachable at the top of the start screen. *(Same — just pushed.)*
+- [ ] One-time: after this deploy, the cache-clear above actually yields the fresh build.
+
+### >>> NEXT SESSION — build a basic version of the real slides <<<
+**Goal:** replace the 5 demo kiosks with the actual presentation.
+
+- **Room = one kiosk per slide *file*** in `slides/` (one entry in `slides.js` = one
+  kiosk). `python3 build_slides.py` regenerates `slides.js` from `slides/` and
+  **auto-drops** `placeholder.html` once real slides exist. The empty `slides.js` is
+  expected until then — building real slides overrides it.
+- **User preference: ONE KIOSK PER SLIDE** (they explicitly wanted this). ⚠️ Gotcha:
+  `SLIDES_SYSTEM/md2deck.py` compiles a whole Markdown file into **one** self-contained
+  HTML deck = **one** kiosk (slides paged *inside* it). For one-kiosk-per-slide use
+  **separate files** (one `image`/`.html`/`.pdf`/`.yt` per slide). **Confirm the
+  structure + get the actual content/outline from the user before building.**
+- **Slide types** (`renderSlideDOM` §10 / `build_slides.py`): `image` (png/jpg/webp/…),
+  `pdf`, `html` (scrollable doc — file or inline), `embed` (`.url`/`.embed`/`.yt` → 16:9).
+- **Set the title:** `TALK_TITLE` (`game.js` §1) is still `"Your Presentation"`. Topic
+  per the repo/Render name: *pedagogical utility of audio* (CGSA 2026).
+- **Ship:** files into `slides/` → `python3 build_slides.py` → inspect `slides.js` →
+  commit + **push to `main`** (auto-redeploys Render).
+- **Verify (no browser here):** `osascript -l JavaScript game.js` parses;
+  `python3 -m py_compile build_slides.py`; serve + curl 200s. Room layout = human-in-browser.
+
+**Rollback for this session:** `git revert 01b8c9a` (mobile polish) and/or `1da144a`
+(phone support); both are on `main` (untagged).
+
+---
+
 ## 2026-06-07 update — live on Render + controls, lattice, speech bubbles
 
 This session put the poster **online for remote multiplayer** and added three
