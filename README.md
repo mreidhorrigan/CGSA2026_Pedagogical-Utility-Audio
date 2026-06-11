@@ -36,7 +36,7 @@ python3 -m http.server 8000   # then open http://localhost:8000
 | `< >` | browse slides while one is open (without walking) |
 | `Esc` | also closes a slide — optional; `E` or walking away leaves it **without** dropping the browser out of fullscreen |
 | `F` / **💬** | **(multiplayer)** write a short speech-bubble message over your ghost — `Enter` posts, `Esc` cancels, `F` again clears. On a phone, tap the floating **💬** button (bottom-right) and use **Post** / **Cancel** |
-| `C` | change ghost sheet · `M` mute |
+| `C` | change sheetghost · `M` mute |
 
 > **Leaving a slide never has to touch `Esc`.** Because browser fullscreen treats
 > `Esc` as "exit fullscreen", the poster gives you two fullscreen-safe ways out:
@@ -214,19 +214,19 @@ walkway is drawn, and the player is centred. Add/remove slides → the room refl
 with no manual placement. Tunables: `KIOSK_SPACING`, `KIOSK_PALETTE`,
 `INTERACT_RANGE`, `PLAYER_SPEED` at the top of `game.js`.
 
-## The avatar (sheet-ghost)
+## The avatar (sheetghost)
 
-The player is a **sheet-ghost** (domed cloth, wavy hem, eyes that look where
+The player is a **sheetghost** (domed cloth, wavy hem, eyes that look where
 you're walking) — deliberately not a human figure. It starts as a **random one
-of four sheet colours** (Red/Pink/Cyan/Orange); pick another on the **start
+of four colourways** (deliberately unnamed); pick another on the **start
 screen** (live previews) or press **`C`** in-game.
 
 Looks come from the **`SHEET_THEMES`** array; add/remove entries and both the
 picker and the `C` cycle update automatically:
 
 ```js
-{ name: "Cyan", sheet: "#19dede", shade: "#0e9c9c", eye: "#2121de" }
-//        ^label  ^top colour      ^hem colour       ^pupil (sclera is white)
+{ sheet: "#19dede", shade: "#0e9c9c", eye: "#2121de" }  // cyan
+//  ^top colour      ^hem colour       ^pupil (sclera is white)
 ```
 
 Add a `pattern: "dots"` field for a printed cloth pattern — `paintGhost()` (shared

@@ -62,15 +62,15 @@ const PLACEHOLDER_SLIDES = [
   { title: "Q&A · Thanks", html: phCard(5, "Q&A · Thanks", "Thanks for visiting! Add contact details or a QR code here.") },
 ];
 
-/* --- Avatar: four ghost sheet colours (no white). Random at startup;
+/* --- Avatar: four unnamed sheetghost colourways (no white). Random at startup;
        press C in-game / pick on the start screen to change. -------------------
-   @typedef {{ name:string, sheet:string, shade:string, eye:string, pattern?:"dots" }} SheetTheme */
+   @typedef {{ sheet:string, shade:string, eye:string, pattern?:"dots" }} SheetTheme */
 /** @type {SheetTheme[]} */
 const SHEET_THEMES = [
-  { name: "Red",    sheet: "#ff2b2b", shade: "#c21a1a", eye: "#2121de" },
-  { name: "Pink",   sheet: "#ffb8ff", shade: "#e58ee5", eye: "#2121de" },
-  { name: "Cyan",   sheet: "#19dede", shade: "#0e9c9c", eye: "#2121de" },
-  { name: "Orange", sheet: "#ffb852", shade: "#d98e2a", eye: "#2121de" },
+  { sheet: "#ff2b2b", shade: "#c21a1a", eye: "#2121de" }, // red
+  { sheet: "#ffb8ff", shade: "#e58ee5", eye: "#2121de" }, // pink
+  { sheet: "#19dede", shade: "#0e9c9c", eye: "#2121de" }, // cyan
+  { sheet: "#ffb852", shade: "#d98e2a", eye: "#2121de" }, // orange
 ];
 
 /* --- Multiplayer (optional; active only when the page is served by serve.py) --- */
@@ -500,7 +500,8 @@ function resize() {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-/** Build the start-screen sheet picker from SHEET_THEMES (live ghost previews). */
+/** Build the start-screen sheetghost picker from SHEET_THEMES (live, unlabelled
+ *  ghost previews — the tooltip carries the accessible name). */
 function buildSheetPicker() {
   const wrap = must("sheetPicker");
   wrap.innerHTML = "";
@@ -509,7 +510,7 @@ function buildSheetPicker() {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "sheet" + (i === sheetIndex ? " sel" : "");
-    btn.title = theme.name;
+    btn.title = `Sheetghost ${i + 1} of ${SHEET_THEMES.length}`;
     const size = 56;
     const cv = document.createElement("canvas");
     cv.width = size * d; cv.height = size * d;
@@ -517,9 +518,7 @@ function buildSheetPicker() {
     const g = /** @type {CanvasRenderingContext2D} */ (cv.getContext("2d"));
     g.setTransform(d, 0, 0, d, 0, 0);
     paintGhost(g, size / 2, size - 8, 1, theme, 0, 0.25);
-    const name = document.createElement("span");
-    name.textContent = theme.name;
-    btn.appendChild(cv); btn.appendChild(name);
+    btn.appendChild(cv);
     btn.addEventListener("click", () => selectSheet(i));
     wrap.appendChild(btn);
   });
@@ -628,7 +627,7 @@ function onKeyDown(e) {
   else if (k === "a" || k === "arrowleft") keys.left = true;
   else if (k === "d" || k === "arrowright") keys.right = true;
   else if (k === "e" || k === "enter") { if (activeIndex >= 0) openSlide(EXHIBITS[activeIndex].slide, activeIndex); }
-  else if (k === "c") { sheetIndex = (sheetIndex + 1) % SHEET_THEMES.length; sfx.sheet(); toast("Sheet: " + SHEET_THEMES[sheetIndex].name); }
+  else if (k === "c") { sheetIndex = (sheetIndex + 1) % SHEET_THEMES.length; sfx.sheet(); toast(`Sheetghost ${sheetIndex + 1} of ${SHEET_THEMES.length}`); }
   else if (k === "m") { audio.setMuted(!audio.muted); toast(audio.muted ? "Sound off" : "Sound on"); }
   else if (k === "f") { e.preventDefault(); toggleMessage(); }   // post / clear a speech-bubble message (preventDefault so this "f" doesn't leak into the composer it opens)
 }
