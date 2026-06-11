@@ -1,0 +1,76 @@
+{
+  "_comment": "External theme for the timeline renderer. Edit this to rebrand without touching code. Shareable with other graphing tools (same palette/keys).",
+  "swimlanes": true,
+  "decade_gridlines": false,
+  "convergence": {
+    "show": true,
+    "style": "band",
+    "color": "#ffd24d",
+    "alpha": 0.22,
+    "label": true
+  },
+  "figure": {
+    "width_in": 16.0,
+    "dpi": 200,
+    "facecolor": "#ffffff",
+    "left": 0.165,
+    "right": 0.985,
+    "top_pad_in": 1.15,
+    "bottom_pad_in": 0.5
+  },
+  "font": {
+    "family": "Helvetica",
+    "title_size": 16,
+    "subtitle_size": 11,
+    "label_size": 7.2,
+    "lane_size": 9.5,
+    "axis_size": 10,
+    "source_size": 7.5,
+    "label_wrap": 22
+  },
+  "palette": [
+    "#3b6ea5",
+    "#9b5fb0",
+    "#c1733b",
+    "#2f8f6b",
+    "#8a8f3a",
+    "#b0476a"
+  ],
+  "palette_by_lane": {},
+  "lane_band_colors": [
+    "#f4f4f6",
+    "#ffffff"
+  ],
+  "label_box": {
+    "facecolor": "#ffffff",
+    "alpha": 0.96,
+    "pad": 0.3,
+    "radius": 0.16,
+    "edge_from_lane": true,
+    "tint_fill_emphasis": true,
+    "edge_width_normal": 0.7,
+    "edge_width_emphasis": 2.0,
+    "edge_width_root": 1.4
+  },
+  "marker": {
+    "size_normal": 55,
+    "size_emphasis": 180,
+    "shape_normal": "o",
+    "shape_emphasis": "*",
+    "shape_root": "D",
+    "edgecolor": "#ffffff",
+    "edgewidth": 0.9
+  },
+  "leader": {
+    "from_lane": true,
+    "width": 0.7,
+    "alpha": 0.55
+  },
+  "layout": {
+    "row_gap_in": 0.06,
+    "marker_gap_rows": 1.0,
+    "lane_top_pad_rows": 0.5,
+    "x_pad_years": 3,
+    "label_x_pad_years": 0.4
+  }
+}

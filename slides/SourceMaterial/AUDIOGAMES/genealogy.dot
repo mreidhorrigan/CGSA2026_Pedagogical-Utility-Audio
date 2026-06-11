@@ -1,0 +1,53 @@
+// Genealogy of game-audio control. Render: dot -Tpdf genealogy.dot -o genealogy.pdf ; dot -Tsvg ...
+digraph genealogy {
+  rankdir=TB;
+  graph [fontname="Helvetica", fontsize=11, ranksep=0.55, nodesep=0.3, label="Genealogy of audio performance control — siblings descended from MIDI, not parent→child\n(★ convergence)", labelloc=t];
+  node  [fontname="Helvetica", fontsize=10, shape=box, style="rounded,filled", color="#888", penwidth=1];
+  edge  [fontname="Helvetica", fontsize=8, color="#666", arrowsize=0.7];
+
+  midi   [label="MIDI 1.0 (1983)\nshared ancestor", fillcolor="#ffe9a8", shape=oval];
+
+  // Theatre / show-control lineage
+  subgraph cluster_sc {
+    label="Theatre / show control"; color="#3b6ea5"; fontcolor="#3b6ea5"; style=rounded;
+    rsd   [label="Richmond Sound Design (1972)\nStage Manager (1991)", fillcolor="#dce8f5"];
+    msc   [label="MIDI Show Control v1.0 (1991)", fillcolor="#dce8f5"];
+    qlab  [label="QLab (2006)\nSFX · SCS · MultiPlay", fillcolor="#dce8f5"];
+  }
+  // Tracker / demoscene lineage
+  subgraph cluster_tr {
+    label="Tracker / demoscene"; color="#c1733b"; fontcolor="#c1733b"; style=rounded;
+    trk   [label="Ultimate Soundtracker (1987)\n'playlist editor'", fillcolor="#f4e2d2"];
+  }
+  // Music-sequencer / adaptive lineage
+  subgraph cluster_ms {
+    label="Music sequencer / adaptive"; color="#9b5fb0"; fontcolor="#9b5fb0"; style=rounded;
+    brb   [label="Blue Ribbon SoundWorks (1988)\nBars&Pipes / SuperJAM!", fillcolor="#ecdcf2"];
+    imuse [label="iMUSE (1991)\nUS 5,315,057", fillcolor="#ecdcf2"];
+    dmus  [label="DirectMusic / DirectX Audio", fillcolor="#ecdcf2"];
+  }
+  // Engine / middleware
+  subgraph cluster_mw {
+    label="Engine / middleware"; color="#2f8f6b"; fontcolor="#2f8f6b"; style=rounded;
+    miles [label="Miles AIL (1991)\nfirst middleware", fillcolor="#d6ece2"];
+    fmod  [label="FMOD (1995→Studio 2012)", fillcolor="#d6ece2"];
+    wwise [label="Wwise / Audiokinetic\nMontréal (2000→2006)", fillcolor="#d6ece2"];
+  }
+  ixmf [label="IASIG / iXMF (1994→2005)\ngames standard", fillcolor="#fff3cf", shape=oval];
+  swift [label="★ Swift (2020): FMOD adapted for theatre\nevent ≈ cue · scatterer ≈ QLab group cue", fillcolor="#ffd24d", shape=note];
+
+  // descent edges
+  midi -> rsd; midi -> msc; rsd -> msc; msc -> qlab;
+  midi -> brb; brb -> dmus; brb -> imuse [style=dashed,label="auto-compose"];
+  midi -> ixmf;
+  trk -> fmod [label="module playback"];
+  imuse -> dmus [style=dotted];
+  imuse -> ixmf [label="Land + Sanger"];
+  miles -> fmod [style=dotted,label="middleware category"];
+  dmus -> wwise [style=dotted]; imuse -> wwise [style=dotted]; miles -> wwise [style=dotted];
+  imuse -> fmod [style=dotted];
+
+  // convergence
+  qlab -> swift [color="#9a7400"]; fmod -> swift [color="#9a7400"];
+  msc -> ixmf [style=dashed, color="#9a7400", label="parallel MMA standards"];
+}

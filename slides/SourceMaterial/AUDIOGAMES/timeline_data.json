@@ -1,0 +1,42 @@
+{
+  "title": "Audio performance control: from the theatre cue to the game engine",
+  "subtitle": "A genealogy of FMOD & Wwise (1972–2020)",
+  "source": "",
+  "lanes": [
+    "Theatre / show control",
+    "Tracker / demoscene",
+    "Music sequencer / adaptive",
+    "Engine / middleware",
+    "Standardization",
+    "Audio games / accessibility"
+  ],
+  "convergence_years": [1991, 2006, 2020],
+  "events": [
+    {"year": 1972, "lane": "Theatre / show control", "title": "Richmond Sound Design founded (C. Richmond)", "zotero": "D2EGE9WF"},
+    {"year": 1983, "lane": "Standardization", "title": "MIDI 1.0 — the shared ancestor", "zotero": "AJ2CTAZF", "root": true},
+    {"year": 1987, "lane": "Tracker / demoscene", "title": "Ultimate Soundtracker: 'playlist editor'", "zotero": "W5NJQURP"},
+    {"year": 1988, "lane": "Music sequencer / adaptive", "title": "Blue Ribbon SoundWorks (Bars&Pipes)", "zotero": "THIAMC2A"},
+    {"year": 1989, "lane": "Theatre / show control", "title": "'MIDI Mania' panel (LDI); RSD MMA group", "zotero": "AJ2CTAZF"},
+    {"year": 1990, "lane": "Tracker / demoscene", "title": "ProTracker (Amiga)", "zotero": "W5NJQURP"},
+    {"year": 1991, "lane": "Standardization", "title": "MIDI Show Control v1.0", "zotero": "AJ2CTAZF", "convergence": true},
+    {"year": 1991, "lane": "Engine / middleware", "title": "Miles AIL — first game-audio middleware", "zotero": "RUBT7ZDN", "convergence": true},
+    {"year": 1991, "lane": "Music sequencer / adaptive", "title": "iMUSE in Monkey Island 2 (patent filed)", "zotero": "TZ6C9ZMU", "convergence": true},
+    {"year": 1994, "lane": "Music sequencer / adaptive", "title": "iMUSE patent granted US 5,315,057", "zotero": "TZ6C9ZMU"},
+    {"year": 1994, "lane": "Standardization", "title": "IASIG formed (MIDI Association)", "zotero": "5H9R6UWQ"},
+    {"year": 1994, "lane": "Theatre / show control", "title": "Huntington, Control Systems for Live Ent.", "zotero": "MZHEVVQR"},
+    {"year": 1995, "lane": "Tracker / demoscene", "title": "FMOD debut (Firelight MODule player)", "zotero": "5ETT9RC7"},
+    {"year": 1995, "lane": "Music sequencer / adaptive", "title": "MS buys Blue Ribbon; RAD buys Miles", "zotero": "THIAMC2A"},
+    {"year": 1998, "lane": "Music sequencer / adaptive", "title": "Microsoft DirectMusic / DirectX Audio", "zotero": "F75KN8WB"},
+    {"year": 2000, "lane": "Engine / middleware", "title": "Audiokinetic founded, Montréal (Klein)", "zotero": "NIA76EBA"},
+    {"year": 2002, "lane": "Engine / middleware", "title": "Firelight Technologies incorporated", "zotero": "5ETT9RC7"},
+    {"year": 2005, "lane": "Standardization", "title": "iXMF public-preview draft", "zotero": "5H9R6UWQ"},
+    {"year": 2006, "lane": "Engine / middleware", "title": "Wwise released; FMOD Designer", "zotero": "NIA76EBA", "convergence": true},
+    {"year": 2006, "lane": "Theatre / show control", "title": "QLab v1.0 (Figure 53)", "zotero": "GNDSXR5M", "convergence": true},
+    {"year": 2010, "lane": "Audio games / accessibility", "title": "Papa Sangre (bespoke binaural engine)", "zotero": "47R8F66G"},
+    {"year": 2011, "lane": "Audio games / accessibility", "title": "The Nightjar", "zotero": "47R8F66G"},
+    {"year": 2012, "lane": "Engine / middleware", "title": "FMOD Studio announced (DAW-styled)", "zotero": "5ETT9RC7"},
+    {"year": 2013, "lane": "Music sequencer / adaptive", "title": "Collins, Playing with Sound", "zotero": "TU57M95C"},
+    {"year": 2019, "lane": "Engine / middleware", "title": "Sony acquires Audiokinetic", "zotero": "VHWWFVFF"},
+    {"year": 2020, "lane": "Theatre / show control", "title": "Swift: FMOD adapted for theatre", "zotero": "NFZZW5G7", "convergence": true}
+  ]
+}

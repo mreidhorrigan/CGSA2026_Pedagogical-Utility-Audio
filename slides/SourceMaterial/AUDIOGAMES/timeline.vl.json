@@ -1,0 +1,27 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {"text": "Audio performance control: from the theatre cue to the game engine",
+            "subtitle": "Swim-lane timeline · interactive HTML via vega-embed, vector PDF via vl-convert", "anchor": "start"},
+  "description": "Recommended AI-constructible, dual-output path. Edit ../timeline_data.json (events) and re-render.",
+  "width": 1100, "height": 360,
+  "data": {"url": "timeline_data.json", "format": {"type": "json", "property": "events"}},
+  "params": [{"name": "laneOrder", "value": ["Theatre / show control","Tracker / demoscene","Music sequencer / adaptive","Engine / middleware","Standardization","Audio games / accessibility"]}],
+  "encoding": {
+    "x": {"field": "year", "type": "quantitative", "axis": {"format": "d", "title": null, "grid": true, "tickCount": 12}, "scale": {"domain": [1970, 2022]}},
+    "y": {"field": "lane", "type": "nominal", "sort": {"expr": "indexof(laneOrder, datum.lane)"}, "axis": {"title": null, "labelLimit": 220, "labelFontWeight": "bold"}},
+    "color": {"field": "lane", "type": "nominal", "legend": null,
+      "scale": {"range": ["#3b6ea5","#9b5fb0","#c1733b","#2f8f6b","#8a8f3a","#b0476a"]}}
+  },
+  "layer": [
+    {"mark": {"type": "rule", "color": "#eee"},
+     "encoding": {"x": {"value": 0}, "x2": {"value": 1100}, "detail": {"field": "lane"}}},
+    {"mark": {"type": "point", "filled": true, "size": 130, "stroke": "white", "strokeWidth": 1},
+     "encoding": {
+       "shape": {"condition": {"test": "datum.convergence == true", "value": "triangle-up"}, "value": "circle"},
+       "tooltip": [{"field": "year"}, {"field": "lane"}, {"field": "title"}]
+     }},
+    {"mark": {"type": "text", "dy": -12, "fontSize": 8, "limit": 150, "align": "center"},
+     "encoding": {"text": {"field": "title"}, "color": {"value": "#333"}}}
+  ],
+  "config": {"view": {"stroke": null}, "font": "Helvetica"}
+}
