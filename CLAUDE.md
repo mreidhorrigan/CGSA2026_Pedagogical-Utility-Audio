@@ -70,7 +70,7 @@ HANDOFF.md        handoff + manual test checklist for the QR / embed / multiplay
 | 2 | STATE | canvas + run-time vars; `GRID`/`SLIDES`/`EXHIBITS` are `let` (built at load) |
 | 3 | AUDIO | `audio.tone()` primitive + `noteFreq()` + `sfx{}`; generative-music hook |
 | 3b| NET | optional multiplayer: `netInit/netTick/netSync/lerpPeers/drawPeer` + `net` state; inert unless `serve.py` answers |
-| 4 | SLIDE LOADING | `loadSlides()`: manifest → image-probe → placeholders; `normalizeSlide`/`guessType` |
+| 4 | SLIDE LOADING | `loadSlides()`: manifest → image-probe → placeholders; `normalizeSlide`/`guessType`; `preloadSlideDocs()` (http-only srcdoc warm-up) |
 | 5 | ROOM LAYOUT | `buildRoom(count)`: ring of kiosks, grid sized to fit, walkway, player |
 | 6 | INIT | DOM refs, random ghost, picker, listeners, async load → `buildRoom` |
 | 7 | INPUT | `onKeyDown/Up`; `onCanvasPointer` (tap/click → `walkToKiosk`/`walkToPoint`); `autoPathNext()` (Space); `startGame()` |
@@ -156,6 +156,14 @@ legitimately start with a number, set it by hand in `slides.js`.
   iframes — the browser's PDF viewer and YouTube/Vimeo embeds — can't be reached, so
   there you leave with the **✕** button or by clicking the backdrop. `closeSlide()`
   refocuses the canvas so movement + `keyup` return to the game (no stuck keys).
+- **HTML slides open from memory over http(s).** `preloadSlideDocs()` (§4) fetches
+  each html slide once after load and stores it on the slide as `s.html`;
+  `renderSlideDOM()` prefers `s.html` → `srcdoc`, so kiosks open with no network
+  round-trip (no white frame on slow hosts). A `<base href="slides/">` is injected
+  because srcdoc resolves relative URLs against the *page*, not `slides/` — keep
+  slide-internal asset paths relative (e.g. `SourceMaterial/...`). srcdoc iframes
+  are same-origin, so `wireSlideIframeKeys()` still works. Over `file://` fetch()
+  is unavailable: slides keep loading by iframe `src` — keep both paths working.
 - The runtime image-probe only finds **plain numeric** names (`slides/1.png`…);
   the importer's prefixed names rely on the manifest (which it rebuilds).
 - Keep `MASTER_VOLUME` and any future music gain low so interaction SFX stay clear.

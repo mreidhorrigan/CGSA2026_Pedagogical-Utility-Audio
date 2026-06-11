@@ -36,37 +36,42 @@ window.SLIDES_MANIFEST = [
   },
   {
     "type": "html",
-    "src": "slides/07_where_the_timeline_comes_from.html",
+    "src": "slides/07_a_timeline_of_audio_control.html",
+    "title": "A Timeline Of Audio Control"
+  },
+  {
+    "type": "html",
+    "src": "slides/08_where_the_timeline_comes_from.html",
     "title": "Where The Timeline Comes From"
   },
   {
     "type": "html",
-    "src": "slides/08_the_linearising_trap.html",
+    "src": "slides/09_the_linearising_trap.html",
     "title": "The Linearising Trap"
   },
   {
     "type": "html",
-    "src": "slides/09_the_present_chaosifier.html",
+    "src": "slides/10_the_present_chaosifier.html",
     "title": "The Present Chaosifier"
   },
   {
     "type": "html",
-    "src": "slides/10_a_longer_genealogy.html",
+    "src": "slides/11_a_longer_genealogy.html",
     "title": "A Longer Genealogy"
   },
   {
     "type": "html",
-    "src": "slides/11_clod_bathos_superior_machine.html",
+    "src": "slides/12_clod_bathos_superior_machine.html",
     "title": "Clod Bathos Superior Machine"
   },
   {
     "type": "html",
-    "src": "slides/12_autofac_rad_shipping.html",
+    "src": "slides/13_autofac_rad_shipping.html",
     "title": "Autofac Rad Shipping"
   },
   {
     "type": "html",
-    "src": "slides/13_references_and_links.html",
+    "src": "slides/14_references_and_links.html",
     "title": "References And Links"
   }
 ];

@@ -62,15 +62,15 @@ const PLACEHOLDER_SLIDES = [
   { title: "Q&A · Thanks", html: phCard(5, "Q&A · Thanks", "Thanks for visiting! Add contact details or a QR code here.") },
 ];
 
-/* --- Avatar: the four classic Pac-Man ghosts (no white). Random at startup;
+/* --- Avatar: four ghost sheet colours (no white). Random at startup;
        press C in-game / pick on the start screen to change. -------------------
    @typedef {{ name:string, sheet:string, shade:string, eye:string, pattern?:"dots" }} SheetTheme */
 /** @type {SheetTheme[]} */
 const SHEET_THEMES = [
-  { name: "Blinky", sheet: "#ff2b2b", shade: "#c21a1a", eye: "#2121de" }, // red
-  { name: "Pinky",  sheet: "#ffb8ff", shade: "#e58ee5", eye: "#2121de" }, // pink
-  { name: "Inky",   sheet: "#19dede", shade: "#0e9c9c", eye: "#2121de" }, // cyan/blue
-  { name: "Clyde",  sheet: "#ffb852", shade: "#d98e2a", eye: "#2121de" }, // orange
+  { name: "Red",    sheet: "#ff2b2b", shade: "#c21a1a", eye: "#2121de" },
+  { name: "Pink",   sheet: "#ffb8ff", shade: "#e58ee5", eye: "#2121de" },
+  { name: "Cyan",   sheet: "#19dede", shade: "#0e9c9c", eye: "#2121de" },
+  { name: "Orange", sheet: "#ffb852", shade: "#d98e2a", eye: "#2121de" },
 ];
 
 /* --- Multiplayer (optional; active only when the page is served by serve.py) --- */
@@ -303,6 +303,28 @@ function normalizeSlide(s, i) {
   return { type, src: s.src, html: s.html, title: s.title || `Slide ${(i ?? 0) + 1}` };
 }
 
+/** Pre-fetch every html slide's document (http(s) only) and keep it on the slide
+ *  as `s.html`, so opening a kiosk renders instantly from `srcdoc` instead of a
+ *  per-open network round-trip (= the white frame on slow links). An injected
+ *  <base> keeps the doc's relative asset paths (figures) working from srcdoc,
+ *  whose base URL is the page's, not slides/; those assets are fetched once here
+ *  too, warming the HTTP cache. file:// can't fetch() — skipped there, where
+ *  local loads are instant anyway. Any failure leaves the iframe-src fallback.
+ *  @param {Slide[]} slides */
+function preloadSlideDocs(slides) {
+  if (!/^https?:$/.test(location.protocol)) return;
+  for (const s of slides) {
+    if (s.type !== "html" || !s.src || s.html) continue;
+    const dir = s.src.replace(/[^/]*$/, "");                        // e.g. "slides/"
+    fetch(s.src).then(r => r.ok ? r.text() : Promise.reject(r.status)).then(text => {
+      s.html = text.replace(/<head([^>]*)>/i, `<head$1><base href="${dir}">`);
+      for (const m of text.matchAll(/<img[^>]+src="([^"]+)"/gi)) {  // warm the figures
+        if (!/^(?:[a-z]+:|\/)/i.test(m[1])) fetch(dir + m[1]).catch(() => {});
+      }
+    }).catch(() => { /* keep s.src; the iframe loads it the old way */ });
+  }
+}
+
 /** Probe slides/1.<ext>, slides/2.<ext>, … until a gap. Works over file://.
  *  @returns {Promise<Slide[]>} */
 async function probeImageSlides() {
@@ -458,6 +480,7 @@ function init() {
   loadSlides().then(slides => {
     SLIDES = slides;
     buildRoom(SLIDES.length);
+    preloadSlideDocs(SLIDES);   // http(s): kiosks then open instantly from srcdoc
     startBtn.disabled = false; startBtn.textContent = "Enter the room →";
   });
 
@@ -1083,10 +1106,10 @@ function renderSlideDOM() {
     }
   } else if (type === "pdf") {
     slideStageEl.innerHTML = `<iframe class="slide-doc" src="${escapeAttr(s.src || "")}#view=FitH" title="${escapeAttr(s.title)}"></iframe>`;
-  } else if (s.src) {                 // html from a file
-    slideStageEl.innerHTML = `<iframe class="slide-doc" src="${escapeAttr(s.src)}" title="${escapeAttr(s.title)}"></iframe>`;
-  } else {                            // html inline (also used by placeholders)
-    slideStageEl.innerHTML = `<iframe class="slide-doc" srcdoc="${escapeAttr(s.html || "")}" title="${escapeAttr(s.title)}"></iframe>`;
+  } else if (s.html) {                // html inline: authored, placeholder, or preloaded (instant)
+    slideStageEl.innerHTML = `<iframe class="slide-doc" srcdoc="${escapeAttr(s.html)}" title="${escapeAttr(s.title)}"></iframe>`;
+  } else {                            // html from a file (not preloaded — e.g. file://)
+    slideStageEl.innerHTML = `<iframe class="slide-doc" src="${escapeAttr(s.src || "")}" title="${escapeAttr(s.title)}"></iframe>`;
   }
   wireSlideIframeKeys();              // let E / Esc / WASD leave the slide even once the iframe owns the keyboard
 }

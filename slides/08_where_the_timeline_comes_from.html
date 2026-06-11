@@ -24,8 +24,9 @@
   blockquote p{margin:.2em 0}
   .payoff{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.9em 1.1em;margin:1.4em 0}
   figure{margin:1.6em 0 0}
-  .card{background:#f6f1e7;border-radius:12px;padding:12px}
-  .card img{width:100%;height:auto;display:block;border-radius:6px}
+  .card{background:#f6f1e7;border-radius:12px;padding:12px;overflow:auto;
+        -webkit-overflow-scrolling:touch;max-height:60vh}
+  .card img{width:1054px;max-width:none;height:auto;display:block;border-radius:6px}
   figcaption{color:var(--muted);font-size:.85em;margin-top:.6em;line-height:1.45}
   .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
 </style>
@@ -66,7 +67,8 @@
            alt="Directed graph with MIDI 1.0 (1983) at the root and four branches — theatre/show control, tracker/demoscene, music sequencer/adaptive, and engine/driver abstraction — leading to FMOD, Wwise, QLab and audio games, with arrows marking documented crossovers including games-to-theatre in 2020.">
     </div>
     <figcaption>Four lineages feed modern game audio; only one is theatre — and it is a
-    <em>sibling</em> of middleware, not its parent.</figcaption>
+    <em>sibling</em> of middleware, not its parent. The graph is full size —
+    scroll / drag inside it to pan.</figcaption>
   </figure>
 
   <p class="src">From the background study, “Audio performance control, from the theatre cue

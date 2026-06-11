@@ -216,16 +216,16 @@ with no manual placement. Tunables: `KIOSK_SPACING`, `KIOSK_PALETTE`,
 
 ## The avatar (sheet-ghost)
 
-The player is a Pac-Man-style **sheet-ghost** (domed cloth, wavy hem, eyes that
-look where you're walking) — deliberately not a human figure. It starts as a
-**random one of the four classic ghosts** (Blinky/Pinky/Inky/Clyde); pick another
-on the **start screen** (live previews) or press **`C`** in-game.
+The player is a **sheet-ghost** (domed cloth, wavy hem, eyes that look where
+you're walking) — deliberately not a human figure. It starts as a **random one
+of four sheet colours** (Red/Pink/Cyan/Orange); pick another on the **start
+screen** (live previews) or press **`C`** in-game.
 
 Looks come from the **`SHEET_THEMES`** array; add/remove entries and both the
 picker and the `C` cycle update automatically:
 
 ```js
-{ name: "Inky", sheet: "#19dede", shade: "#0e9c9c", eye: "#2121de" }
+{ name: "Cyan", sheet: "#19dede", shade: "#0e9c9c", eye: "#2121de" }
 //        ^label  ^top colour      ^hem colour       ^pupil (sclera is white)
 ```
 
