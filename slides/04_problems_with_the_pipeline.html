@@ -5,22 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Problems with the pipeline</title>
 <style>
-  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#79e0c4;--line:#322747}
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
   *{box-sizing:border-box}
   html,body{margin:0}
   body{background:var(--bg);color:var(--ink);
-       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-       padding:clamp(20px,4vw,56px)}
-  main{max-width:46rem;margin:0 auto}
-  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
-  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
-  p{margin:.75em 0}
-  ul{padding-left:1.3em;margin:.8em 0}
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(18px,2.15vw,25px);line-height:1.5;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:42rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
+  h1{font-size:clamp(30px,5vw,50px);line-height:1.08;margin:0 0 .4em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  ul{padding-left:1.15em;margin:.7em 0}
   li{margin:.6em 0}
   li::marker{color:var(--accent)}
-  strong,em{color:#fff}
-  .next{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.9em 1.1em;margin-top:1.5em}
-  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+  strong{font-weight:700}
+  .next{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+        padding:.8em 1.05em;margin:1.1em 0 0;box-shadow:0 1px 0 var(--rule);font-size:.92em}
+  .src{color:var(--soft);font-size:.72em;margin-top:1.3em;border-top:1px solid var(--rule);padding-top:.7em}
 </style>
 </head>
 <body>
@@ -29,20 +31,17 @@
   <h1>Problems with the pipeline</h1>
 
   <ul>
-    <li><strong>Timelines aren't playtime.</strong> The perception persists that timelines are
-        easier than cyclic playtime — but the fixed-medium timeline mindset, useful for
-        replicable data (annotation, reference), is <em>wrong for user experience</em>.
-        Linear time is also ethnocentric.</li>
-    <li><strong>Middleware nudges students</strong> to specialize in audio — underpaid — and
-        separates them from the interactive logic of the games they score.</li>
-    <li><strong>GUIs impair software-architecture awareness</strong>, blocking access to
-        transferable and generalizable tools.</li>
-    <li><strong>The sequence ranks teachers above learners</strong> — it artificially places
-        instructors ahead of students in a linear development process.</li>
+    <li><strong>Timelines aren't playtime.</strong> Fixed-media linearity suits annotation and
+        reference, not lived experience — and linear time is ethnocentric.</li>
+    <li><strong>Middleware nudges students</strong> into audio — underpaid — and splits them
+        from the game's interactive logic.</li>
+    <li><strong>GUIs hide software architecture</strong>, blocking transferable, generalizable
+        tools.</li>
+    <li><strong>The sequence ranks instructors above learners</strong> by default.</li>
   </ul>
 
-  <p class="next">These tools have a history. The <strong>next kiosk</strong> holds the full
-  1972–2020 timeline of audio performance control, at a size you can scroll.</p>
+  <p class="next">Next kiosk &rarr; the full <strong>1972–2020 timeline</strong> of these
+  tools, at a size you can scroll.</p>
 
   <p class="src">From the talk notes.</p>
 </main>

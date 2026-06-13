@@ -3,70 +3,52 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The audio training sequence — traditional</title>
+<title>The audio training sequence</title>
 <style>
-  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#ffd166;--line:#322747}
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
   *{box-sizing:border-box}
   html,body{margin:0}
   body{background:var(--bg);color:var(--ink);
-       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-       padding:clamp(20px,4vw,56px)}
-  main{max-width:46rem;margin:0 auto}
-  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
-  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
-  h2{font-size:1.15em;color:var(--accent);margin:1.8em 0 .5em}
-  p{margin:.75em 0}
-  ol.seq{list-style:none;counter-reset:step;margin:1.2em 0;padding:0}
-  ol.seq>li{counter-increment:step;background:var(--panel);border:1px solid var(--line);
-            border-radius:10px;padding:.7em .9em .7em 3em;margin:.5em 0;position:relative}
-  ol.seq>li::before{content:counter(step);position:absolute;left:.8em;top:.62em;
-            color:var(--accent);font-weight:800;font-size:1.15em}
-  ol.seq b{color:#fff}
-  ol.seq .eg{color:var(--muted);font-size:.9em;display:block;margin-top:.15em}
-  strong,em{color:#fff}
-  .def{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.9em 1.1em;margin:1.2em 0}
-  .def b{color:var(--accent)}
-  blockquote{margin:1.4em 0;padding:1em 1.2em;background:var(--panel);
-             border-left:4px solid var(--accent);border-radius:0 10px 10px 0;font-size:1.08em}
-  blockquote p{margin:.2em 0}
-  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(17px,2.05vw,24px);line-height:1.45;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:42rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
+  h1{font-size:clamp(28px,4.6vw,46px);line-height:1.08;margin:0 0 .4em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  ol.seq{list-style:none;counter-reset:step;margin:.9em 0;padding:0}
+  ol.seq>li{counter-increment:step;padding:.28em 0 .28em 2.1em;position:relative;
+            border-top:1px solid var(--rule)}
+  ol.seq>li:first-child{border-top:0}
+  ol.seq>li::before{content:counter(step);position:absolute;left:0;top:.28em;
+            color:var(--accent);font-weight:700;font-size:1.05em}
+  ol.seq b{font-weight:700}
+  ol.seq .eg{color:var(--soft);font-size:.85em}
+  strong{font-weight:700}
+  .box{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+       padding:.8em 1.05em;margin:1em 0 0;box-shadow:0 1px 0 var(--rule)}
+  .box b{color:var(--accent)}
+  .src{color:var(--soft);font-size:.72em;margin-top:1.2em;border-top:1px solid var(--rule);padding-top:.7em}
 </style>
 </head>
 <body>
 <main>
-  <p class="kicker">How audio is taught</p>
-  <h1>The audio training sequence — traditional</h1>
+  <p class="kicker">How audio is taught — traditionally</p>
+  <h1>The audio training sequence</h1>
 
   <ol class="seq">
-    <li><b>Practice</b><span class="eg">music · storytelling (theatre) · tabletop roleplay</span></li>
-    <li><b>Recording</b><span class="eg">e.g. soundwalking, performance documentation, actual-play podcast</span></li>
-    <li><b>Editing</b><span class="eg">e.g. Audacity</span></li>
-    <li><b>Routing</b><span class="eg">e.g. Reaper</span></li>
-    <li><b>Control and cueing</b><span class="eg">e.g. Ableton, QLab, Traktor — MIDI manipulation</span></li>
-    <li><b>Installation audio; visual / flowchart programming</b><span class="eg">Max — then bespoke software engineering (e.g. the Web Audio SDK)</span></li>
-    <li><b>Gaming middleware</b><span class="eg">FMOD, Wwise — visual flowchart programming (e.g. Unreal MetaSounds), then bespoke engineering (e.g. plugin adaptation for Wwise shipping)</span></li>
+    <li><b>Practice</b> <span class="eg">— music, theatre, tabletop</span></li>
+    <li><b>Recording</b> <span class="eg">— soundwalks, documentation, podcasts</span></li>
+    <li><b>Editing</b> <span class="eg">— Audacity</span></li>
+    <li><b>Routing</b> <span class="eg">— Reaper</span></li>
+    <li><b>Control &amp; cueing</b> <span class="eg">— Ableton, QLab, Traktor (MIDI)</span></li>
+    <li><b>Installation / visual programming</b> <span class="eg">— Max</span></li>
+    <li><b>Game middleware</b> <span class="eg">— FMOD, Wwise</span></li>
   </ol>
 
-  <p>Seven rungs, climbed in order, each gated by the one before — and each rung is also a
-  <strong>stage in the history of the craft</strong>:</p>
-
-  <h2>Ergatogeny repeats phylogeny</h2>
-
-  <p class="def"><b>Ergatogeny</b> — professional ontology: the emergence of a skilled worker
-  (<em>ergat-</em>).</p>
-
-  <blockquote>
-    <p>A student — who is always already a worker — develops skills according to a sequence
-    recapitulating the history of their craft.</p>
-  </blockquote>
-
-  <p>After the old biological slogan (“ontogeny recapitulates phylogeny”): the traditional
-  training sequence replays, in one student's development, the historical development of
-  audio work itself. Practice before recording; recording before editing; cueing before
-  middleware.</p>
-
-  <p>So a curriculum is also a <strong>genealogy</strong> — and whatever the history got
-  wrong, the curriculum re-teaches.</p>
+  <p class="box"><b>Ergatogeny repeats phylogeny.</b> A student replays their craft's whole
+  history, in order — so a curriculum is also a <strong>genealogy</strong>, and it re-teaches
+  whatever that history got wrong.</p>
 
   <p class="src">From the talk notes.</p>
 </main>

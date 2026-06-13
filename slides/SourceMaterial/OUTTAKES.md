@@ -658,3 +658,724 @@ The full standalone slides follow, verbatim.
 </body>
 </html>
 ```
+
+
+---
+
+# 2026-06-12 — condensed for projector legibility
+
+The 9 kiosk slides were rewritten for an overhead-projector context: **light
+(cream) background, Verdana, larger type, and aggressively trimmed text** so each
+kiosk fits with minimal scrolling. The fuller-prose versions that were live
+2026-06-11 → 12 (dark theme, system-font stack) are preserved verbatim below; the
+arguments and sources are unchanged, only the wording was tightened. Copy any
+block back to its top-level file + rebuild to restore the verbose version.
+
+## 01_minimum_viable_soundscapes.html (verbose, pre-condense)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minimum viable soundscapes</title>
+<style>
+  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#ffd166;--line:#322747}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding:clamp(20px,4vw,56px)}
+  main{max-width:46rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
+  h1{font-size:clamp(1.8em,5vw,2.8em);line-height:1.1;margin:.1em 0 .2em;letter-spacing:-.01em}
+  .sub{font-size:1.25em;color:var(--ink);margin:.2em 0 .6em;font-weight:600}
+  .byline{color:var(--muted);font-size:1em;margin:0 0 1.4em}
+  p{margin:.75em 0}
+  .lead{font-size:1.1em}
+  .hint{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.8em 1em;color:var(--muted);font-size:.92em;margin:1.6em 0}
+  .hint b{color:var(--ink)}
+  .kw{display:inline-block;background:var(--panel);border:1px solid #3a2d55;border-radius:999px;
+      padding:.25em .8em;margin:.18em;font-size:.8em;color:var(--muted)}
+  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">CGSA 2026 · Conference poster</p>
+  <h1>Minimum viable soundscapes</h1>
+  <p class="sub">Appraising the pedagogical utility of audiogames</p>
+  <p class="byline">Matt Horrigan</p>
+
+  <p class="lead">A major dilemma in media production pedagogy is the determination of
+  <em>minimum viable products</em> — and the dilemma is especially prevalent for videogames.
+  This poster shifts emphasis from the video mode to the audio mode and asks:
+  <strong>what are the benefits of audio-first design pedagogy?</strong></p>
+
+  <div class="hint">
+    <b>How this room works:</b> each kiosk holds one idea from the talk — wander in any order,
+    or press <b>Space</b> to be walked to the next kiosk automatically. Open a kiosk with
+    <b>E</b> (or a tap); walk away to leave it; browse a kiosk's pages with <b>&lsaquo;</b> and <b>&rsaquo;</b>.
+  </div>
+
+  <p>
+    <span class="kw">design pedagogy</span>
+    <span class="kw">audiogames</span>
+    <span class="kw">minimum viable product</span>
+    <span class="kw">technological maturity</span>
+    <span class="kw">accessibility</span>
+  </p>
+
+  <p class="src">From the conference abstract, “Minimum viable soundscapes: Appraising the
+  pedagogical utility of audiogames.”</p>
+</main>
+</body>
+</html>
+```
+
+## 02_minimum_viable_product.html (verbose, pre-condense)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minimum viable product</title>
+<style>
+  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#ffd166;--line:#322747}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding:clamp(20px,4vw,56px)}
+  main{max-width:46rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
+  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
+  h2{font-size:1.15em;color:var(--accent);margin:1.8em 0 .5em}
+  p{margin:.75em 0}
+  ul{padding-left:1.3em;margin:.8em 0}
+  li{margin:.5em 0}
+  li::marker{color:var(--accent)}
+  strong,em{color:#fff}
+  blockquote{margin:1.4em 0;padding:1em 1.2em;background:var(--panel);
+             border-left:4px solid var(--accent);border-radius:0 10px 10px 0;font-size:1.04em}
+  blockquote p{margin:.2em 0}
+  .turn{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.9em 1.1em;margin-top:1.5em}
+  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Pedagogy · the dilemma and the proposal</p>
+  <h1>Minimum viable product</h1>
+
+  <ul>
+    <li>The <strong>least resource-intensive usable version</strong> of an object.</li>
+    <li>The more resource-intensive the medium, the more necessary the MVP.</li>
+    <li>And <strong>games are the most resource-intensive medium</strong>.</li>
+  </ul>
+
+  <p>In popular culture, a videogame's attractiveness and prestige normally result in
+  significant part from its detailed, bespoke visual interactive assets — which require
+  time-consuming, repetitive labour to design. The expense of triple-A-style gamemaking
+  militates for hierarchically specialized labour disciplines that undermine the
+  <strong>diverse transferability of skills</strong> postsecondary students need.</p>
+
+  <blockquote>
+    <p>For their classes to make the most widely recognizable of good games, instructors
+    would have to exploit students as workers; yet, if students do not make good-enough
+    games in postsecondary production classes, academic programmes lose the authority by
+    which they make crucial, prosocial interventions into game culture.</p>
+  </blockquote>
+
+  <p><strong>We need to assign our students minimum viable products that have aesthetic
+  value without miring students in prematurely specializing workflows.</strong></p>
+
+  <h2>Why audio-first?</h2>
+
+  <p>Audio changes the economics:</p>
+  <ul>
+    <li><strong>Smaller storage requirements</strong> correspond with more easily adjustable
+        workflows — and thus better teaching scenarios.</li>
+    <li>Students can still produce media whose <strong>standard of refinement matches</strong>
+        some aspects of the most popular games.</li>
+    <li>As a technique, <strong>digital audio is extremely mature</strong>, easing asset
+        production.</li>
+    <li>As old media continually become the content of the new, the
+        <em>obsolescence</em> of assets has value in the pedagogy of their vectors —
+        interactive media.</li>
+  </ul>
+
+  <p class="turn">But a gap occurs between <strong>visually dominated game engines</strong> and
+  <strong>timeline-focused audio engines</strong> — and this gap is a barrier for audio-first
+  gamemaking. The next kiosks trace where that gap comes from.</p>
+
+  <p class="src">From the conference abstract.</p>
+</main>
+</body>
+</html>
+```
+
+## 03_the_audio_training_sequence.html (verbose, pre-condense)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The audio training sequence — traditional</title>
+<style>
+  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#ffd166;--line:#322747}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding:clamp(20px,4vw,56px)}
+  main{max-width:46rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
+  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
+  h2{font-size:1.15em;color:var(--accent);margin:1.8em 0 .5em}
+  p{margin:.75em 0}
+  ol.seq{list-style:none;counter-reset:step;margin:1.2em 0;padding:0}
+  ol.seq>li{counter-increment:step;background:var(--panel);border:1px solid var(--line);
+            border-radius:10px;padding:.7em .9em .7em 3em;margin:.5em 0;position:relative}
+  ol.seq>li::before{content:counter(step);position:absolute;left:.8em;top:.62em;
+            color:var(--accent);font-weight:800;font-size:1.15em}
+  ol.seq b{color:#fff}
+  ol.seq .eg{color:var(--muted);font-size:.9em;display:block;margin-top:.15em}
+  strong,em{color:#fff}
+  .def{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.9em 1.1em;margin:1.2em 0}
+  .def b{color:var(--accent)}
+  blockquote{margin:1.4em 0;padding:1em 1.2em;background:var(--panel);
+             border-left:4px solid var(--accent);border-radius:0 10px 10px 0;font-size:1.08em}
+  blockquote p{margin:.2em 0}
+  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">How audio is taught</p>
+  <h1>The audio training sequence — traditional</h1>
+
+  <ol class="seq">
+    <li><b>Practice</b><span class="eg">music · storytelling (theatre) · tabletop roleplay</span></li>
+    <li><b>Recording</b><span class="eg">e.g. soundwalking, performance documentation, actual-play podcast</span></li>
+    <li><b>Editing</b><span class="eg">e.g. Audacity</span></li>
+    <li><b>Routing</b><span class="eg">e.g. Reaper</span></li>
+    <li><b>Control and cueing</b><span class="eg">e.g. Ableton, QLab, Traktor — MIDI manipulation</span></li>
+    <li><b>Installation audio; visual / flowchart programming</b><span class="eg">Max — then bespoke software engineering (e.g. the Web Audio SDK)</span></li>
+    <li><b>Gaming middleware</b><span class="eg">FMOD, Wwise — visual flowchart programming (e.g. Unreal MetaSounds), then bespoke engineering (e.g. plugin adaptation for Wwise shipping)</span></li>
+  </ol>
+
+  <p>Seven rungs, climbed in order, each gated by the one before — and each rung is also a
+  <strong>stage in the history of the craft</strong>:</p>
+
+  <h2>Ergatogeny repeats phylogeny</h2>
+
+  <p class="def"><b>Ergatogeny</b> — professional ontology: the emergence of a skilled worker
+  (<em>ergat-</em>).</p>
+
+  <blockquote>
+    <p>A student — who is always already a worker — develops skills according to a sequence
+    recapitulating the history of their craft.</p>
+  </blockquote>
+
+  <p>After the old biological slogan (“ontogeny recapitulates phylogeny”): the traditional
+  training sequence replays, in one student's development, the historical development of
+  audio work itself. Practice before recording; recording before editing; cueing before
+  middleware.</p>
+
+  <p>So a curriculum is also a <strong>genealogy</strong> — and whatever the history got
+  wrong, the curriculum re-teaches.</p>
+
+  <p class="src">From the talk notes.</p>
+</main>
+</body>
+</html>
+```
+
+## 04_problems_with_the_pipeline.html (verbose, pre-condense)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Problems with the pipeline</title>
+<style>
+  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#79e0c4;--line:#322747}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding:clamp(20px,4vw,56px)}
+  main{max-width:46rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
+  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
+  p{margin:.75em 0}
+  ul{padding-left:1.3em;margin:.8em 0}
+  li{margin:.6em 0}
+  li::marker{color:var(--accent)}
+  strong,em{color:#fff}
+  .next{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.9em 1.1em;margin-top:1.5em}
+  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Critique</p>
+  <h1>Problems with the pipeline</h1>
+
+  <ul>
+    <li><strong>Timelines aren't playtime.</strong> The perception persists that timelines are
+        easier than cyclic playtime — but the fixed-medium timeline mindset, useful for
+        replicable data (annotation, reference), is <em>wrong for user experience</em>.
+        Linear time is also ethnocentric.</li>
+    <li><strong>Middleware nudges students</strong> to specialize in audio — underpaid — and
+        separates them from the interactive logic of the games they score.</li>
+    <li><strong>GUIs impair software-architecture awareness</strong>, blocking access to
+        transferable and generalizable tools.</li>
+    <li><strong>The sequence ranks teachers above learners</strong> — it artificially places
+        instructors ahead of students in a linear development process.</li>
+  </ul>
+
+  <p class="next">These tools have a history. The <strong>next kiosk</strong> holds the full
+  1972–2020 timeline of audio performance control, at a size you can scroll.</p>
+
+  <p class="src">From the talk notes.</p>
+</main>
+</body>
+</html>
+```
+
+## 05_a_timeline_of_audio_control.html (verbose, pre-condense)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A timeline of audio control</title>
+<style>
+  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#79e0c4;--line:#322747}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:400 clamp(16px,2vw,20px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding:clamp(14px,2.5vw,32px)}
+  .copy{max-width:46rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
+  h1{font-size:clamp(1.6em,4vw,2.4em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
+  p{margin:.7em 0}
+  strong,em{color:#fff}
+  .hint{color:var(--muted);font-size:.88em}
+  .pane{background:#f6f1e7;border-radius:12px;padding:10px;margin:1.2em 0 0;
+        overflow:auto;-webkit-overflow-scrolling:touch;max-height:70vh}
+  .pane img{width:1412px;max-width:none;height:auto;display:block;border-radius:6px}
+  .src{color:var(--muted);font-size:.82em;margin-top:1.4em;border-top:1px solid var(--line);padding-top:.9em}
+</style>
+</head>
+<body>
+  <div class="copy">
+    <p class="kicker">Genealogy · the data</p>
+    <h1>A timeline of audio control</h1>
+    <p>Fifty years of audio performance control, 1972–2020, in six lanes — theatre show
+    control, tracker/demoscene, music sequencers, engine middleware, standardization, audio
+    games — all descending from <strong>MIDI&nbsp;1.0 (1983)</strong>. ★ marks documented
+    convergences: MIDI Show Control (1991), Wwise and QLab shipping the same year (2006),
+    FMOD adapted for theatre (2020).</p>
+    <p class="hint">The chart is shown at full size so the type stays legible —
+    <strong>scroll / drag inside it</strong> to pan across the decades.</p>
+  </div>
+
+  <div class="pane">
+    <img src="SourceMaterial/AUDIOGAMES/timeline_vega.svg"
+         alt="Swim-lane timeline of audio performance control from 1972 to 2020: events in six lanes — theatre/show control, tracker/demoscene, music sequencer/adaptive, engine/middleware, standardization, and audio games/accessibility — all descending from MIDI 1.0 in 1983. Stars mark convergences such as MIDI Show Control in 1991, Wwise and QLab both shipping in 2006, and FMOD adapted for theatre in 2020.">
+  </div>
+
+  <div class="copy">
+    <p class="src">Figure from the background study, generated from
+    <code>timeline_data.json</code> in this room's source material.</p>
+  </div>
+</body>
+</html>
+```
+
+## 06_where_the_timeline_comes_from.html (verbose, pre-condense)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where the timeline comes from</title>
+<style>
+  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#79e0c4;--line:#322747}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding:clamp(20px,4vw,56px)}
+  main{max-width:46rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
+  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
+  h2{font-size:1.15em;color:var(--accent);margin:1.8em 0 .5em}
+  p{margin:.75em 0}
+  ul{padding-left:1.3em;margin:.8em 0}
+  li{margin:.55em 0}
+  li::marker{color:var(--accent)}
+  strong,em{color:#fff}
+  blockquote{margin:1.4em 0;padding:1em 1.2em;background:var(--panel);
+             border-left:4px solid var(--accent);border-radius:0 10px 10px 0}
+  blockquote p{margin:.2em 0}
+  .payoff{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.9em 1.1em;margin:1.4em 0}
+  figure{margin:1.6em 0 0}
+  .card{background:#f6f1e7;border-radius:12px;padding:12px;overflow:auto;
+        -webkit-overflow-scrolling:touch;max-height:60vh}
+  .card img{width:1054px;max-width:none;height:auto;display:block;border-radius:6px}
+  figcaption{color:var(--muted);font-size:.85em;margin-top:.6em;line-height:1.45}
+  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Genealogy · findings</p>
+  <h1>Where the timeline comes from</h1>
+
+  <blockquote>
+    <p>Game-audio middleware (FMOD, Wwise) and theatrical show-control software (QLab&hellip;)
+    are <strong>siblings, not parent-and-child</strong>. They converge on the same control
+    vocabulary because they descend from a shared ancestor — <strong>MIDI, 1983</strong> —
+    and solved the same problem in parallel. The crossover is real, documented, and
+    bidirectional — but the dominant documented flow is <strong>games&nbsp;&rarr;&nbsp;theatre</strong>.</p>
+  </blockquote>
+
+  <ul>
+    <li><strong>FMOD is demoscene.</strong> “Firelight MODule player” (1995) was born to play
+        tracker music; FMOD Studio (2012) is explicitly “designed like a digital audio
+        workstation.”</li>
+    <li><strong>Wwise is Montréal music-production, not theatre.</strong> Founder Martin H.
+        Klein went music &rarr; Ubisoft (1997) &rarr; Audiokinetic (2000) — no theatre at any
+        stage.</li>
+    <li><strong>The convergence is documented from the other direction:</strong> “An FMOD
+        event is akin to a theatrical sound cue” (Swift, USITT 2020) — a game engine adapted
+        <em>for</em> theatre.</li>
+  </ul>
+
+  <p class="payoff"><strong>The timeline is inherited, twice over</strong> — from the
+  tracker/sequencer <em>playlist</em> and from the DAW's <em>fixed media</em>. Both ancestries
+  push toward linearity; the explorable-space model has <strong>no strong ancestor in either
+  lineage</strong> — which is exactly why exploratory audiogames are “unusual.”</p>
+
+  <figure>
+    <div class="card">
+      <img src="SourceMaterial/AUDIOGAMES/genealogy.svg"
+           alt="Directed graph with MIDI 1.0 (1983) at the root and four branches — theatre/show control, tracker/demoscene, music sequencer/adaptive, and engine/driver abstraction — leading to FMOD, Wwise, QLab and audio games, with arrows marking documented crossovers including games-to-theatre in 2020.">
+    </div>
+    <figcaption>Four lineages feed modern game audio; only one is theatre — and it is a
+    <em>sibling</em> of middleware, not its parent. The graph is full size —
+    scroll / drag inside it to pan.</figcaption>
+  </figure>
+
+  <h2>The linearising trap</h2>
+
+  <p>By emphasizing the <strong>timeline-based editing paradigm</strong> of fixed-media audio
+  composition, the most popular game-audio frameworks <strong>struggle to represent
+  soundscapes as interactive spaces</strong>.</p>
+
+  <ul>
+    <li>Mainstream accessibility features for blind players tend to limit exploration by
+        streamlining movement in the <em>“direction of story progression”</em>
+        (DeadeyeJediBob, 2024) — repeating the timeline theme.</li>
+    <li>Audio description is itself <strong>cue-based show control</strong> — and it remains
+        most established for <em>linear</em> scenes (IGDA GASIG, 2023).</li>
+    <li>The linearizing effect may explain why <em>Papa Sangre</em> and <em>The Nightjar</em>
+        have remained unusual despite their affordances for accessibility (Kirke, 2018) —
+        both ran on a bespoke binaural engine, not FMOD or Wwise.</li>
+  </ul>
+
+  <blockquote>
+    <p>An underappreciated niche exists for <strong>exploratory audiogames</strong>: games that
+    use audio to fully support environmental storytelling, beyond directing navigational
+    guidance.</p>
+  </blockquote>
+
+  <p class="payoff"><strong>The teaching response:</strong> have students build audio navigation
+  as adaptive <em>cue-space</em> — states, parameters, spatialised events — rather than as a
+  guided playlist. Teach the cue-as-space, not the cue-as-timeline: the very middleware,
+  used <em>against its grain</em>.</p>
+
+  <p class="src">From the background study, “Audio performance control, from the theatre cue
+  to the game engine,” and the conference abstract. Method: a critical walkthrough (Light,
+  Burgess &amp; Duguay, 2018) of FMOD and Wwise, with a literature review of audio
+  accessibility. Findings are work in progress.</p>
+</main>
+</body>
+</html>
+```
+
+## 07_the_present_chaosifier.html (verbose, pre-condense)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Present Chaosifier</title>
+<style>
+  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#c9a7ff;--line:#322747}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding:clamp(20px,4vw,56px)}
+  main{max-width:46rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
+  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
+  h2{font-size:1.15em;color:var(--accent);margin:1.8em 0 .5em}
+  p{margin:.75em 0}
+  strong,em{color:#fff}
+  .nest{list-style:none;margin:1.2em 0;padding:0}
+  .nest li{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+           padding:.65em .95em;margin:.45em 0}
+  .nest li:nth-child(2){margin-left:1.6em}
+  .nest li:nth-child(3){margin-left:3.2em}
+  .nest b{color:var(--accent)}
+  .nest span{color:var(--muted);font-size:.9em}
+  .pair{margin:1.2em 0;padding:0;list-style:none}
+  .pair li{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+           padding:.8em 1.1em;margin:.5em 0;font-size:1.08em}
+  .pair b{color:var(--accent)}
+  blockquote{margin:1.4em 0;padding:1em 1.2em;background:var(--panel);
+             border-left:4px solid var(--accent);border-radius:0 10px 10px 0;font-size:1.1em}
+  blockquote p{margin:.2em 0}
+  .meta{color:var(--muted);font-size:.9em}
+  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Disruption · perspective</p>
+  <h1>The Present Chaosifier</h1>
+
+  <p><strong>Vibe (vibration?) coding</strong> as dis- or super-intermediation:</p>
+
+  <ul class="nest">
+    <li><b>command-line interface</b> <span>(CLI)</span></li>
+    <li><b>model context protocol</b> <span>(MCP)</span></li>
+    <li><b>bespoke software</b> <span>— much easier to have; architectural understanding much more important</span></li>
+  </ul>
+
+  <blockquote>
+    <p>Working with an LLM is a <em>devising</em> process, because of the dialogue and
+    randomness involved.</p>
+  </blockquote>
+
+  <p>The pipeline's GUI problem inverts: the sequence's final rung — bespoke software
+  engineering — comes within early reach, while <strong>architectural understanding matters
+  more than ever</strong>.</p>
+
+  <h2>A longer genealogy</h2>
+
+  <p>Consider <strong>audio as the fundamental asset type</strong>.</p>
+
+  <ul class="pair">
+    <li><b>Storytelling</b> predates <b>writing</b>.</li>
+    <li><b>Audio recording</b> predates <b>video recording</b>.</li>
+  </ul>
+
+  <p>Audio-first pedagogy leans on the maturity of the oldest layer of the craft: the
+  training sequence's first rung — practice: music, storytelling, tabletop — is also its
+  most ancient.</p>
+
+  <p class="meta">(This room is itself an instance: a build-free, vibe-coded isometric
+  poster.)</p>
+
+  <p class="src">From the talk notes.</p>
+</main>
+</body>
+</html>
+```
+
+## 08_audio_led_games.html (verbose, pre-condense)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audio-led games</title>
+<style>
+  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#ff9e9e;--line:#322747}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding:clamp(20px,4vw,56px)}
+  main{max-width:46rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
+  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
+  h2{font-size:1.2em;color:var(--accent);margin:1.8em 0 .5em}
+  h2 em{color:var(--accent)}
+  p{margin:.75em 0}
+  ul{padding-left:1.3em;margin:.8em 0}
+  li{margin:.55em 0}
+  li::marker{color:var(--accent)}
+  strong,em{color:#fff}
+  a{color:var(--accent)}
+  .btn{display:inline-block;background:var(--accent);color:#1b1426;font-weight:700;
+       padding:.6em 1.1em;border-radius:10px;text-decoration:none;margin:.3em 0 .8em}
+  .caveat{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+          padding:.9em 1.1em;margin:1.2em 0;color:var(--muted)}
+  .caveat b{color:var(--ink)}
+  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Audio-led games · two examples</p>
+  <h1>Audio-led games</h1>
+
+  <h2>Example 1 — Clod Bathos, <em>Superior Machine</em></h2>
+
+  <p><a class="btn" href="https://mreidhorrigan.github.io/Clod-Bathos-Superior-Machine-An-LM-IDN/"
+        target="_blank" rel="noopener">Play it in the browser&nbsp;&nearr;</a></p>
+
+  <ul>
+    <li>A <strong>text-based, stylized command-line game</strong> — successor to
+        choose-your-own-adventure and interactive digital narrative (IDN).</li>
+    <li><strong>Twine, disintermediated.</strong> (Sorry, Twine — no support for LLM runtime
+        dialogue rewording, or for state-machine navigation.)</li>
+    <li>Seeks immersion by <strong>imitating the diegetic medium with the delivery
+        medium</strong> — both of them screens.</li>
+    <li>Exploits <strong>easy text-to-audio conversion</strong>.</li>
+  </ul>
+
+  <p class="caveat"><b>However:</b> LLMs sized for local operability are not (yet) smart
+  enough to carry the game on their own.</p>
+
+  <h2>Example 2 — Autofac: <em>Rad Shipping</em></h2>
+
+  <p>Navigate a <strong>darkfactory</strong> — the “lights-out” factory, a corporate concept
+  for a warehouse that requires no humans — as a robot moving in the dark.</p>
+
+  <ul>
+    <li><strong>Horror:</strong> the robot inherits a vestigial work environment shaped by
+        the abuse of the human workers who came before it.</li>
+    <li>The warehouse is also <strong>irradiated</strong> — because why not; because the robot
+        needs a timer for its tasks; and because of the historical use of robots near failed
+        nuclear reactor cores.</li>
+  </ul>
+
+  <p>In a lights-out world, the soundscape carries navigation, interface, and story.</p>
+
+  <p class="src">From the talk notes (Autofac is work in progress).</p>
+</main>
+</body>
+</html>
+```
+
+## 09_references_and_links.html (verbose, pre-condense)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>References &amp; links</title>
+<style>
+  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#ffd166;--line:#322747}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:400 clamp(16px,2vw,19px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding:clamp(20px,4vw,56px)}
+  main{max-width:46rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
+  h1{font-size:clamp(1.7em,4.5vw,2.4em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
+  h2{font-size:1.05em;color:var(--accent);margin:1.6em 0 .5em}
+  p{margin:.7em 0}
+  ul{padding-left:1.2em;margin:.6em 0}
+  li{margin:.55em 0}
+  li::marker{color:var(--accent)}
+  em{color:#fff}
+  a{color:var(--accent);word-break:break-word}
+  .btn{display:inline-block;background:var(--accent);color:#1b1426;font-weight:700;
+       padding:.55em 1em;border-radius:10px;text-decoration:none;margin:.3em 0}
+  .kw{display:inline-block;background:var(--panel);border:1px solid #3a2d55;border-radius:999px;
+      padding:.22em .75em;margin:.16em;font-size:.78em;color:var(--muted)}
+  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Bibliography</p>
+  <h1>References &amp; links</h1>
+
+  <p><a class="btn" href="https://mreidhorrigan.github.io/Clod-Bathos-Superior-Machine-An-LM-IDN/"
+        target="_blank" rel="noopener">Play <em>Clod Bathos, Superior Machine</em>&nbsp;&nearr;</a></p>
+
+  <h2>Works cited</h2>
+  <ul>
+    <li>DeadeyeJediBob (2024). <em>Guy Born Blind Plays The Last of Us Part I — 1: The
+        Beginning.</em> <a href="https://www.youtube.com/watch?v=ndodaE6OlSk"
+        target="_blank" rel="noopener">YouTube</a>.</li>
+    <li>Ford-Williams, G., Graham, L., Grammenos, D., Hamilton, I., Headstrong Games, Lee, E.,
+        Manion, J., &amp; Westin, T. (n.d.). <em>Game Accessibility Guidelines.</em>
+        <a href="https://gameaccessibilityguidelines.com/full-list/"
+        target="_blank" rel="noopener">gameaccessibilityguidelines.com</a>.</li>
+    <li>Fritsch, J., Karaturhan, P., Jørgensen, S. M. H., Ada, A. A., &amp; Knudsen, S. L.
+        (2025). “Towards a Framework for Exploring Synthetic Voices in VUI Design.”
+        <em>Proceedings of DIS '25</em>, 724–739.
+        <a href="https://doi.org/10.1145/3715336.3735729" target="_blank"
+        rel="noopener">doi:10.1145/3715336.3735729</a>.</li>
+    <li>IGDA GASIG (2023). <em>“Showering the Ground with Gore”: The Audio Description of
+        Mortal Kombat 1.</em> <a href="https://www.youtube.com/watch?v=tZ1H2RXuCCA"
+        target="_blank" rel="noopener">YouTube</a>.</li>
+    <li>Kirke, A. (2018). “When the Soundtrack Is the Game: From Audio-Games to Gaming the
+        Music.” In <em>Emotion in Video Game Soundtracking</em>, 65–83.
+        <a href="https://doi.org/10.1007/978-3-319-72272-6_7" target="_blank"
+        rel="noopener">doi:10.1007/978-3-319-72272-6_7</a>.</li>
+    <li>Light, B., Burgess, J., &amp; Duguay, S. (2018). “The walkthrough method: An approach
+        to the study of apps.” <em>New Media &amp; Society</em>, 20(3), 881–900.
+        <a href="https://doi.org/10.1177/1461444816675438" target="_blank"
+        rel="noopener">doi:10.1177/1461444816675438</a>.</li>
+  </ul>
+
+  <h2>From the genealogy study</h2>
+  <ul>
+    <li>Swift, S. (2020). “FMOD, an Audio Engine for Video Games, Adapted for Theater.”
+        USITT Sound Commission.</li>
+    <li>Land, M. Z., &amp; McConnell, P. N. (1994). <em>US Patent 5,315,057</em> — the iMUSE
+        patent, the urtext of adaptive game audio.
+        <a href="https://patents.google.com/patent/US5315057A/en" target="_blank"
+        rel="noopener">patents.google.com</a>.</li>
+  </ul>
+
+  <p>Background research is catalogued in Zotero (collection <em>CLAUDE_AUDIOGAMES</em>,
+  41 items); the genealogy and timeline figures in this room are generated from
+  <em>timeline_data.json</em> in the poster's source material.</p>
+
+  <p>
+    <span class="kw">design pedagogy</span>
+    <span class="kw">audiogames</span>
+    <span class="kw">minimum viable product</span>
+    <span class="kw">technological maturity</span>
+    <span class="kw">accessibility</span>
+  </p>
+
+  <p class="src">“Minimum viable soundscapes: Appraising the pedagogical utility of
+  audiogames” · Matt Horrigan · CGSA 2026.</p>
+</main>
+</body>
+</html>
+```

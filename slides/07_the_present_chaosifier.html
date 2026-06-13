@@ -3,75 +3,58 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Present Chaosifier</title>
+<title>The present chaosifier</title>
 <style>
-  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#c9a7ff;--line:#322747}
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
   *{box-sizing:border-box}
   html,body{margin:0}
   body{background:var(--bg);color:var(--ink);
-       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-       padding:clamp(20px,4vw,56px)}
-  main{max-width:46rem;margin:0 auto}
-  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
-  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
-  h2{font-size:1.15em;color:var(--accent);margin:1.8em 0 .5em}
-  p{margin:.75em 0}
-  strong,em{color:#fff}
-  .nest{list-style:none;margin:1.2em 0;padding:0}
-  .nest li{background:var(--panel);border:1px solid var(--line);border-radius:10px;
-           padding:.65em .95em;margin:.45em 0}
-  .nest li:nth-child(2){margin-left:1.6em}
-  .nest li:nth-child(3){margin-left:3.2em}
-  .nest b{color:var(--accent)}
-  .nest span{color:var(--muted);font-size:.9em}
-  .pair{margin:1.2em 0;padding:0;list-style:none}
-  .pair li{background:var(--panel);border:1px solid var(--line);border-radius:10px;
-           padding:.8em 1.1em;margin:.5em 0;font-size:1.08em}
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(17px,2.05vw,24px);line-height:1.45;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:42rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
+  h1{font-size:clamp(28px,4.6vw,46px);line-height:1.08;margin:0 0 .4em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  h2{font-size:clamp(19px,2.4vw,25px);color:var(--accent);margin:1.2em 0 .25em}
+  p{margin:.55em 0}
+  ul.steps{list-style:none;margin:.7em 0;padding:0}
+  ul.steps li{padding:.3em 0 .3em 1.4em;position:relative}
+  ul.steps li::before{content:"\2192";position:absolute;left:0;color:var(--accent);font-weight:700}
+  ul.steps b{font-weight:700}
+  .pair{margin:.6em 0;padding:0;list-style:none}
+  .pair li{margin:.3em 0}
   .pair b{color:var(--accent)}
-  blockquote{margin:1.4em 0;padding:1em 1.2em;background:var(--panel);
-             border-left:4px solid var(--accent);border-radius:0 10px 10px 0;font-size:1.1em}
-  blockquote p{margin:.2em 0}
-  .meta{color:var(--muted);font-size:.9em}
-  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+  strong{font-weight:700}
+  .box{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+       padding:.8em 1.05em;margin:.9em 0;box-shadow:0 1px 0 var(--rule)}
+  .meta{color:var(--soft);font-size:.85em;margin-top:.9em}
+  .src{color:var(--soft);font-size:.72em;margin-top:1em;border-top:1px solid var(--rule);padding-top:.7em}
 </style>
 </head>
 <body>
 <main>
-  <p class="kicker">Disruption · perspective</p>
-  <h1>The Present Chaosifier</h1>
+  <p class="kicker">Disruption, and the long view</p>
+  <h1>The present chaosifier</h1>
 
-  <p><strong>Vibe (vibration?) coding</strong> as dis- or super-intermediation:</p>
-
-  <ul class="nest">
-    <li><b>command-line interface</b> <span>(CLI)</span></li>
-    <li><b>model context protocol</b> <span>(MCP)</span></li>
-    <li><b>bespoke software</b> <span>— much easier to have; architectural understanding much more important</span></li>
+  <p><strong>Vibe coding</strong> as dis- or super-intermediation:</p>
+  <ul class="steps">
+    <li><b>CLI</b> — command-line interface</li>
+    <li><b>MCP</b> — model context protocol</li>
+    <li><b>Bespoke software</b> — now easy to have; architecture matters more than ever</li>
   </ul>
 
-  <blockquote>
-    <p>Working with an LLM is a <em>devising</em> process, because of the dialogue and
-    randomness involved.</p>
-  </blockquote>
-
-  <p>The pipeline's GUI problem inverts: the sequence's final rung — bespoke software
-  engineering — comes within early reach, while <strong>architectural understanding matters
-  more than ever</strong>.</p>
+  <p class="box">Working with an LLM is a <strong>devising</strong> process — shaped by
+  dialogue and randomness.</p>
 
   <h2>A longer genealogy</h2>
-
-  <p>Consider <strong>audio as the fundamental asset type</strong>.</p>
-
+  <p>Treat <strong>audio as the fundamental asset</strong>:</p>
   <ul class="pair">
     <li><b>Storytelling</b> predates <b>writing</b>.</li>
     <li><b>Audio recording</b> predates <b>video recording</b>.</li>
   </ul>
 
-  <p>Audio-first pedagogy leans on the maturity of the oldest layer of the craft: the
-  training sequence's first rung — practice: music, storytelling, tabletop — is also its
-  most ancient.</p>
-
-  <p class="meta">(This room is itself an instance: a build-free, vibe-coded isometric
-  poster.)</p>
+  <p class="meta">(This room is itself an instance: a build-free, vibe-coded isometric poster.)</p>
 
   <p class="src">From the talk notes.</p>
 </main>

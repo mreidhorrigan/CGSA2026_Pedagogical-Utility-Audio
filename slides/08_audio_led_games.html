@@ -5,68 +5,56 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Audio-led games</title>
 <style>
-  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#ff9e9e;--line:#322747}
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
   *{box-sizing:border-box}
   html,body{margin:0}
   body{background:var(--bg);color:var(--ink);
-       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-       padding:clamp(20px,4vw,56px)}
-  main{max-width:46rem;margin:0 auto}
-  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
-  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
-  h2{font-size:1.2em;color:var(--accent);margin:1.8em 0 .5em}
-  h2 em{color:var(--accent)}
-  p{margin:.75em 0}
-  ul{padding-left:1.3em;margin:.8em 0}
-  li{margin:.55em 0}
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(17px,2.05vw,24px);line-height:1.45;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:42rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
+  h1{font-size:clamp(28px,4.6vw,46px);line-height:1.08;margin:0 0 .4em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  h2{font-size:clamp(19px,2.4vw,25px);margin:1.1em 0 .2em}
+  h2 em{font-style:italic}
+  p{margin:.5em 0}
+  ul{padding-left:1.15em;margin:.45em 0}
+  li{margin:.35em 0}
   li::marker{color:var(--accent)}
-  strong,em{color:#fff}
-  a{color:var(--accent)}
-  .btn{display:inline-block;background:var(--accent);color:#1b1426;font-weight:700;
-       padding:.6em 1.1em;border-radius:10px;text-decoration:none;margin:.3em 0 .8em}
-  .caveat{background:var(--panel);border:1px solid var(--line);border-radius:10px;
-          padding:.9em 1.1em;margin:1.2em 0;color:var(--muted)}
-  .caveat b{color:var(--ink)}
-  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+  strong{font-weight:700}
+  a{color:var(--accent);text-decoration:underline}
+  .btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;
+       padding:.5em 1em;border-radius:9px;text-decoration:none;margin:.3em 0 .5em}
+  .caveat{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+          padding:.65em 1em;margin:.6em 0;font-size:.9em;box-shadow:0 1px 0 var(--rule)}
+  .src{color:var(--soft);font-size:.72em;margin-top:1.1em;border-top:1px solid var(--rule);padding-top:.7em}
 </style>
 </head>
 <body>
 <main>
-  <p class="kicker">Audio-led games · two examples</p>
+  <p class="kicker">Two examples</p>
   <h1>Audio-led games</h1>
 
-  <h2>Example 1 — Clod Bathos, <em>Superior Machine</em></h2>
-
+  <h2>1 · Clod Bathos, <em>Superior Machine</em></h2>
   <p><a class="btn" href="https://mreidhorrigan.github.io/Clod-Bathos-Superior-Machine-An-LM-IDN/"
-        target="_blank" rel="noopener">Play it in the browser&nbsp;&nearr;</a></p>
-
+        target="_blank" rel="noopener">Play in the browser &nearr;</a></p>
   <ul>
-    <li>A <strong>text-based, stylized command-line game</strong> — successor to
-        choose-your-own-adventure and interactive digital narrative (IDN).</li>
-    <li><strong>Twine, disintermediated.</strong> (Sorry, Twine — no support for LLM runtime
-        dialogue rewording, or for state-machine navigation.)</li>
-    <li>Seeks immersion by <strong>imitating the diegetic medium with the delivery
-        medium</strong> — both of them screens.</li>
-    <li>Exploits <strong>easy text-to-audio conversion</strong>.</li>
+    <li>A text-based, stylized <strong>command-line game</strong> — successor to
+        choose-your-own-adventure and IDN.</li>
+    <li><strong>Twine, disintermediated:</strong> adds LLM runtime rewording and state-machine
+        navigation. Immersion by matching diegetic and delivery media — both screens.</li>
   </ul>
+  <p class="caveat"><strong>Caveat:</strong> locally-runnable LLMs aren't yet smart enough to
+  carry it alone.</p>
 
-  <p class="caveat"><b>However:</b> LLMs sized for local operability are not (yet) smart
-  enough to carry the game on their own.</p>
-
-  <h2>Example 2 — Autofac: <em>Rad Shipping</em></h2>
-
-  <p>Navigate a <strong>darkfactory</strong> — the “lights-out” factory, a corporate concept
-  for a warehouse that requires no humans — as a robot moving in the dark.</p>
-
+  <h2>2 · Autofac: <em>Rad Shipping</em></h2>
   <ul>
-    <li><strong>Horror:</strong> the robot inherits a vestigial work environment shaped by
-        the abuse of the human workers who came before it.</li>
-    <li>The warehouse is also <strong>irradiated</strong> — because why not; because the robot
-        needs a timer for its tasks; and because of the historical use of robots near failed
-        nuclear reactor cores.</li>
+    <li>Navigate a lights-out <strong>“darkfactory”</strong> as a robot moving in the dark.</li>
+    <li><strong>Horror:</strong> the robot inherits a work environment shaped by the human
+        workers' abuse — and the place is irradiated (it needs a task timer).</li>
+    <li>Sound carries <strong>navigation, interface, and story</strong>.</li>
   </ul>
-
-  <p>In a lights-out world, the soundscape carries navigation, interface, and story.</p>
 
   <p class="src">From the talk notes (Autofac is work in progress).</p>
 </main>

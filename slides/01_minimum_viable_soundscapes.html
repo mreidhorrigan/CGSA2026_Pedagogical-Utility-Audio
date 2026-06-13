@@ -5,24 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Minimum viable soundscapes</title>
 <style>
-  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#ffd166;--line:#322747}
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
   *{box-sizing:border-box}
   html,body{margin:0}
   body{background:var(--bg);color:var(--ink);
-       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-       padding:clamp(20px,4vw,56px)}
-  main{max-width:46rem;margin:0 auto}
-  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
-  h1{font-size:clamp(1.8em,5vw,2.8em);line-height:1.1;margin:.1em 0 .2em;letter-spacing:-.01em}
-  .sub{font-size:1.25em;color:var(--ink);margin:.2em 0 .6em;font-weight:600}
-  .byline{color:var(--muted);font-size:1em;margin:0 0 1.4em}
-  p{margin:.75em 0}
-  .lead{font-size:1.1em}
-  .hint{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.8em 1em;color:var(--muted);font-size:.92em;margin:1.6em 0}
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(18px,2.15vw,25px);line-height:1.5;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:42rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
+  h1{font-size:clamp(32px,6vw,56px);line-height:1.06;margin:0 0 .3em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  .sub{font-size:clamp(20px,2.6vw,28px);font-weight:700;margin:.1em 0 .35em}
+  .byline{color:var(--soft);font-size:1em;margin:0 0 1.2em}
+  p{margin:.7em 0}
+  .hint{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+        padding:.8em 1.05em;margin:1.1em 0;font-size:.82em;line-height:1.55;box-shadow:0 1px 0 var(--rule)}
   .hint b{color:var(--ink)}
-  .kw{display:inline-block;background:var(--panel);border:1px solid #3a2d55;border-radius:999px;
-      padding:.25em .8em;margin:.18em;font-size:.8em;color:var(--muted)}
-  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+  kbd{background:#eee7d6;border:1px solid var(--rule);border-radius:5px;padding:.05em .4em;font:inherit;font-size:.9em}
+  .kw{display:inline-block;background:var(--card);border:1px solid var(--rule);border-radius:999px;
+      padding:.25em .8em;margin:.2em .15em 0 0;font-size:.74em;color:var(--soft)}
 </style>
 </head>
 <body>
@@ -32,15 +34,10 @@
   <p class="sub">Appraising the pedagogical utility of audiogames</p>
   <p class="byline">Matt Horrigan</p>
 
-  <p class="lead">A major dilemma in media production pedagogy is the determination of
-  <em>minimum viable products</em> — and the dilemma is especially prevalent for videogames.
-  This poster shifts emphasis from the video mode to the audio mode and asks:
-  <strong>what are the benefits of audio-first design pedagogy?</strong></p>
-
   <div class="hint">
-    <b>How this room works:</b> each kiosk holds one idea from the talk — wander in any order,
-    or press <b>Space</b> to be walked to the next kiosk automatically. Open a kiosk with
-    <b>E</b> (or a tap); walk away to leave it; browse a kiosk's pages with <b>&lsaquo;</b> and <b>&rsaquo;</b>.
+    <b>Walk the room.</b> Move with <kbd>WASD</kbd> / arrows, or tap. Press <kbd>E</kbd>
+    (or <kbd>Space</kbd> to auto-walk) at a kiosk to read it; walk away to leave.
+    Browse a kiosk's pages with <kbd>&lsaquo;</kbd> <kbd>&rsaquo;</kbd>.
   </div>
 
   <p>
@@ -50,9 +47,6 @@
     <span class="kw">technological maturity</span>
     <span class="kw">accessibility</span>
   </p>
-
-  <p class="src">From the conference abstract, “Minimum viable soundscapes: Appraising the
-  pedagogical utility of audiogames.”</p>
 </main>
 </body>
 </html>

@@ -5,35 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>A timeline of audio control</title>
 <style>
-  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#79e0c4;--line:#322747}
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
   *{box-sizing:border-box}
   html,body{margin:0}
   body{background:var(--bg);color:var(--ink);
-       font:400 clamp(16px,2vw,20px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-       padding:clamp(14px,2.5vw,32px)}
-  .copy{max-width:46rem;margin:0 auto}
-  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
-  h1{font-size:clamp(1.6em,4vw,2.4em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
-  p{margin:.7em 0}
-  strong,em{color:#fff}
-  .hint{color:var(--muted);font-size:.88em}
-  .pane{background:#f6f1e7;border-radius:12px;padding:10px;margin:1.2em 0 0;
-        overflow:auto;-webkit-overflow-scrolling:touch;max-height:70vh}
-  .pane img{width:1412px;max-width:none;height:auto;display:block;border-radius:6px}
-  .src{color:var(--muted);font-size:.82em;margin-top:1.4em;border-top:1px solid var(--line);padding-top:.9em}
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(17px,2vw,23px);line-height:1.45;
+       -webkit-text-size-adjust:100%;padding:clamp(16px,3vw,36px)}
+  .copy{max-width:42rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .6em}
+  h1{font-size:clamp(26px,4.2vw,42px);line-height:1.08;margin:0 0 .35em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.2em;display:inline-block}
+  p{margin:.55em 0}
+  strong{font-weight:700}
+  .hint{color:var(--soft);font-size:.9em}
+  .pane{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:10px;margin:.9em 0 0;
+        overflow:auto;-webkit-overflow-scrolling:touch;max-height:66vh}
+  .pane img{width:1412px;max-width:none;height:auto;display:block;border-radius:4px}
+  .src{color:var(--soft);font-size:.74em;margin-top:1em}
 </style>
 </head>
 <body>
   <div class="copy">
     <p class="kicker">Genealogy · the data</p>
     <h1>A timeline of audio control</h1>
-    <p>Fifty years of audio performance control, 1972–2020, in six lanes — theatre show
-    control, tracker/demoscene, music sequencers, engine middleware, standardization, audio
-    games — all descending from <strong>MIDI&nbsp;1.0 (1983)</strong>. ★ marks documented
-    convergences: MIDI Show Control (1991), Wwise and QLab shipping the same year (2006),
-    FMOD adapted for theatre (2020).</p>
-    <p class="hint">The chart is shown at full size so the type stays legible —
-    <strong>scroll / drag inside it</strong> to pan across the decades.</p>
+    <p>1972–2020, six lanes — theatre show control, trackers, music sequencers, engine
+    middleware, standardization, audio games — all descending from <strong>MIDI (1983)</strong>.
+    <strong>★</strong> marks documented convergences.</p>
+    <p class="hint"><strong>Scroll / drag inside the chart</strong> to pan across the decades.</p>
   </div>
 
   <div class="pane">
@@ -43,7 +42,7 @@
 
   <div class="copy">
     <p class="src">Figure from the background study, generated from
-    <code>timeline_data.json</code> in this room's source material.</p>
+    <code>timeline_data.json</code>.</p>
   </div>
 </body>
 </html>

@@ -5,105 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Where the timeline comes from</title>
 <style>
-  :root{--bg:#15101f;--panel:#201734;--ink:#f2edf7;--muted:#bdb1d6;--accent:#79e0c4;--line:#322747}
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
   *{box-sizing:border-box}
   html,body{margin:0}
   body{background:var(--bg);color:var(--ink);
-       font:400 clamp(17px,2.2vw,21px)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-       padding:clamp(20px,4vw,56px)}
-  main{max-width:46rem;margin:0 auto}
-  .kicker{color:var(--accent);font-size:.78em;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin:0 0 .9em}
-  h1{font-size:clamp(1.7em,4.5vw,2.6em);line-height:1.12;margin:.1em 0 .45em;letter-spacing:-.01em}
-  h2{font-size:1.15em;color:var(--accent);margin:1.8em 0 .5em}
-  p{margin:.75em 0}
-  ul{padding-left:1.3em;margin:.8em 0}
-  li{margin:.55em 0}
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(17px,2.05vw,24px);line-height:1.45;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:42rem;margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
+  h1{font-size:clamp(28px,4.6vw,46px);line-height:1.08;margin:0 0 .4em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  p{margin:.55em 0}
+  ul{padding-left:1.15em;margin:.6em 0}
+  li{margin:.45em 0}
   li::marker{color:var(--accent)}
-  strong,em{color:#fff}
-  blockquote{margin:1.4em 0;padding:1em 1.2em;background:var(--panel);
-             border-left:4px solid var(--accent);border-radius:0 10px 10px 0}
-  blockquote p{margin:.2em 0}
-  .payoff{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.9em 1.1em;margin:1.4em 0}
-  figure{margin:1.6em 0 0}
-  .card{background:#f6f1e7;border-radius:12px;padding:12px;overflow:auto;
-        -webkit-overflow-scrolling:touch;max-height:60vh}
-  .card img{width:1054px;max-width:none;height:auto;display:block;border-radius:6px}
-  figcaption{color:var(--muted);font-size:.85em;margin-top:.6em;line-height:1.45}
-  .src{color:var(--muted);font-size:.82em;margin-top:2.2em;border-top:1px solid var(--line);padding-top:.9em}
+  strong{font-weight:700}
+  .box{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+       padding:.8em 1.05em;margin:.9em 0;box-shadow:0 1px 0 var(--rule)}
+  figure{margin:1em 0 0}
+  .card{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:10px;
+        overflow:auto;-webkit-overflow-scrolling:touch;max-height:56vh}
+  .card img{width:1054px;max-width:none;height:auto;display:block;border-radius:4px}
+  figcaption{color:var(--soft);font-size:.82em;margin-top:.5em;line-height:1.45}
+  .src{color:var(--soft);font-size:.72em;margin-top:1.2em;border-top:1px solid var(--rule);padding-top:.7em}
 </style>
 </head>
 <body>
 <main>
-  <p class="kicker">Genealogy · findings</p>
+  <p class="kicker">Genealogy, and the trap it sets</p>
   <h1>Where the timeline comes from</h1>
 
-  <blockquote>
-    <p>Game-audio middleware (FMOD, Wwise) and theatrical show-control software (QLab&hellip;)
-    are <strong>siblings, not parent-and-child</strong>. They converge on the same control
-    vocabulary because they descend from a shared ancestor — <strong>MIDI, 1983</strong> —
-    and solved the same problem in parallel. The crossover is real, documented, and
-    bidirectional — but the dominant documented flow is <strong>games&nbsp;&rarr;&nbsp;theatre</strong>.</p>
-  </blockquote>
+  <p class="box"><strong>FMOD &amp; Wwise and theatre cue software are siblings, not
+  parent-and-child</strong> — both descend from <strong>MIDI (1983)</strong>. The busiest
+  documented traffic runs <strong>games &rarr; theatre</strong>, not the reverse.</p>
 
   <ul>
-    <li><strong>FMOD is demoscene.</strong> “Firelight MODule player” (1995) was born to play
-        tracker music; FMOD Studio (2012) is explicitly “designed like a digital audio
-        workstation.”</li>
-    <li><strong>Wwise is Montréal music-production, not theatre.</strong> Founder Martin H.
-        Klein went music &rarr; Ubisoft (1997) &rarr; Audiokinetic (2000) — no theatre at any
-        stage.</li>
-    <li><strong>The convergence is documented from the other direction:</strong> “An FMOD
-        event is akin to a theatrical sound cue” (Swift, USITT 2020) — a game engine adapted
-        <em>for</em> theatre.</li>
+    <li><strong>FMOD</strong> = a demoscene tracker player (1995); FMOD Studio (2012) is
+        “designed like a DAW.”</li>
+    <li><strong>Wwise</strong> = Montréal music production, never theatre.</li>
   </ul>
-
-  <p class="payoff"><strong>The timeline is inherited, twice over</strong> — from the
-  tracker/sequencer <em>playlist</em> and from the DAW's <em>fixed media</em>. Both ancestries
-  push toward linearity; the explorable-space model has <strong>no strong ancestor in either
-  lineage</strong> — which is exactly why exploratory audiogames are “unusual.”</p>
 
   <figure>
     <div class="card">
       <img src="SourceMaterial/AUDIOGAMES/genealogy.svg"
            alt="Directed graph with MIDI 1.0 (1983) at the root and four branches — theatre/show control, tracker/demoscene, music sequencer/adaptive, and engine/driver abstraction — leading to FMOD, Wwise, QLab and audio games, with arrows marking documented crossovers including games-to-theatre in 2020.">
     </div>
-    <figcaption>Four lineages feed modern game audio; only one is theatre — and it is a
-    <em>sibling</em> of middleware, not its parent. The graph is full size —
-    scroll / drag inside it to pan.</figcaption>
+    <figcaption>Four lineages feed game audio; only one is theatre — a sibling, not a parent.
+    Scroll / drag to pan.</figcaption>
   </figure>
 
-  <h2>The linearising trap</h2>
+  <p class="box">The timeline is <strong>inherited twice</strong> — from the tracker playlist
+  and the DAW. Linearity has deep roots; explorable space has none. So exploratory audiogames
+  stay rare — and blind-accessibility often collapses into a <strong>guided rail</strong>.</p>
 
-  <p>By emphasizing the <strong>timeline-based editing paradigm</strong> of fixed-media audio
-  composition, the most popular game-audio frameworks <strong>struggle to represent
-  soundscapes as interactive spaces</strong>.</p>
-
-  <ul>
-    <li>Mainstream accessibility features for blind players tend to limit exploration by
-        streamlining movement in the <em>“direction of story progression”</em>
-        (DeadeyeJediBob, 2024) — repeating the timeline theme.</li>
-    <li>Audio description is itself <strong>cue-based show control</strong> — and it remains
-        most established for <em>linear</em> scenes (IGDA GASIG, 2023).</li>
-    <li>The linearizing effect may explain why <em>Papa Sangre</em> and <em>The Nightjar</em>
-        have remained unusual despite their affordances for accessibility (Kirke, 2018) —
-        both ran on a bespoke binaural engine, not FMOD or Wwise.</li>
-  </ul>
-
-  <blockquote>
-    <p>An underappreciated niche exists for <strong>exploratory audiogames</strong>: games that
-    use audio to fully support environmental storytelling, beyond directing navigational
-    guidance.</p>
-  </blockquote>
-
-  <p class="payoff"><strong>The teaching response:</strong> have students build audio navigation
-  as adaptive <em>cue-space</em> — states, parameters, spatialised events — rather than as a
-  guided playlist. Teach the cue-as-space, not the cue-as-timeline: the very middleware,
-  used <em>against its grain</em>.</p>
-
-  <p class="src">From the background study, “Audio performance control, from the theatre cue
-  to the game engine,” and the conference abstract. Method: a critical walkthrough (Light,
-  Burgess &amp; Duguay, 2018) of FMOD and Wwise, with a literature review of audio
-  accessibility. Findings are work in progress.</p>
+  <p class="src">Background study, “Audio performance control, from the theatre cue to the game
+  engine.” Method: a critical walkthrough (Light, Burgess &amp; Duguay, 2018) of FMOD and Wwise.</p>
 </main>
 </body>
 </html>
