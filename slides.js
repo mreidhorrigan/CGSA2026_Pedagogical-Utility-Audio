@@ -11,42 +11,37 @@ window.SLIDES_MANIFEST = [
   },
   {
     "type": "html",
-    "src": "slides/02_minimum_viable_product.html",
-    "title": "Minimum Viable Product"
+    "src": "slides/02_intro.html",
+    "title": "Intro"
   },
   {
     "type": "html",
-    "src": "slides/03_the_audio_training_sequence.html",
-    "title": "The Audio Training Sequence"
+    "src": "slides/03_methods.html",
+    "title": "Methods"
   },
   {
     "type": "html",
-    "src": "slides/04_problems_with_the_pipeline.html",
-    "title": "Problems With The Pipeline"
+    "src": "slides/04_descriptive_findings.html",
+    "title": "Descriptive Findings"
   },
   {
     "type": "html",
-    "src": "slides/05_a_timeline_of_audio_control.html",
-    "title": "A Timeline Of Audio Control"
+    "src": "slides/05_example_products.html",
+    "title": "Example Products"
   },
   {
     "type": "html",
-    "src": "slides/06_where_the_timeline_comes_from.html",
-    "title": "Where The Timeline Comes From"
+    "src": "slides/06_normative_discussion.html",
+    "title": "Normative Discussion"
   },
   {
     "type": "html",
-    "src": "slides/07_the_present_chaosifier.html",
-    "title": "The Present Chaosifier"
+    "src": "slides/07_conceptual_discussion.html",
+    "title": "Conceptual Discussion"
   },
   {
     "type": "html",
-    "src": "slides/08_audio_led_games.html",
-    "title": "Audio Led Games"
-  },
-  {
-    "type": "html",
-    "src": "slides/09_references_and_links.html",
-    "title": "References And Links"
+    "src": "slides/08_additional_references.html",
+    "title": "Additional References"
   }
 ];

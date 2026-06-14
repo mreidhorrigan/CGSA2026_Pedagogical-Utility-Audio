@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Minimum viable soundscapes</title>
 <style>
-  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
+  :root{--bg:#fafcfd;--ink:#111317;--soft:#4b545e;--rule:#d9e3e8;--accent:#0b5872;--card:#fff}
   *{box-sizing:border-box}
   html,body{margin:0}
   body{background:var(--bg);color:var(--ink);
@@ -13,40 +13,124 @@
        font-size:clamp(19px,2.5vw,30px);line-height:1.5;
        -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
   main{max-width:min(64rem,92vw);margin:0 auto}
-  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
+  .kicker{color:var(--accent);font-size:.6em;letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
   h1{font-size:clamp(32px,6vw,56px);line-height:1.06;margin:0 0 .3em;font-weight:700;
      border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
-  .sub{font-size:clamp(20px,2.6vw,28px);font-weight:700;margin:.1em 0 .35em}
-  .byline{color:var(--soft);font-size:1em;margin:0 0 1.2em}
-  p{margin:.7em 0}
+  .sub{font-size:clamp(20px,2.6vw,28px);font-weight:700;margin:.1em 0 .8em}
+  .byline{color:var(--soft);font-size:.86em;margin:0 0 .2em;line-height:1.5}
+  .byline strong{color:var(--ink)}
+  .date{color:var(--soft);font-size:.86em;font-weight:700;margin:0 0 1em}
+
+  .cite-row{margin:.2em 0 0;display:flex;align-items:center;flex-wrap:wrap;gap:.2em .4em}
+  .cite{display:inline-flex;align-items:center;gap:.5em;background:var(--accent);color:#fff;
+        font-family:inherit;font-size:.78em;font-weight:700;border:none;border-radius:9px;
+        padding:.6em 1em;cursor:pointer;box-shadow:0 1px 0 var(--rule)}
+  .cite:hover{filter:brightness(1.08)}
+  .cite:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+  .cite svg{width:1.15em;height:1.15em;flex:none}
+  .cite-status{font-size:.76em;font-weight:700;color:var(--accent)}
+  .cite-note{color:var(--soft);font-size:.7em;margin:.5em 0 0}
+  .cite-fallback{display:none;width:100%;max-width:42rem;margin:.55em 0 0;
+        font:inherit;font-size:.66em;line-height:1.5;white-space:pre;overflow:auto;
+        background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:.6em .8em;color:var(--ink)}
+  .cite-fallback.show{display:block}
+
   .hint{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
-        padding:.8em 1.05em;margin:1.1em 0;font-size:.82em;line-height:1.55;box-shadow:0 1px 0 var(--rule)}
+        padding:.8em 1.05em;margin:1.4em 0 0;font-size:.74em;line-height:1.55;box-shadow:0 1px 0 var(--rule)}
   .hint b{color:var(--ink)}
-  kbd{background:#eee7d6;border:1px solid var(--rule);border-radius:5px;padding:.05em .4em;font:inherit;font-size:.9em}
-  .kw{display:inline-block;background:var(--card);border:1px solid var(--rule);border-radius:999px;
-      padding:.25em .8em;margin:.2em .15em 0 0;font-size:.74em;color:var(--soft)}
+  kbd{background:#e6eef1;border:1px solid var(--rule);border-radius:5px;padding:.05em .4em;font:inherit;font-size:.9em}
+  .joinqr{display:flex;align-items:center;gap:14px;width:max-content;max-width:100%;margin:1.6em 0 0;
+          background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:10px 14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .joinqr img{display:block;width:clamp(96px,12vw,128px);height:auto;border-radius:4px;flex:none}
+  .joinqr .lbl{font-size:.66em;font-weight:700;color:var(--accent);line-height:1.3;text-align:left}
 </style>
 </head>
 <body>
 <main>
-  <p class="kicker">CGSA 2026 · Conference poster</p>
-  <h1>Minimum viable soundscapes</h1>
-  <p class="sub">Appraising the pedagogical utility of audiogames</p>
-  <p class="byline">Matt Horrigan</p>
+  <p class="kicker">Canadian Game Studies Association 2026 &middot; Montr&eacute;al / online</p>
+  <h1>Minimum Viable Soundscapes</h1>
+  <p class="sub">Appraising the Pedagogical Value of Audiogames</p>
+
+  <p class="byline"><strong>M. (Matt) Horrigan</strong>, PhD, MFA, BMus<br>
+     Sessional Instructor &mdash; SFU &amp; Alexander College (Burnaby, BC)</p>
+  <p class="date">14 June 2026</p>
+
+  <p class="cite-row">
+    <button id="citeBtn" class="cite" type="button" aria-label="Copy citation for import to Zotero">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="9" width="11" height="11" rx="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+      <span>Copy citation</span>
+    </button>
+    <span id="citeStatus" class="cite-status" role="status" aria-live="polite"></span>
+  </p>
+  <p class="cite-note"> Zotero: <b>File &#9656; Import from clipboard&hellip;</b></p>
+  <textarea id="citeFallback" class="cite-fallback" readonly aria-label="Citation text &mdash; select all and copy"></textarea>
 
   <div class="hint">
     <b>Walk the room.</b> Move with <kbd>WASD</kbd> / arrows, or tap. Press <kbd>E</kbd>
-    (or <kbd>Space</kbd> to auto-walk) at a kiosk to read it; walk away to leave.
-    Browse a kiosk's pages with <kbd>&lsaquo;</kbd> <kbd>&rsaquo;</kbd>.
+    (or <kbd>Space</kbd> to auto-walk) at a kiosk to read it. Walk away to leave.
+    Browse a kiosk&rsquo;s pages with <kbd>&lsaquo;</kbd> <kbd>&rsaquo;</kbd>.
   </div>
 
-  <p>
-    <span class="kw">design pedagogy</span>
-    <span class="kw">audiogames</span>
-    <span class="kw">minimum viable product</span>
-    <span class="kw">technological maturity</span>
-    <span class="kw">accessibility</span>
-  </p>
+  <div class="joinqr">
+    <img src="SourceMaterial/AUDIOGAMES/join_qr.svg" alt="QR code to open this presentation on your phone">
+    <div class="lbl">Scan to open<br>on your phone</div>
+  </div>
 </main>
+
+<script>
+(function(){
+  var ris = [
+    "TY  - CONF",
+    "TI  - Minimum Viable Soundscapes: Appraising the Pedagogical Value of Audiogames",
+    "AU  - Horrigan, Matt",
+    "T2  - Canadian Game Studies Association Conference 2026",
+    "DA  - 2026/06/14",
+    "PY  - 2026",
+    "CY  - Montréal/online",
+    "UR  - https://cgsa2026-audio-presentation.onrender.com",
+    "ER  - "
+  ].join("\r\n");
+
+  var btn = document.getElementById("citeBtn");
+  var status = document.getElementById("citeStatus");
+  var fallback = document.getElementById("citeFallback");
+  fallback.value = ris;
+
+  function flash(msg){
+    status.textContent = msg;
+    clearTimeout(flash._t);
+    flash._t = setTimeout(function(){ status.textContent = ""; }, 4000);
+  }
+
+  function execCopy(text){
+    try{
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly","");
+      ta.style.position = "fixed"; ta.style.top = "-1000px"; ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    }catch(e){ return false; }
+  }
+
+  function reveal(){ fallback.classList.add("show"); fallback.focus(); fallback.select(); }
+
+  btn.addEventListener("click", function(){
+    if (navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(ris).then(
+        function(){ flash("Copied ✓"); },
+        function(){ if (execCopy(ris)) flash("Copied ✓"); else { reveal(); flash("Select & copy"); } }
+      );
+    } else {
+      if (execCopy(ris)) flash("Copied ✓"); else { reveal(); flash("Select & copy"); }
+    }
+  });
+})();
+</script>
 </body>
 </html>

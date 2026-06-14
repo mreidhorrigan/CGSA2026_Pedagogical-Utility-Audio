@@ -37,7 +37,7 @@ const TALK_TITLE = "Your Presentation";
  *        can't reach those). This is the default you usually want.
  *  Or hard-pin it to always point somewhere regardless of how the page is opened, e.g.
  *  "https://cgsa2026-audio-presentation.onrender.com/" to always send phones to Render. */
-const JOIN_URL = "";
+const JOIN_URL = "https://cgsa2026-audio-presentation.onrender.com/";
 
 const TILE_W = 96;          // isometric tile width  (px)
 const TILE_H = 48;          // isometric tile height (px)  — 2:1 is classic iso

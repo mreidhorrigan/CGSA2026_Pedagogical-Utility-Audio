@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Example products</title>
+<style>
+  :root{--bg:#fafcfd;--ink:#111317;--soft:#4b545e;--rule:#d9e3e8;--accent:#0b5872;--card:#fff;--hl:#c3f0ff}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(17px,2.2vw,27px);line-height:1.45;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:min(64rem,92vw);margin:0 auto}
+  h1{font-size:clamp(28px,4.6vw,46px);line-height:1.08;margin:0 0 .35em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  .game{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+        padding:.75em 1.1em .9em;margin:.7em 0;box-shadow:0 1px 0 var(--rule)}
+  .game h2{font-size:clamp(20px,2.5vw,28px);margin:0 0 .2em;color:var(--ink)}
+  .game h2 .n{color:var(--accent)}
+  .game h2 em{font-style:italic}
+  .game p{margin:.2em 0 .65em;color:var(--soft)}
+  .btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;
+       padding:.5em 1.05em;border-radius:9px;text-decoration:none}
+  .btn:hover{filter:brightness(1.08)}
+  ::selection{background:var(--hl);color:var(--ink)}
+</style>
+</head>
+<body>
+<main>
+  <h1>Example products</h1>
+
+  <div class="game">
+    <h2><span class="n">1 &middot;</span> Clod Bathos, <em>Superior Machine</em></h2>
+    <p>An LLM-driven IDN, dialogue-based. Three language models run locally, for TTS (works well), STT (not so consistent), and rewording and state-machine navigation (started working after I had Fable 5 write a testing harness and use it to iteratively debug the local small language model so I didn't have to playtest through the playtime interface). The main difficulty in this approach is balancing stupidity of small language models versus resource requirements of large ones.</p>
+    <a class="btn" href="https://mreidhorrigan.github.io/Clod-Bathos-Superior-Machine-An-LM-IDN/"
+       target="_blank" rel="noopener">Play in the browser &nearr;</a>
+  </div>
+
+  <div class="game">
+    <h2><span class="n">2 &middot;</span> Autofac: <em>Rad Shipping</em></h2>
+    <p>A lights-out &ldquo;darkfactory&rdquo; navigated as a robot in the dark. I learned that implementing echolocation-based navigation is quite challenging.</p>
+    <a class="btn" href="https://matthorrigan.com/autofac.html"
+       target="_blank" rel="noopener">Visit the page &nearr;</a>
+  </div>
+</main>
+</body>
+</html>

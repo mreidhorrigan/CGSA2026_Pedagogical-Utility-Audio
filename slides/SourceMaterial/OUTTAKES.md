@@ -1379,3 +1379,560 @@ block back to its top-level file + rebuild to restore the verbose version.
 </body>
 </html>
 ```
+
+
+---
+
+## 2026-06-13 — Slide 02 retired: "Minimum viable product"
+
+Displaced when slide 02 became **Questions & intuitions** during the slide-by-slide
+rebuild. This is the production (light-theme, Verdana) MVP slide as it stood. The MVP
+argument may well return on a later kiosk — recover it from here if so.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minimum viable product</title>
+<style>
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(18px,2.4vw,29px);line-height:1.5;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:min(64rem,92vw);margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
+  h1{font-size:clamp(30px,5vw,50px);line-height:1.08;margin:0 0 .4em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  h2{font-size:clamp(20px,2.5vw,26px);color:var(--accent);margin:1.3em 0 .3em}
+  p{margin:.6em 0}
+  .def{font-size:1.05em}
+  ul{padding-left:1.15em;margin:.6em 0}
+  li{margin:.45em 0}
+  li::marker{color:var(--accent)}
+  strong{font-weight:700}
+  .box{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+       padding:.8em 1.05em;margin:1em 0;box-shadow:0 1px 0 var(--rule);font-weight:700}
+  .src{color:var(--soft);font-size:.7em;margin-top:1.4em;border-top:1px solid var(--rule);padding-top:.7em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">The dilemma, and the proposal</p>
+  <h1>Minimum viable product</h1>
+
+  <p class="def">The <strong>least resource-intensive usable version</strong> of a thing.</p>
+  <ul>
+    <li>The costlier the medium, the more an MVP matters.</li>
+    <li><strong>Games are the costliest medium</strong> — prestige rests on bespoke visual
+        assets and repetitive labour.</li>
+    <li>That pressure forces <strong>specialized labour</strong>, undermining the transferable
+        skills students actually need.</li>
+  </ul>
+
+  <p class="box">Assign minimum viable products with real aesthetic value — without miring
+  students in prematurely specialized workflows.</p>
+
+  <h2>Why audio?</h2>
+  <ul>
+    <li>Smaller assets &rarr; flexible workflows &rarr; better teaching.</li>
+    <li>Digital audio is a <strong>mature craft</strong>, so a high standard of refinement is
+        within reach.</li>
+  </ul>
+
+  <p class="src">From the conference abstract.</p>
+</main>
+</body>
+</html>
+```
+
+
+---
+
+## 2026-06-13 — Slide 03 retired: "The audio training sequence"
+
+Displaced when slide 03 became **Methods** during the slide-by-slide rebuild. This is the
+production (light-theme) version. It's the worked example of *ergatogeny repeats phylogeny*
+(slide 02's intuition) — the 7-step Practice → Game-middleware genealogy — so it may well
+return on a later kiosk. Recover from here.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The audio training sequence</title>
+<style>
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(17px,2.15vw,27px);line-height:1.45;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:min(64rem,92vw);margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
+  h1{font-size:clamp(28px,4.6vw,46px);line-height:1.08;margin:0 0 .4em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  ol.seq{list-style:none;counter-reset:step;margin:.9em 0;padding:0}
+  ol.seq>li{counter-increment:step;padding:.28em 0 .28em 2.1em;position:relative;
+            border-top:1px solid var(--rule)}
+  ol.seq>li:first-child{border-top:0}
+  ol.seq>li::before{content:counter(step);position:absolute;left:0;top:.28em;
+            color:var(--accent);font-weight:700;font-size:1.05em}
+  ol.seq b{font-weight:700}
+  ol.seq .eg{color:var(--soft);font-size:.85em}
+  strong{font-weight:700}
+  .box{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+       padding:.8em 1.05em;margin:1em 0 0;box-shadow:0 1px 0 var(--rule)}
+  .box b{color:var(--accent)}
+  .src{color:var(--soft);font-size:.72em;margin-top:1.2em;border-top:1px solid var(--rule);padding-top:.7em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">How audio is taught — traditionally</p>
+  <h1>The audio training sequence</h1>
+
+  <ol class="seq">
+    <li><b>Practice</b> <span class="eg">— music, theatre, tabletop</span></li>
+    <li><b>Recording</b> <span class="eg">— soundwalks, documentation, podcasts</span></li>
+    <li><b>Editing</b> <span class="eg">— Audacity</span></li>
+    <li><b>Routing</b> <span class="eg">— Reaper</span></li>
+    <li><b>Control &amp; cueing</b> <span class="eg">— Ableton, QLab, Traktor (MIDI)</span></li>
+    <li><b>Installation / visual programming</b> <span class="eg">— Max</span></li>
+    <li><b>Game middleware</b> <span class="eg">— FMOD, Wwise</span></li>
+  </ol>
+
+  <p class="box"><b>Ergatogeny repeats phylogeny.</b> A student replays their craft's whole
+  history, in order — so a curriculum is also a <strong>genealogy</strong>, and it re-teaches
+  whatever that history got wrong.</p>
+
+  <p class="src">From the talk notes.</p>
+</main>
+</body>
+</html>
+```
+
+
+---
+
+## 2026-06-13 — Slide 04 retired: "Problems with the pipeline"
+
+Displaced when slide 04 became **Findings** during the slide-by-slide rebuild. The critique
+bullets (timelines aren't playtime; middleware nudges students into underpaid audio; GUIs hide
+architecture; the sequence ranks instructors above learners) may belong on a later "critique"
+kiosk. Recover from here.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Problems with the pipeline</title>
+<style>
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(18px,2.4vw,29px);line-height:1.5;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:min(64rem,92vw);margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
+  h1{font-size:clamp(30px,5vw,50px);line-height:1.08;margin:0 0 .4em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  ul{padding-left:1.15em;margin:.7em 0}
+  li{margin:.6em 0}
+  li::marker{color:var(--accent)}
+  strong{font-weight:700}
+  .next{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+        padding:.8em 1.05em;margin:1.1em 0 0;box-shadow:0 1px 0 var(--rule);font-size:.92em}
+  .src{color:var(--soft);font-size:.72em;margin-top:1.3em;border-top:1px solid var(--rule);padding-top:.7em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Critique</p>
+  <h1>Problems with the pipeline</h1>
+
+  <ul>
+    <li><strong>Timelines aren't playtime.</strong> Fixed-media linearity suits annotation and
+        reference, not lived experience — and linear time is ethnocentric.</li>
+    <li><strong>Middleware nudges students</strong> into audio — underpaid — and splits them
+        from the game's interactive logic.</li>
+    <li><strong>GUIs hide software architecture</strong>, blocking transferable, generalizable
+        tools.</li>
+    <li><strong>The sequence ranks instructors above learners</strong> by default.</li>
+  </ul>
+
+  <p class="next">Next kiosk &rarr; the full <strong>1972–2020 timeline</strong> of these
+  tools, at a size you can scroll.</p>
+
+  <p class="src">From the talk notes.</p>
+</main>
+</body>
+</html>
+```
+
+
+---
+
+## 2026-06-13 — Slide 05 retired: "A timeline of audio control" (standalone)
+
+The timeline figure now lives embedded (scrollable) on slide 04 "Descriptive findings", so the
+dedicated full-size kiosk was retired and slide 05 became **Normative findings**. The standalone
+framing/copy is preserved here; the figure asset itself is still in use at
+slides/SourceMaterial/AUDIOGAMES/timeline_vega.svg.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A timeline of audio control</title>
+<style>
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(17px,2.05vw,25px);line-height:1.45;
+       -webkit-text-size-adjust:100%;padding:clamp(16px,3vw,36px)}
+  .copy{max-width:min(64rem,92vw);margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .6em}
+  h1{font-size:clamp(26px,4.2vw,42px);line-height:1.08;margin:0 0 .35em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.2em;display:inline-block}
+  p{margin:.55em 0}
+  strong{font-weight:700}
+  .hint{color:var(--soft);font-size:.9em}
+  .pane{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:10px;margin:.9em 0 0;
+        overflow:auto;-webkit-overflow-scrolling:touch;max-height:72vh}
+  .pane img{width:1412px;max-width:none;height:auto;display:block;border-radius:4px}
+  .src{color:var(--soft);font-size:.74em;margin-top:1em}
+</style>
+</head>
+<body>
+  <div class="copy">
+    <p class="kicker">Genealogy · the data</p>
+    <h1>A timeline of audio control</h1>
+    <p>1972–2020, six lanes — theatre show control, trackers, music sequencers, engine
+    middleware, standardization, audio games — all descending from <strong>MIDI (1983)</strong>.
+    <strong>★</strong> marks documented convergences.</p>
+    <p class="hint"><strong>Scroll / drag inside the chart</strong> to pan across the decades.</p>
+  </div>
+
+  <div class="pane">
+    <img src="SourceMaterial/AUDIOGAMES/timeline_vega.svg"
+         alt="Swim-lane timeline of audio performance control from 1972 to 2020...">
+  </div>
+
+  <div class="copy">
+    <p class="src">Figure from the background study, generated from
+    <code>timeline_data.json</code>.</p>
+  </div>
+</body>
+</html>
+```
+
+
+---
+
+## 2026-06-13 — Slide 06 retired: "Where the timeline comes from"
+
+The MIDI-genealogy FIGURE was moved to slide 04 "Descriptive findings" (below the timeline), and
+slide 06 became **Conceptual discussion**. The genealogy.svg asset is still in use (now on slide 04).
+The prose below (siblings-not-parent-child framing; FMOD/Wwise one-liners; the "inherited twice →
+guided rail" critique) is preserved here in case it wants a future kiosk.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where the timeline comes from</title>
+<style>
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(17px,2.15vw,27px);line-height:1.45;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:min(64rem,92vw);margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
+  h1{font-size:clamp(28px,4.6vw,46px);line-height:1.08;margin:0 0 .4em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  p{margin:.55em 0}
+  ul{padding-left:1.15em;margin:.6em 0}
+  li{margin:.45em 0}
+  li::marker{color:var(--accent)}
+  strong{font-weight:700}
+  .box{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+       padding:.8em 1.05em;margin:.9em 0;box-shadow:0 1px 0 var(--rule)}
+  figure{margin:1em 0 0}
+  .card{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:10px;
+        overflow:auto;-webkit-overflow-scrolling:touch;max-height:62vh}
+  .card img{width:1054px;max-width:none;height:auto;display:block;border-radius:4px}
+  figcaption{color:var(--soft);font-size:.82em;margin-top:.5em;line-height:1.45}
+  .src{color:var(--soft);font-size:.72em;margin-top:1.2em;border-top:1px solid var(--rule);padding-top:.7em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Genealogy, and the trap it sets</p>
+  <h1>Where the timeline comes from</h1>
+
+  <p class="box"><strong>FMOD &amp; Wwise and theatre cue software are siblings, not
+  parent-and-child</strong> — both descend from <strong>MIDI (1983)</strong>. The busiest
+  documented traffic runs <strong>games &rarr; theatre</strong>, not the reverse.</p>
+
+  <ul>
+    <li><strong>FMOD</strong> = a demoscene tracker player (1995); FMOD Studio (2012) is
+        "designed like a DAW."</li>
+    <li><strong>Wwise</strong> = Montréal music production, never theatre.</li>
+  </ul>
+
+  <figure>
+    <div class="card">
+      <img src="SourceMaterial/AUDIOGAMES/genealogy.svg" alt="...">
+    </div>
+    <figcaption>Four lineages feed game audio; only one is theatre — a sibling, not a parent.
+    Scroll / drag to pan.</figcaption>
+  </figure>
+
+  <p class="box">The timeline is <strong>inherited twice</strong> — from the tracker playlist
+  and the DAW. Linearity has deep roots; explorable space has none. So exploratory audiogames
+  stay rare — and blind-accessibility often collapses into a <strong>guided rail</strong>.</p>
+
+  <p class="src">Background study, "Audio performance control, from the theatre cue to the game
+  engine." Method: a critical walkthrough (Light, Burgess &amp; Duguay, 2018) of FMOD and Wwise.</p>
+</main>
+</body>
+</html>
+```
+
+
+---
+
+## 2026-06-13 — Slide retired (deck trimmed to this chat's build): "The present chaosifier"
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The present chaosifier</title>
+<style>
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(17px,2.2vw,28px);line-height:1.45;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:min(64rem,92vw);margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
+  h1{font-size:clamp(28px,4.6vw,46px);line-height:1.08;margin:0 0 .4em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  h2{font-size:clamp(19px,2.4vw,25px);color:var(--accent);margin:1.2em 0 .25em}
+  p{margin:.55em 0}
+  ul.steps{list-style:none;margin:.7em 0;padding:0}
+  ul.steps li{padding:.3em 0 .3em 1.4em;position:relative}
+  ul.steps li::before{content:"\2192";position:absolute;left:0;color:var(--accent);font-weight:700}
+  ul.steps b{font-weight:700}
+  .pair{margin:.6em 0;padding:0;list-style:none}
+  .pair li{margin:.3em 0}
+  .pair b{color:var(--accent)}
+  strong{font-weight:700}
+  .box{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+       padding:.8em 1.05em;margin:.9em 0;box-shadow:0 1px 0 var(--rule)}
+  .meta{color:var(--soft);font-size:.85em;margin-top:.9em}
+  .src{color:var(--soft);font-size:.72em;margin-top:1em;border-top:1px solid var(--rule);padding-top:.7em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Disruption, and the long view</p>
+  <h1>The present chaosifier</h1>
+
+  <p><strong>Vibe coding</strong> as dis- or super-intermediation:</p>
+  <ul class="steps">
+    <li><b>CLI</b> — command-line interface</li>
+    <li><b>MCP</b> — model context protocol</li>
+    <li><b>Bespoke software</b> — now easy to have; architecture matters more than ever</li>
+  </ul>
+
+  <p class="box">Working with an LLM is a <strong>devising</strong> process — shaped by
+  dialogue and randomness.</p>
+
+  <h2>A longer genealogy</h2>
+  <p>Treat <strong>audio as the fundamental asset</strong>:</p>
+  <ul class="pair">
+    <li><b>Storytelling</b> predates <b>writing</b>.</li>
+    <li><b>Audio recording</b> predates <b>video recording</b>.</li>
+  </ul>
+
+  <p class="meta">(This room is itself an instance: a build-free, vibe-coded isometric poster.)</p>
+
+  <p class="src">From the talk notes.</p>
+</main>
+</body>
+</html>
+
+```
+
+
+---
+
+## 2026-06-13 — Slide retired (deck trimmed to this chat's build): "Audio-led games"
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audio-led games</title>
+<style>
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(17px,2.15vw,27px);line-height:1.45;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:min(64rem,92vw);margin:0 auto}
+  .kicker{color:var(--accent);font-size:.64em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .7em}
+  h1{font-size:clamp(28px,4.6vw,46px);line-height:1.08;margin:0 0 .4em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  h2{font-size:clamp(19px,2.4vw,25px);margin:1.1em 0 .2em}
+  h2 em{font-style:italic}
+  p{margin:.5em 0}
+  ul{padding-left:1.15em;margin:.45em 0}
+  li{margin:.35em 0}
+  li::marker{color:var(--accent)}
+  strong{font-weight:700}
+  a{color:var(--accent);text-decoration:underline}
+  .btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;
+       padding:.5em 1em;border-radius:9px;text-decoration:none;margin:.3em 0 .5em}
+  .caveat{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+          padding:.65em 1em;margin:.6em 0;font-size:.9em;box-shadow:0 1px 0 var(--rule)}
+  .src{color:var(--soft);font-size:.72em;margin-top:1.1em;border-top:1px solid var(--rule);padding-top:.7em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Two examples</p>
+  <h1>Audio-led games</h1>
+
+  <h2>1 · Clod Bathos, <em>Superior Machine</em></h2>
+  <p><a class="btn" href="https://mreidhorrigan.github.io/Clod-Bathos-Superior-Machine-An-LM-IDN/"
+        target="_blank" rel="noopener">Play in the browser &nearr;</a></p>
+  <ul>
+    <li>A text-based, stylized <strong>command-line game</strong> — successor to
+        choose-your-own-adventure and IDN.</li>
+    <li><strong>Twine, disintermediated:</strong> adds LLM runtime rewording and state-machine
+        navigation. Immersion by matching diegetic and delivery media — both screens.</li>
+  </ul>
+  <p class="caveat"><strong>Caveat:</strong> locally-runnable LLMs aren't yet smart enough to
+  carry it alone.</p>
+
+  <h2>2 · Autofac: <em>Rad Shipping</em></h2>
+  <ul>
+    <li>Navigate a lights-out <strong>“darkfactory”</strong> as a robot moving in the dark.</li>
+    <li><strong>Horror:</strong> the robot inherits a work environment shaped by the human
+        workers' abuse — and the place is irradiated (it needs a task timer).</li>
+    <li>Sound carries <strong>navigation, interface, and story</strong>.</li>
+  </ul>
+
+  <p class="src">From the talk notes (Autofac is work in progress).</p>
+</main>
+</body>
+</html>
+
+```
+
+
+---
+
+## 2026-06-13 — Slide retired (deck trimmed to this chat's build): "References & links"
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>References &amp; links</title>
+<style>
+  :root{--bg:#fbf9f4;--ink:#16161a;--soft:#44444d;--rule:#ddd7c9;--accent:#0a5247;--card:#fff}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(15px,1.7vw,23px);line-height:1.45;
+       -webkit-text-size-adjust:100%;padding:clamp(22px,4vw,52px)}
+  main{max-width:min(64rem,92vw);margin:0 auto}
+  .kicker{color:var(--accent);font-size:.66em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .6em}
+  h1{font-size:clamp(26px,4.2vw,42px);line-height:1.08;margin:0 0 .35em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.2em;display:inline-block}
+  h2{font-size:1.05em;color:var(--accent);margin:1.2em 0 .35em}
+  p{margin:.55em 0}
+  ul{padding-left:1.1em;margin:.45em 0}
+  li{margin:.4em 0}
+  li::marker{color:var(--accent)}
+  em{font-style:italic}
+  a{color:var(--accent);text-decoration:underline;word-break:break-word}
+  .btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;
+       padding:.5em 1em;border-radius:9px;text-decoration:none;margin:.3em 0 .2em}
+  .src{color:var(--soft);font-size:.82em;margin-top:1.4em;border-top:1px solid var(--rule);padding-top:.7em}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Bibliography</p>
+  <h1>References &amp; links</h1>
+
+  <p><a class="btn" href="https://mreidhorrigan.github.io/Clod-Bathos-Superior-Machine-An-LM-IDN/"
+        target="_blank" rel="noopener">Play <em>Clod Bathos, Superior Machine</em> &nearr;</a></p>
+
+  <h2>Works cited</h2>
+  <ul>
+    <li>DeadeyeJediBob (2024). <em>Guy Born Blind Plays The Last of Us Part I.</em>
+        <a href="https://www.youtube.com/watch?v=ndodaE6OlSk" target="_blank" rel="noopener">YouTube</a>.</li>
+    <li>Ford-Williams, G., et al. (n.d.). <em>Game Accessibility Guidelines.</em>
+        <a href="https://gameaccessibilityguidelines.com/full-list/" target="_blank" rel="noopener">gameaccessibilityguidelines.com</a>.</li>
+    <li>Fritsch, J., et al. (2025). “Towards a Framework for Exploring Synthetic Voices in VUI
+        Design.” <em>DIS '25</em>, 724–739.
+        <a href="https://doi.org/10.1145/3715336.3735729" target="_blank" rel="noopener">doi.org/10.1145/3715336.3735729</a>.</li>
+    <li>IGDA GASIG (2023). <em>The Audio Description of Mortal Kombat 1.</em>
+        <a href="https://www.youtube.com/watch?v=tZ1H2RXuCCA" target="_blank" rel="noopener">YouTube</a>.</li>
+    <li>Kirke, A. (2018). “When the Soundtrack Is the Game.” In <em>Emotion in Video Game
+        Soundtracking</em>, 65–83.
+        <a href="https://doi.org/10.1007/978-3-319-72272-6_7" target="_blank" rel="noopener">doi.org/10.1007/978-3-319-72272-6_7</a>.</li>
+    <li>Light, B., Burgess, J., &amp; Duguay, S. (2018). “The walkthrough method.”
+        <em>New Media &amp; Society</em>, 20(3), 881–900.
+        <a href="https://doi.org/10.1177/1461444816675438" target="_blank" rel="noopener">doi.org/10.1177/1461444816675438</a>.</li>
+    <li>Swift, S. (2020). “FMOD, an Audio Engine for Video Games, Adapted for Theater.” USITT.</li>
+    <li>Land, M. Z., &amp; McConnell, P. N. (1994). <em>US Patent 5,315,057</em> (iMUSE).
+        <a href="https://patents.google.com/patent/US5315057A/en" target="_blank" rel="noopener">patents.google.com</a>.</li>
+  </ul>
+
+  <p class="src">Background research catalogued in Zotero (<em>CLAUDE_AUDIOGAMES</em>, 41 items);
+  figures generated from <code>timeline_data.json</code>. · “Minimum viable soundscapes” ·
+  Matt Horrigan · CGSA 2026.</p>
+</main>
+</body>
+</html>
+
+```

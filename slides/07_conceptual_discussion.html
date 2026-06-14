@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conceptual discussion</title>
+<style>
+  :root{--bg:#fafcfd;--ink:#111317;--soft:#4b545e;--rule:#d9e3e8;--accent:#0b5872;--card:#fff;--warn:#c25a12}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font-family:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+       font-size:clamp(16px,2.05vw,25px);line-height:1.45;
+       -webkit-text-size-adjust:100%;padding:clamp(20px,3.5vw,44px)}
+  main{max-width:min(64rem,92vw);margin:0 auto}
+  .kicker{color:var(--accent);font-size:.66em;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 .6em}
+  h1{font-size:clamp(28px,4.6vw,46px);line-height:1.08;margin:0 0 .3em;font-weight:700;
+     border-bottom:5px solid var(--accent);padding-bottom:.22em;display:inline-block}
+  .lead{font-size:1.02em;margin:.2em 0 .55em}
+  .lead .alt{color:var(--soft);font-weight:400}
+  .change{background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;
+          padding:.65em 1.05em .75em;margin:.55em 0;box-shadow:0 1px 0 var(--rule)}
+  .change h2{font-size:clamp(18px,2.2vw,24px);color:var(--accent);margin:0 0 .2em}
+  .change.bad{border-left-color:var(--warn)}
+  .change.bad h2{color:var(--warn)}
+  .change p{margin:.25em 0}
+  .sub{color:var(--soft);font-size:.94em}
+  .good strong{color:var(--accent)}
+  .bad strong{color:var(--warn)}
+  .openq{background:var(--bg);border:1px dashed var(--accent);border-radius:10px;
+         padding:.7em 1.05em;margin:.85em 0 0}
+  .openq .qlabel{color:var(--accent);font-size:.7em;letter-spacing:.09em;text-transform:uppercase;font-weight:700;margin:0 0 .25em}
+  .openq p{margin:.2em 0}
+  .ext{color:var(--accent);font-weight:700;white-space:nowrap}
+  strong{font-weight:700}
+  em{font-style:italic}
+  .src{color:var(--soft);font-size:.72em;margin-top:1.1em;border-top:1px solid var(--rule);padding-top:.7em}
+</style>
+</head>
+<body>
+<main>
+  <h1>Conceptual discussion</h1>
+
+  <p class="lead">Model context protocols have <strong>disintermediated</strong> and
+  <strong>re-intermediated</strong> <span class="alt">(alt-intermediated)</span> production
+  &mdash; portending changes:</p>
+
+  <div class="change bad">
+    <h2>Of lifestyle</h2>
+    <p><strong>throughput self</strong>; <strong>tokenmaxxing</strong>;
+       <strong>LLM grindset</strong>.</p>
+    <p class="sub">Weird adaptations to availability windows of LLMs.</p>
+  </div>
+
+  <div class="change">
+    <h2>Of pedagogy</h2>
+    <p class="good"><strong>&#10003; The good version:</strong> readymade lessons concurrent with
+       efficient production, akin to on-the-job training.</p>
+    <p class="bad"><strong>&#9888; The bad version:</strong> technopacity, incomprehensible code
+       (think <em>The Matrix</em>), interpassivity + failing metacognition.</p>
+  </div>
+
+  <div class="openq">
+    <p class="qlabel">An open question</p>
+    <p><span class="ext">(To what extent)</span> have theory and practice been closed or
+       short-circuited by the compute-operationalization of &lsquo;natural language&rsquo;
+       &mdash; <strong>theorycraft closure</strong>? Have <strong>vibes lost their
+       mysticism</strong>? Should they?</p>
+  </div>
+</main>
+</body>
+</html>

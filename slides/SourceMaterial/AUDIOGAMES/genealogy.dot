@@ -1,11 +1,11 @@
 // Genealogy of game-audio control. Render: dot -Tpdf genealogy.dot -o genealogy.pdf ; dot -Tsvg ...
 digraph genealogy {
   rankdir=TB;
-  graph [fontname="Helvetica", fontsize=11, ranksep=0.55, nodesep=0.3, label="Genealogy of audio performance control — siblings descended from MIDI, not parent→child\n(★ convergence)", labelloc=t];
+  graph [fontname="Helvetica", fontsize=11, ranksep=0.55, nodesep=0.3];
   node  [fontname="Helvetica", fontsize=10, shape=box, style="rounded,filled", color="#888", penwidth=1];
   edge  [fontname="Helvetica", fontsize=8, color="#666", arrowsize=0.7];
 
-  midi   [label="MIDI 1.0 (1983)\nshared ancestor", fillcolor="#ffe9a8", shape=oval];
+  midi   [label="MIDI 1.0 (1983)\nshared ancestor", fillcolor="#c3f0ff", shape=oval];
 
   // Theatre / show-control lineage
   subgraph cluster_sc {
@@ -34,7 +34,7 @@ digraph genealogy {
     wwise [label="Wwise / Audiokinetic\nMontréal (2000→2006)", fillcolor="#d6ece2"];
   }
   ixmf [label="IASIG / iXMF (1994→2005)\ngames standard", fillcolor="#fff3cf", shape=oval];
-  swift [label="★ Swift (2020): FMOD adapted for theatre\nevent ≈ cue · scatterer ≈ QLab group cue", fillcolor="#ffd24d", shape=note];
+  swift [label="★ Swift (2020)\nFMOD adapted for theatre", fillcolor="#f28b46", shape=note];
 
   // descent edges
   midi -> rsd; midi -> msc; rsd -> msc; msc -> qlab;
